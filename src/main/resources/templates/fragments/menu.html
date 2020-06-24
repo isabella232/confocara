@@ -1,0 +1,176 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+  <meta charset="utf-8"/>
+
+</head>
+<body>
+
+<nav th:fragment="left-menu" class="nav flex-column navbar navbar-dark bg-dark navbar-expand-md co-sidebar">
+
+  <div class="container co-sidebar-content">
+    <ul>
+      <li>
+        <p class="text-white-50" th:text="#{menu.chapters}"></p>
+        <ul class="navbar-nav flex-column">
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/rulesets'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/rulesets"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.rulesets}"
+                th:classappend="${#httpServletRequest.requestURI == '/rulesets'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/questionnaires'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/questionnaires"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.questionnaires}"
+                th:classappend="${#httpServletRequest.requestURI == '/questionnaires'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/chains'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/chains"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.chains}"
+                th:classappend="${#httpServletRequest.requestURI == '/chains'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+        </ul>
+      </li>
+
+      <li role="separator" class="divider"></li>
+
+      <li>
+        <p class="text-white-50" th:text="#{menu.content}"></p>
+        <ul class="navbar-nav flex-column">
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/questions'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/questions"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.questions}"
+                th:classappend="${#httpServletRequest.requestURI == '/questions'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/rules'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/rules"
+                class="nav-link co-sidebar-item-link"
+                th:classappend="${#httpServletRequest.requestURI == '/rules'} ? 'co-sidebar-item-link__selected' : ''"
+                th:text="#{menu.rules}"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/illustrations'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/illustrations"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.illustrations}"
+                th:classappend="${#httpServletRequest.requestURI == '/illustrations'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+        </ul>
+      </li>
+
+      <li role="separator" class="divider"></li>
+
+      <li>
+        <p class="text-white-50" th:text="#{menu.objects.title}"></p>
+        <ul class="navbar-nav flex-column" id="objectSubmenu2">
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/objects'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/objects"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.objects}"
+                th:classappend="${#httpServletRequest.requestURI == '/objects'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+        </ul>
+      </li>
+
+      <li role="separator" class="divider"></li>
+
+      <li sec:authorize="hasAnyRole('ROLE_ADMIN', 'ROLE_SUPERADMIN')">
+        <p class="text-white-50" th:text="#{menu.admin}"></p>
+        <ul class="navbar-nav flex-column" id="navadmin">
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/accounts'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/accounts"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.accounts}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/accounts'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/rules-categories'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/rules-categories"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{rulesCategories}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/rules-categories'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/profile-types'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/profile-types"
+                class="nav-link menu-ident co-sidebar-item-link"
+                th:text="#{questionnaireGroups}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/profile-types'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/impacts'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/impacts"
+                class="nav-link menu-double-ident co-sidebar-item-link"
+                th:text="#{impacts}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/impacts'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/subjects'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/subjects"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.subjects}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/subjects'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+          <li
+              class="nav-item co-sidebar-item"
+              th:classappend="${#httpServletRequest.requestURI == '/admin/categories'} ? 'co-sidebar-item__selected' : ''">
+            <a
+                href="/admin/categories"
+                class="nav-link co-sidebar-item-link"
+                th:text="#{menu.categories}"
+                th:classappend="${#httpServletRequest.requestURI == '/admin/categories'} ? 'co-sidebar-item-link__selected' : ''"></a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</nav>
+</body>
+</html>

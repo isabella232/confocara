@@ -1,0 +1,336 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{objects.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row"
+      role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-9 col-9 main">
+    <div class="row form-group">
+      <div class="col-12">
+
+        <div class="row" style="border: 0 solid; border-radius: 5px;background-color: #eee">
+          <div class="col-md-2 parent" style="height:72px;   ">
+            <div class="child nav"><span th:text="#{objects}"></span>
+              <span class="badge" th:text="${#lists.size(equipments)}"></span>
+            </div>
+          </div>
+          <div class="container-fluid form-horizontal col-md-6">
+            <br/>
+            <div class="row form-group">
+              <label for="title" class="col-sm-3 control-label">
+                <p class="text-right" th:text="#{name}"></p>
+              </label>
+              <div class="col-sm-3">
+                <div class="btn-group">
+                  <input class="form-control" type="text" id="title"
+                         onkeypress="return filterValuesAndSetCookie(event, 'title', 1, 'objectsTable', 'objectCategoryFilter')"/>
+                  <a onclick="resetFilterAndCookie('objectCategoryFilter'); filterValuesAndSetCookie(null, 'title', 1, 'objectsTable', 'objectCategoryFilter');">
+                      <span class="searchClear" id="clearFilter1"><i class="fa fa-times-circle"
+                                                                     aria-hidden="true"></i></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-1"></div>
+          <div class="col-md-2"><a href="/objects/add" style="height:72px;display: flex;">
+            <button class="btn btn-primary" style="margin: auto;"><p
+                th:text="#{addObject.title}"></p></button>
+          </a></div>
+
+          <div class="col-md-1">
+            <a th:href="@{/objects/help}" th:title="#{menu.help}">
+              <img th:src="@{/image/ic_help.png}" class="help-icon"/>
+            </a>
+          </div>
+        </div>
+
+        <div class="active row" id="home" role="tabpanel" th:if="${not #lists.isEmpty(equipments)}">
+          <table class="table table-sm table-striped table-hover sortable"
+                 style="margin-top: 1%" id="objectsTable">
+            <thead>
+            <tr>
+              <th scope="col"><span th:text="#{reference}"></span></th>
+              <th scope="col-3"><span th:text="#{name}"></span></th>
+              <th scope="col-3"><span th:text="#{icon}"></span></th>
+              <th scope="col-2"><span th:text="#{type}"></span></th>
+              <th scope="col-2"><span th:text="#{author}"></span></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="equipment : ${equipments}">
+              <td>
+                <a href="#" type="button" class="btn btn-light btn-sm btn-block" data-toggle="modal"
+                   th:onclick="'javascript:loadAssociatedRulesViaAjax(\'' + ${equipment.reference} + '\');'"
+                   th:attr="data-target='#'+${equipment.id}">
+                  <span th:text="${equipment.reference}"></span>
+                </a>
+              </td>
+              <td><b th:text="${equipment.name}"></b></td>
+              <td><a class="info" th:if="${equipment.icon != null}">
+                <div th:text="${equipment.icon.imageName}"></div>
+                <span><img
+                    th:src="@{'/images/'+${equipment.icon.fileNameWithExtension}}"
+                    style="height: 200px;"/></span></a></td>
+              <td th:if="${#lists.isEmpty(equipment.subobjects)}"
+                  th:text="${#strings.equals(equipment.type, 'subobject')} ? #{subobject} : #{object}"></td>
+              <td th:if="${not #lists.isEmpty(equipment.subobjects)}"
+                  th:text="#{withSubobjects}"></td>
+              <td th:text="${equipment.user != null} ? ${equipment.user.username} : #{emptyUser}"></td>
+
+              <td>
+                <a th:href="@{/objects/edit(id=${equipment.id})}"><img
+                    src="../public/image/ic_edit.png"
+                    th:src="@{/image/ic_edit.png}"
+                    style="height: 20px;width: 20px"/></a>
+                <a class="icon-left-margin" th:href="@{/objects/delete(id=${equipment.id})}"
+                   onclick="return confirmAndShowSpinner('confirmDeletionAlertText');"><img
+                    src="../public/image/trash.png" th:src="@{/image/trash.png}"
+                    style="height: 20px;width: 20px"/></a>
+              </td>
+
+              <!-- delete error window -->
+              <div class="modal fade" id="conflictualQuestionnairesModal" tabindex="-1"
+                   role="dialog"
+                   aria-labelledby="conflictualQuestionnairesModal">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content modal-small-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title modal-error-title"
+                          id="conflictualQuestionnairesModalLabel"><span
+                          th:text="#{message.delete_error}"></span></h4>
+                      <button type="button" class="close" data-dismiss="modal"
+                              aria-label="Close"><span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div class="modal-body modal-small-body">
+                      <div class="container-fluid">
+                        <p th:text="#{objects.conflictualQuestionnairesError}"></p>
+                        <ul>
+                          <li th:each="questionnaireRef : ${conflictualQuestionnaires}">
+                            <span th:text="${questionnaireRef}"></span>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">
+                        <p th:text="#{close}"></p></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </tr>
+            </tbody>
+          </table>
+
+          <div th:replace="fragments/spinner :: spinner"></div>
+          <div style="display: none" th:text="#{object.confirmDeletionAlert}"
+               id="confirmDeletionAlertText"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div th:each="equipment : ${equipments}">
+    <div class="modal fade" th:id="${equipment.id}" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel"><span
+                th:text="${equipment.name}"></span></h4>
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <b class="col-lg-3 text-right" th:text="#{id}"></b>
+              <span class="col-lg-9" th:text="${equipment.id}"></span>
+              <br/>
+            </div>
+
+            <div class="row"
+                 th:if="${equipment.definition != null and not #strings.isEmpty(equipment.definition)}">
+              <br/><b class="col-lg-3 text-right"><span
+                th:text="#{description}"></span></b>
+              <span class="col-lg-9"
+                    th:text="${equipment.definition}"></span>
+            </div>
+
+            <div class="row">
+              <br/><b class="col-lg-3 text-right"><span
+                th:text="#{type}"></span></b>
+              <span class="col-lg-3"
+                    th:text="${#strings.equals(equipment.type, 'subobject')} ? #{subobject} : #{object}"></span>
+            </div>
+
+            <div class="row">
+              <br/><b class="col-lg-3 text-right"><span
+                th:text="#{categories}"></span></b>
+              <div class="col-lg-9">
+                                <span th:each="category:${equipment.categories}">
+                                    <div th:text="${category.name}"></div>
+                                </span>
+              </div>
+            </div>
+
+            <div class="row"
+                 th:if="${not #lists.isEmpty(equipment.illustrations)}">
+              <br/>
+              <div class="col-lg-3 text-right">
+                <b><span th:text="#{illustrations}"></span></b>
+              </div>
+              <div class="col-lg-9">
+                                                                <span
+                                                                    th:each="ill:${equipment.illustrations}">
+                                                                    <a class="info"> <div
+                                                                        th:text="${ill.title}"></div>
+                                                                        <span
+                                                                            th:if="${ill.image != null}"><img
+                                                                            th:src="@{'/images/'+${ill.image.fileNameWithExtension}}"
+                                                                            style="height: 200px;"/></span></a>
+                                                                </span>
+              </div>
+            </div>
+
+            <div class="row"
+                 th:if="${not #lists.isEmpty(equipment.subobjects)}">
+              <br/>
+              <div class="col-lg-3 text-right">
+                <b><span th:text="#{subobjects}"></span></b>
+              </div>
+              <div class="col-lg-9">
+                                                            <span
+                                                                th:each="ob:${equipment.subobjects}">
+                                                                <div th:text="${ob.name}"></div>
+                                                            </span>
+              </div>
+            </div>
+
+            <div class="row">
+              <br/> <b class="col-lg-3 text-right"><span
+                th:text="#{author}"></span></b>
+              <span class="col-lg-9"
+                    th:text="${equipment.user != null} ? ${equipment.user.username} : #{emptyUser}"></span>
+            </div>
+
+            <div th:if="${equipment.date != null}" class="row">
+              <br/> <b class="col-lg-3 text-right"><span
+                th:text="#{lastModification}"></span></b>
+              <span class="col-lg-9"
+                    th:text="${#dates.format(equipment.date, #messages.msg('common.date_format'))}"></span>
+            </div>
+
+            <div th:id="'resultsBlock'+${equipment.reference}"></div>
+            <div th:id="'loadingSpinner'+${equipment.reference}"></div>
+
+            <div th:fragment="resultsList"
+                 th:unless="${equipmentAssociatedRulesMap == null or equipmentAssociatedRulesMap.isEmpty()}"
+                 class="results-block row">
+              <br/>
+              <div class="col-lg-3 text-right">
+                <b><span th:text="#{rules}"></span></b>
+              </div>
+              <span class="col-lg-9">
+                <ul th:each="ruleEntry : ${equipmentAssociatedRulesMap}">
+                    <b><li
+                        th:if="${#lists.size(ruleEntry.value) &lt; 2}"
+                        th:text="${ruleEntry.key} + '&nbsp;(' + ${#lists.size(ruleEntry.value)}+ '&nbsp;' + #{ruleLowerCase} + ')'">
+                    </li></b>
+                    <b><li
+                        th:if="${#lists.size(ruleEntry.value) &gt; 1}"
+                        th:text="${ruleEntry.key} + '&nbsp;(' + ${#lists.size(ruleEntry.value)}+ '&nbsp;' + #{rulesLowerCase} + ')'">
+                    </li></b>
+                    <span class="class=col-lg-6">
+                        <ul th:each="rule : ${ruleEntry.value}">
+                            <li th:utext="${rule.reference} + ' : ' + ${#strings.replace(#strings.escapeXml(rule.label),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></li>
+                        </ul>
+                    </span>
+                </ul>
+              </span>
+            </div>
+
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <p th:text="#{close}"/></button>
+            <a th:href="@{/objects/edit(id=${equipment.id})}">
+              <button type="button" class="btn btn-default"><p
+                  th:text="#{edit}"></p></button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- jQuery validate -->
+<!-- Include all compiled plugins bootstrap, bootstrap accessibility plugin and boosted specific components (below), or include individual files as needed -->
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    var conflictualQuestionnaires = [[${conflictualQuestionnaires}]];
+    if (conflictualQuestionnaires != null) {
+      $('#conflictualQuestionnairesModal').modal('show');
+    }
+
+    if (getCookie("objectCategoryFilter") != "") {
+      $('#clearFilter1').show();
+      document.getElementById('title').value = getCookie("objectCategoryFilter");
+    }
+
+    filterValuesAndSetCookie(null, 'title', 1, 'objectsTable', 'objectCategoryFilter');
+  });
+
+  /**
+   * retrieve object's associated rules based on the associated questionnaire
+   */
+  function loadAssociatedRulesViaAjax(reference) {
+    var url = '/objects/details';
+    url = url + '/' + reference;
+
+    showSpinnerWithId('loadingSpinner' + reference);
+    $('#resultsBlock' + reference).load(url, function () {
+      stopSpinner('loadingSpinner' + reference);
+    });
+  }
+
+  /*]]>*/
+</script>
+</body>
+</html>

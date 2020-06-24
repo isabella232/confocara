@@ -1,0 +1,93 @@
+/*
+ * Software Name: ConfOCARA
+ *
+ * SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+ * SPDX-License-Identifier: MPL-2.0
+ *
+ * This software is distributed under the Mozilla Public License v. 2.0,
+ * the text of which is available at http://mozilla.org/MPL/2.0/ or
+ * see the "license.txt" file for more details.
+ *
+ */
+
+.co-sidebar {
+  font-weight: bold;
+  font-size: 16px;
+  width: 260px;
+  height: 100%;
+  max-height: 100%;
+  position: fixed;
+  z-index: 999;
+  top: 90px;
+}
+/* for all but IE */
+@supports(display: flex) {
+  .co-sidebar {
+    top: unset;
+  }
+}
+
+.co-sidebar .co-sidebar-item {
+  padding: 5% 0 5% 0;
+  width: 210px;
+}
+
+.co-sidebar .co-sidebar-item__selected {
+  background-color: var(--white) !important;
+}
+
+.co-sidebar .co-sidebar-item-link {
+
+}
+
+.co-sidebar .co-sidebar-item-link__selected {
+  color: var(--dark) !important;
+}
+
+.co-sidebar .co-sidebar-item-link__selected:before {
+  color: var(--white) !important;
+}
+
+.co-sidebar .co-sidebar-item-link__selected:hover {
+  color: var(--blue) !important;
+}
+
+.co-sidebar .co-sidebar-item-link__selected:before:hover {
+  color: var(--blue) !important;
+}
+
+.co-sidebar .co-sidebar-item-link:before {
+  display: inline;
+  color: var(--dark);
+  content: "\003e\0020";
+}
+
+.co-sidebar .co-sidebar-item-link:hover {
+  color: var(--blue);
+}
+
+.co-sidebar .co-sidebar-item-link:hover:before {
+  color: var(--blue);
+}
+
+.container.co-sidebar-content {
+  overflow-y: auto;
+  position: unset;
+  padding-right: unset;
+}
+
+/* for all but IE */
+@supports(display: flex) {
+  .container.co-sidebar-content {
+    position: absolute;
+  }
+}
+
+
+.menu-ident {
+  text-indent: 20px;
+}
+
+.menu-double-ident {
+  text-indent: 40px;
+}

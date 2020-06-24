@@ -1,0 +1,329 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{editRule.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row "
+      role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-10 col-md-10 main">
+
+    <div class="active" id="home" role="tabpanel">
+      <div class="row">
+        <form class="container-fluid form-horizontal col-md-8" action="#"
+              th:action="@{/rules/update(id=${id})}"
+              th:object="${rule}"
+              method="post">
+
+          <div class="alert alert-danger" th:if="${noPertinentImpactError != null}">
+            <ul>
+              <li th:if="${noPertinentImpactError != null}"
+                  th:text="#{rule.pertinentImpactMissing}"></li>
+            </ul>
+          </div>
+
+          <div class="row form-group">
+            <label for="inputName" class="col-md-3 control-label">
+              <p class="text-right">
+                <span th:text="#{reference}"></span>
+                <span>*</span>
+              </p>
+            </label>
+            <div class="col-md-6">
+              <input type="text" th:field="*{reference}" class="form-control" id="inputName"
+                     placeholder="" readonly="readonly"/>
+            </div>
+            <div class="col-md-2">
+              <a th:href="@{/rules/edit/help}" th:title="#{menu.help}" class="pull-right">
+                <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+              </a>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="selectRulesCategory" class="col-md-3 control-label"><p
+                class="text-right"><span
+                th:text="#{rulesCategory}"></span>
+              <span>*</span></p></label>
+            <div class="col-md-6">
+              <input type="text" th:field="*{rulesCategory.name}" class="form-control"
+                     id="selectRulesCategory"
+                     readonly="readonly"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="inputLabel" class="col-md-3 control-label"><p class="text-right">
+              <span th:text="#{label}"></span>
+              <span>*</span></p>
+            </label>
+            <div class="col-md-6">
+                                    <textarea class="form-control" rows="4" id="inputLabel"
+                                              th:field="*{label}"
+                                              required="required"></textarea>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="inputOrigin" class="col-md-3 control-label">
+              <p class="text-right" th:text="#{origin}"></p>
+            </label>
+            <div class="col-md-6">
+              <textarea
+                  class="form-control"
+                  id="inputOrigin"
+                  rows="4"
+                  th:field="*{origin}"></textarea>
+            </div>
+          </div>
+
+          <div th:if="${not #lists.isEmpty(rule.ruleImpacts)}" class="row form-group">
+            <label class="col-md-3 control-label" id="ruleImpactsMainDiv">
+              <p class="text-right">
+                <span th:text="#{impacts}"></span>
+                <span>*</span>
+              </p>
+            </label>
+            <div class="col-md-6"
+                 th:object="${rule}" id="ruleImpactsDiv">
+              <div th:each="ruleImpact, stat :${rule.ruleImpacts}"
+                   th:class="'rc'+${ruleImpact.rulesCategory.id}" style="display: none">
+                <div class="row">
+                  <div class="col-md-6" th:text="${ruleImpact.profileType.name}"></div>
+
+                  <input type="hidden" th:value="${ruleImpact.profileType.id}"
+                         th:field="*{ruleImpacts[__${stat.index}__].profileType.id}"/>
+
+                  <input type="hidden" th:value="${ruleImpact.rulesCategory.id}"
+                         th:field="*{ruleImpacts[__${stat.index}__].rulesCategory.id}"/>
+
+                  <div class="col-md-6">
+                    <select class="form-control"
+                            th:field="*{ruleImpacts[__${stat.index}__].impact.id}" onchange="enableRuleChange()">
+                      <option th:each="impact:${ruleImpact.rulesCategory.impactValues}"
+                              th:text="${impact.name}"
+                              th:id="'impact'+${impact.id}"
+                              th:value="${impact.id}"></option>
+                    </select>
+                    &nbsp;&nbsp;
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group" style="border: 0px dashed #000;">
+            <label for="inputill" class="col-md-3 control-label">
+              <p class="text-right" th:text="#{illustrations}"></p>
+            </label>
+            <div class="col-md-6">
+              <button type="button" class="btn btn-secondary form-control"
+                      data-toggle="modal"
+                      id="inputill" data-target="#myModal">
+                <span th:text="#{associateIllustrations}"></span>
+              </button>
+            </div>
+            <!-- Modal -->
+            <div data-backdrop="static" data-keyboard="false" class="modal fade" id="myModal"
+                 tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel"><span
+                        th:text="#{associateIllustrations}"></span></h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row form-group" th:object="${illustration}">
+                      <label for="search_reference" class="col-md-2 control-label"><p
+                          class="text-right"><span th:text="#{id}"></span></p>
+                      </label>
+                      <div class="col-md-3">
+                        <div class="btn-group">
+                          <input type="text" class="form-control"
+                                 name="filter_reference"
+                                 id="search_reference"
+                                 autocomplete="off"/>
+                          <span class="searchClear"
+                                id="clear_search_reference"
+                                name="clear_search_reference">
+                                                                <i class="fa fa-times-circle"
+                                                                   aria-hidden="true"></i></span>
+                        </div>
+                      </div>
+                      <label for="search_label" class="col-md-2 control-label"><p
+                          class="text-right"><span th:text="#{title}"></span></p>
+                      </label>
+                      <div class="col-md-3">
+                        <div class="btn-group">
+                          <input type="text" class="form-control"
+                                 name="filter_label"
+                                 id="search_label"
+                                 autocomplete="off"/>
+                          <span class="searchClear"
+                                id="clear_search_label"
+                                name="clear_search_label">
+                                                                <i class="fa fa-times-circle"
+                                                                   aria-hidden="true"></i></span>
+                        </div>
+                      </div>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(illustrats)}">
+                      <table class="table table-sm table-striped table-hover sortable "
+                             id="illustrationTable"
+                             name="search_table"
+                             style="margin-top: 1%">
+                        <thead>
+                        <tr>
+                          <th></th>
+                          <th><span th:text="#{id}"></span></th>
+                          <th><span th:text="#{image}"></span></th>
+                          <th><span th:text="#{title}"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="illustrations : ${illustrats}">
+                          <td>
+                            <input name="check_illust" type="checkbox"
+                                   th:field="*{illustrationIds}"
+                                   th:id="'ill'+${illustrations.id}"
+                                   th:value="${illustrations.id}"
+                                   onclick="changeModalValidationLabel('closeButtonText', 'validateButtonText');enableRuleChange()"/>
+                          </td>
+                          <td>
+                            <span th:text="${illustrations.id}"></span>
+                          </td>
+                          <td>
+                            <a class="info">
+                              <p th:text="${illustrations.image != null ? illustrations.image.imageName : ''}"></p>
+                              <span><img
+                                  th:if="${illustrations.image != null}"
+                                  th:src="@{'/images/'+${illustrations.image.fileNameWithExtension}}"
+                                  style="height: 300px;"/></span>
+                            </a>
+                          </td>
+                          <td><label th:for="'ill'+${illustrations.id}"
+                                     th:text="${illustrations.title}"></label>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary"
+                            data-dismiss="modal"
+                            onClick="displayAssociations('checkIllustrationsDiv', 'checkIllustrations', 'illustrationIds');
+                                     changeModalValidationLabel('closeButtonText', 'defaultButtonText');">
+                      <span id="closeButtonText" th:text="#{close}"></span>
+                    </button>
+                    <span id="validateButtonText" th:text="#{validate}"
+                          style="visibility: hidden"></span>
+                    <span id="defaultButtonText" th:text="#{close}"
+                          style="visibility: hidden"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group" id="checkIllustrationsDiv" style="display: none;">
+            <label th:text="#{associatedIllustrations}" class="col-md-3 control-label text-right"></label>
+            <div class="col-md-6" id="checkIllustrations"></div>
+          </div>
+
+          <div th:replace="fragments/spinner :: spinner"></div>
+
+          <div class="row form-group">
+            <span class="col-md-3"></span>
+            <div class="col-md-3">
+              <button type="submit" id="submitRuleButton"
+                      onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                      class="btn btn-primary">
+                <p th:text="#{validate}"></p>
+              </button>
+              <button type="button" id="back"
+                      onClick="location.href='/rules'"
+                      class="btn btn-primary">
+                <p th:text="#{back}"></p>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script src="../public/js/src/searchUtil.js" th:src="@{/js/src/searchUtil.js}"></script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    let illustrationSearchModal = new SearchView({
+      "modalId": "myModal",
+      "reference_column_index": 2,
+      "label_column_index": 4,
+    });
+    illustrationSearchModal.initView();
+
+    var illustrations = [[${illustrations}]];
+    for (var i = 0; i < illustrations.length; i++) {
+      $('#ill' + illustrations[i]).attr('checked', true);
+    }
+    displayAssociations('checkIllustrationsDiv', 'checkIllustrations', 'illustrationIds');
+
+    var id_rc = [[${rule.rulesCategory.id}]];
+    showHideImpactsWithSelectedRulesCategory(id_rc);
+  });
+
+  function showHideImpactsWithSelectedRulesCategory(optionPartId) {
+    var ruleImpactsDiv = $("#ruleImpactsDiv");
+    var ruleImpactsMainDiv = $("#ruleImpactsMainDiv");
+
+    ruleImpactsDiv.find($('[class^=rc]')).hide();
+    ruleImpactsDiv.find(".rc" + optionPartId).show();
+
+    if (ruleImpactsDiv.find(".rc" + optionPartId).is(':visible')) {
+      ruleImpactsMainDiv.show();
+    } else {
+      ruleImpactsMainDiv.hide();
+    }
+  }
+    document.getElementById("submitRuleButton").disabled = true;
+    document.getElementById("inputLabel").addEventListener("focus", enableRuleChange);
+    document.getElementById("inputOrigin").addEventListener("focus", enableRuleChange);
+    document.addEventListener("dragend",enableRuleChange);
+
+    function enableRuleChange() {
+      document.getElementById("submitRuleButton").disabled = false;
+    }
+  /*]]>*/
+</script>
+</body>
+</html>

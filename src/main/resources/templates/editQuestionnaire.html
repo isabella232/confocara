@@ -1,0 +1,382 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{editQuestionnaire.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row"
+      role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-10 col-md-10 main">
+
+    <div class="row">
+      <form class="container-fluid form-horizontal col-md-8"
+            action="#"
+            name="editQuestionnaireForm"
+            th:action="@{/questionnaires/update(id=${id})}"
+            th:object="${QO}"
+            method="post">
+
+        <div id="editQuestionnaireErrors" class="alert alert-danger"
+             th:if="${err_edit_questionnaire_name != null}"
+             th:text="#{questionnaire.name.exists}"></div>
+
+        <div class="row form-group">
+          <label for="inputRef" class="col-md-2 control-label"><p class="text-right"><span
+              th:text="#{reference}"></span>
+            <span>*</span></p></label>
+          <div class="col-md-6">
+            <input type="text" th:field="*{reference}" class="form-control" id="inputRef"
+                   readonly="readonly"/>
+          </div>
+          <div class="col-md-2">
+            <a th:href="@{/questionnaires/edit/help}" th:title="#{menu.help}" class="pull-right">
+              <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+            </a>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <label for="inputName" class="col-md-2 control-label">
+            <p class="text-right">
+              <span th:text="#{name}"></span>
+              <span>*</span>
+            </p>
+          </label>
+          <div class="col-md-6">
+            <input type="text" th:field="*{name}" class="form-control" id="inputName"
+                   required="required" maxlength="160"/>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <label for="selectRulesCategory" class="col-md-2 control-label">
+            <p class="text-right">
+              <span th:text="#{rulesCategory}"></span>
+              <span>*</span>
+            </p>
+          </label>
+          <div class="col-md-6">
+            <input type="text"
+                   th:field="*{rulesCategory.name}"
+                   class="form-control"
+                   id="selectRulesCategory"
+                   readonly="readonly"/>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <label for="inputObject" class="col-md-2 control-label"><p class="text-right">
+            <span th:text="#{object}"></span>
+            <span>*</span>
+          </p>
+          </label>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-info form-control" data-toggle="modal"
+                    id="inputObject" data-target="#myModal2">
+              <span th:text="#{associateObject}"></span>
+            </button>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" data-backdrop="static" data-keyboard="false" id="myModal2"
+               tabindex="-1" role="dialog"
+               aria-labelledby="myModalLabel2">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel2"><span
+                      th:text="#{associateObject}"></span></h4>
+                </div>
+                <div class="modal-body">
+                  <div class="row form-group">
+                    <label for="search_reference" class="col-md-2 control-label"><p
+                        class="text-right"><span th:text="#{id}"></span></p>
+                    </label>
+                    <div class="col-md-3">
+                      <div class="btn-group">
+                        <input type="text" class="form-control"
+                               name="filter_reference"
+                               id="search_reference"
+                               autocomplete="off"/>
+                        <span class="searchClear"
+                              id="clear_search_reference"
+                              name="clear_search_reference">
+                                                    <i class="fa fa-times-circle"
+                                                       aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <label for="search_label" class="col-md-2 control-label"><p
+                        class="text-right"><span th:text="#{name}"></span></p>
+                    </label>
+                    <div class="col-md-3">
+                      <div class="btn-group">
+                        <input type="text" class="form-control"
+                               name="filter_label"
+                               id="search_label"
+                               autocomplete="off"/>
+                        <span class="searchClear"
+                              id="clear_search_label"
+                              name="clear_search_label">
+                                                    <i class="fa fa-times-circle"
+                                                       aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div th:if="${not #lists.isEmpty(objects)}">
+                    <table class="table table-sm table-striped table-hover sortable"
+                           id="objectsTable"
+                           name="search_table"
+                           style="margin-top: 1%">
+                      <thead>
+                      <tr>
+                        <th></th>
+                        <th><span th:text="#{id}"></span></th>
+                        <th><span th:text="#{name}"></span></th>
+                        <th><span th:text="#{icon}"></span></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="obj : ${objects}">
+                        <td>
+                          <input name="check_illust" type="radio"
+                                 th:field="*{objectId}"
+                                 th:id="'obj'+${obj.id}"
+                                 th:value="${obj.id}"
+                                 onclick="changeModalValidationLabel('closeObjectButtonText', 'validateButtonText');checkQuestionnairesFormChanged()"/>
+                        </td>
+                        <td>
+                          <span th:text="${obj.id}"></span>
+                        </td>
+                        <td><label th:for="'obj'+${obj.id}"
+                                   th:text="${obj.name}"></label></td>
+                        <td>
+                          <a class="info" th:if="${obj.icon != null}">
+                            <p th:text="${obj.icon.imageName}"></p>
+                            <span><img th:src="@{'/images/'+${obj.icon.fileNameWithExtension}}"
+                                       style="height: 50px;"/></span>
+                          </a>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" data-dismiss="modal"
+                          onClick="checkEquipment(); changeModalValidationLabel('closeObjectButtonText', 'defaultButtonText')">
+                    <span id="closeObjectButtonText" th:text="#{close}"></span>
+                  </button>
+                  <span id="validateButtonText" th:text="#{validate}"
+                        style="visibility: hidden"></span>
+                  <span id="defaultButtonText" th:text="#{close}" style="visibility: hidden"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <span class="col-md-2"></span>
+          <span id="check_obj_div" style="display:none;">
+              <b th:text="#{associatedObject}"></b>
+              <span id="check_obj"></span>
+          </span>
+        </div>
+
+        <div class="row form-group" style="border: 0px dashed #000;">
+          <label for="inputChains" class="col-md-2 control-label"><p class="text-right"
+                                                                     th:text="#{chains}"></p>
+          </label>
+          <div class="col-md-6">
+            <button type="button" class="btn btn-info form-control" data-toggle="modal"
+                    id="inputChains" data-target="#myModal">
+              <span th:text="#{associateChains}"></span>
+            </button>
+          </div>
+          <!-- Modal -->
+          <div class="modal fade" data-backdrop="static" data-keyboard="false" id="myModal"
+               tabindex="-1" role="dialog"
+               aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel"><span
+                      th:text="#{associateChains}"></span></h4>
+                </div>
+                <div class="modal-body">
+                  <div class="row form-group">
+                    <label for="search_reference" class="col-md-2 control-label"><p
+                        class="text-right"><span th:text="#{reference}"></span></p>
+                    </label>
+                    <div class="col-md-3">
+                      <div class="btn-group">
+                        <input type="text" class="form-control"
+                               name="filter_reference"
+                               id="search_reference2"
+                               autocomplete="off"/>
+                        <span class="searchClear"
+                              id="clear_search_reference2"
+                              name="clear_search_reference">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <label for="search_label" class="col-md-2 control-label">
+                      <p class="text-right"><span th:text="#{name}"></span></p>
+                    </label>
+                    <div class="col-md-3">
+                      <div class="btn-group">
+                        <input type="text" class="form-control"
+                               name="filter_label"
+                               id="search_label2"
+                               autocomplete="off"/>
+                        <span class="searchClear"
+                              id="clear_search_label2"
+                              name="clear_search_label">
+                            <i class="fa fa-times-circle" aria-hidden="true"></i>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <div th:if="${not #lists.isEmpty(chains)}">
+                    <table class="table table-sm table-striped table-hover sortable "
+                           id="chainsTable"
+                           name="search_table"
+                           style="margin-top: 1%">
+                      <thead>
+                      <tr>
+                        <th></th>
+                        <th><span th:text="#{reference}"></span></th>
+                        <th><span th:text="#{name}"></span></th>
+                        <th><span th:text="#{state}"></span></th>
+                        <th><span th:text="#{questions}"></span></th>
+                        <th class="col-md-2"><span th:text="#{rulesCategory}"></span></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr th:each="chain : ${chains}">
+                        <td>
+                          <input name="check_chains" type="checkbox"
+                                 th:field="*{chainIds}"
+                                 th:id="'chain'+${chain.id}"
+                                 th:value="${chain.id}"
+                                 onclick="changeModalValidationLabel('closeChainsButtonText', 'validateButtonText');checkQuestionnairesFormChanged()"/>
+                        </td>
+                        <td>
+                          <span th:text="${chain.reference}"></span>
+                        </td>
+                        <td>
+                          <label th:for="'chain'+${chain.id}">
+                            <span th:text="${chain.name}"></span>
+                          </label>
+                        </td>
+                        <td th:text="${chain.isActive()}? #{active} : #{inactive}"></td>
+
+                        <td>
+                                                    <span th:text="${chain.questions.size()}"
+                                                          style="width: 50px;overflow: hidden;"></span>
+                        </td>
+                        <td>
+                          <span th:if="${chain.rulesCategory != null}"
+                                th:text="${chain.rulesCategory.name}"></span>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-primary" id="btn"
+                          data-dismiss="modal"
+                          onClick="checkChain(false); changeModalValidationLabel('closeChainsButtonText', 'defaultButtonText')">
+                    <span id="closeChainsButtonText" th:text="#{close}"></span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div th:replace="fragments/spinner :: spinner"></div>
+
+        <div class="row form-group" id="check_chains_div" style="display: none;">
+          <strong th:text="#{associatedChains}"></strong>
+          <div class="col-md-8 col-md-offset-2" id="check_chains"></div>
+        </div>
+
+        <input type="hidden" th:field="*{orderedChainIds}" id="orderedChainIds"/>
+
+        <div class="row form-group">
+          <span class="col-md-2"></span>
+          <div class="col-md-3">
+            <button type="submit" id="submitQuestionnairesButton"
+                    onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                    class="btn btn-primary">
+              <p th:text="#{validate}"></p>
+            </button>
+            <button type="button" id="back"
+                    onClick="location.href='/questionnaires'"
+                    class="btn btn-primary">
+              <p th:text="#{back}"></p>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script src="../public/js/src/searchUtil.js" th:src="@{/js/src/searchUtil.js}"></script>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+
+    checkQuestionnaireManagement();
+
+    let objectSearchModal = new SearchView({
+      "modalId": "myModal2",
+      "reference_column_index": 2,
+      "label_column_index": 3,
+    });
+    objectSearchModal.initView();
+
+    let chainSearchModal = new SearchView({
+      "modalId": "myModal",
+      "reference_column_index": 2,
+      "label_column_index": 3,
+    });
+    chainSearchModal.initView();
+    document.getElementById("submitQuestionnairesButton").disabled = true;
+    document.getElementById("inputName").addEventListener("focus", checkQuestionnairesFormChanged);
+    document.addEventListener("dragend",checkQuestionnairesFormChanged);
+  });
+  /*]]>*/
+</script>
+</body>
+</html>

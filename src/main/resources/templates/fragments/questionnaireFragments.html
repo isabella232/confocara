@@ -1,0 +1,134 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<div th:fragment="questionnaire-modal">
+<div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title" id="myModalLabel"><span
+                    th:text="${qo.dto.reference}"></span></h4>
+        </div>
+        <div class="modal-body">
+            <div class="container-fluid">
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right"><span
+                        th:text="#{questionnaire.name}"></span> :</b>
+                    <span class="col-lg-5"
+                          th:text="${qo.dto.name}"></span>
+                </div>
+                <br/>
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right">
+                    <span th:text="#{reference}"></span> :</b>
+                    <span class="col-lg-5" th:text="${qo.dto.reference}"></span>
+                </div>
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right">
+                    <span th:text="#{published}"></span> :</b>
+                    <span class="col-lg-5" th:text="${qo.dto.published == false} ? #{no} : #{yes}"></span>
+                </div>
+
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right"><span
+                        th:text="#{object}"></span> :</b>
+                    <span class="col-lg-5"
+                          th:text="${qo.dto.equipmentName}"></span>
+                </div>
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right"><span th:text="#{rulesCategory}"></span>:</b>
+                    <span class="col-lg-5" th:text="${qo.dto.rulesCategoryName}"></span>
+                </div>
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right"><span
+                        th:text="#{version}"></span> :</b>
+                    <span class="col-lg-5"
+                          th:text="${qo.dto.version}"></span>
+                </div>
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right">
+                    <span th:text="#{state}"></span> :</b>
+                    <span class="col-lg-5" th:text="${qo.state.equals('INACTIVE')} ? #{inactive} : #{active}"></span>
+                </div>
+
+                <div th:if="${qo.dto.published == false}" class="row">
+                    <br/>
+                    <b class="col-lg-5 text-right">
+                        <span th:text="#{questions}"></span> :
+                    </b>
+                    <span class="col-lg-5"
+                          th:text="${qo.questionsNb}"></span>
+                </div>
+
+                <div th:if="${qo.dto.published == false}" class="row">
+                    <br/>
+                    <b class="col-lg-5 text-right">
+                        <span th:text="#{rules}"></span> :
+                    </b>
+                    <span class="col-lg-5"
+                          th:text="${qo.rulesNb}"></span>
+                </div>
+
+                <div class="row">
+                    <br/><b class="col-lg-5 text-right"> <span
+                        th:text="#{author}"></span> :</b>
+                    <span class="col-lg-5"
+                          th:text="${qo.dto.username != null and not #strings.isEmpty(qo.dto.username)} ? ${qo.dto.username} : #{emptyUser}"></span>
+                </div>
+
+                <div th:if="${qo.dto.date != null}" class="row">
+                    <br/> <b class="col-lg-5 text-right"><span
+                        th:text="#{lastModification}"></span> :</b>
+                    <span class="col-lg-5"
+                          th:text="${#dates.format(qo.dto.date, #messages.msg('common.date_format'))}"></span>
+                </div>
+
+                <div th:if="${qo.dto.published == false}">
+                    <br/>
+                    <div th:id="'loadingSpinner'+${qo.dto.reference}"></div>
+                    <div th:id="'resultsBlock'+${qo.dto.reference}"></div>
+                </div>
+
+                <div th:if="${qo.dto.published == true}">
+                    <br/>
+                    <div th:id="'loadingSpinner'+${qo.dto.reference}+'_'+${qo.dto.version}"></div>
+                    <div th:id="'resultsBlock'+${qo.dto.reference}+'_'+${qo.dto.version}"></div>
+                </div>
+
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+                <p th:text="#{close}"></p></button>
+            <a th:if="${qo.dto.published == false}" th:href="@{/questionnaires/edit(id=${qo.dto.id})}">
+                <button type="button" class="btn btn-default"><p
+                        th:text="#{edit}"></p></button>
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+</html>

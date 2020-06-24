@@ -1,0 +1,54 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{accounts.help.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid row" role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-10 col-10">
+
+    <h2 class="text-primary" align="center">Les comptes utilisateurs</h2><br/>
+
+    <h4>Liste des comptes utilisateurs</h4>
+    <p>Cliquer sur le menu Accounts du bandeau gauche. Vous accéder à la liste des utilisateurs</p>
+    <img class="centered" th:src="@{/image/accounts_screenshot.png}"/>
+    <p>Pour consulter le détail d’un compte, cliquer sur l’identifiant.
+      Les pictos à droite permettent de modifier un compte ou de le supprimer.
+    </p><br/><br/>
+    <h4>Créer un Utilisateur</h4>
+    <p> Cliquer sur Create account.</p>
+    <img class="centered" th:src="@{/image/add_account_screenshot.png}"/>
+    <p> « * » indique les champs obligatoires.
+      Par défaut, le rôle est contributeur. Il permet d’intervenir dans la constitution des jeux de
+      règles. Le rôle administrateur permet de configurer le service et de gérer les utilisateurs.
+    </p>
+
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+</body>
+</html>

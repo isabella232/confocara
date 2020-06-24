@@ -1,0 +1,1882 @@
+[
+  {
+    "reference": "RS1",
+    "version": 1,
+    "language": "fr",
+    "type": "Locaux accessibles aux salariés",
+    "userCredentials": {},
+    "questionnaireGroups": [
+      {
+        "name": "chemin",
+        "objectRef": [
+          "Obj1",
+          "Obj3",
+          "Obj2"
+        ]
+      },
+      {
+        "name": "couloir",
+        "objectRef": [
+          "Obj4",
+          "Obj5",
+          "Obj3",
+          "Obj2"
+        ]
+      }
+    ],
+    "objectDescriptions": [
+      {
+        "reference": "Obj5",
+        "name": "Dispositif d'éclairage",
+        "icon": "Interrupteur-01.png",
+        "definition": "",
+        "type": "subobject",
+        "categories": [
+          {
+            "name": "Tous les objets"
+          }
+        ],
+        "subObject": [],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Obj3",
+        "name": "Signalétique",
+        "icon": "information_accessible.png",
+        "definition": "",
+        "type": "subobject",
+        "categories": [
+          {
+            "name": "Tous les objets"
+          },
+          {
+            "name": "catégorie de chemin"
+          }
+        ],
+        "subObject": [],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Obj2",
+        "name": "Borne",
+        "icon": "Poteau-01.png",
+        "definition": "",
+        "type": "subobject",
+        "categories": [
+          {
+            "name": "Tous les objets"
+          }
+        ],
+        "subObject": [],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Obj1",
+        "name": "Chemin",
+        "icon": "Chemin-01.png",
+        "definition": "",
+        "type": "object",
+        "illustrationRef": [
+          "Ill1"
+        ],
+        "categories": [
+          {
+            "name": "Tous les objets"
+          }
+        ],
+        "subObject": [
+          "Obj2",
+          "Obj3"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Obj4",
+        "name": "Couloir",
+        "icon": "Couloir-01.png",
+        "definition": "",
+        "type": "object",
+        "illustrationRef": [
+          "Ill1"
+        ],
+        "categories": [
+          {
+            "name": "Tous les objets"
+          }
+        ],
+        "subObject": [
+          "Obj2",
+          "Obj3",
+          "Obj5"
+        ],
+        "date": "20170118140622"
+      }
+    ],
+    "questions": [
+      {
+        "reference": "Q1",
+        "label": "Est-ce que les panneaux indicateurs sont accessibles aux personnes malvoyantes ?",
+        "state": "active",
+        "subject": {
+          "name": "Signalétique"
+        },
+        "rulesRef": [
+          "R1",
+          "R2",
+          "R3",
+          "R4",
+          "R5"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q2",
+        "label": "Est-ce que les bornes et/ou poteaux sont suffisamment visibles ?",
+        "state": "active",
+        "subject": {
+          "name": "Repérage des obstacles"
+        },
+        "rulesRef": [
+          "R6"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q3",
+        "label": "Est-ce que la commande d'éclairage est accessible ?",
+        "state": "active",
+        "subject": {
+          "name": "Eclairage"
+        },
+        "rulesRef": [
+          "R9",
+          "R10",
+          "R11"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q4",
+        "label": "Est-ce que les cheminements ont les dimensions requises (profil en travers) ?",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R12",
+          "R13"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q5",
+        "label": "Est-ce que le cheminement est horizontal, ou bien un plan incliné est aménagé ?",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R14"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q6",
+        "label": "Est-ce que le sol a un relief modéré et praticable ?",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R15",
+          "R16",
+          "R17"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q7",
+        "label": "Est-ce que les bornes et/ou poteaux sont aux dimensions requises ?",
+        "state": "active",
+        "subject": {
+          "name": "Repérage des obstacles"
+        },
+        "rulesRef": [
+          "R7"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q8",
+        "label": "Est-ce que les bornes et/ou poteaux sont correctement implantés ?",
+        "state": "active",
+        "subject": {
+          "name": "Repérage des obstacles"
+        },
+        "rulesRef": [
+          "R8"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q9",
+        "label": "Est-ce que le revêtement du cheminement présente un contraste visuel et tactile ?",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R18"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q10",
+        "label": "Est-ce que le cheminement est sans obstacles, ou bien les obstacles sont-ils facilement repérables ?",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R19"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q11",
+        "label": "Est-ce que l'usager a possibilité de se reposer le long du cheminement ? ",
+        "state": "active",
+        "subject": {
+          "name": "Qualité de cheminement"
+        },
+        "rulesRef": [
+          "R20"
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Q12",
+        "label": "Est-ce que l'éclairement lumineux est homogène et suffisant (en lux) ?",
+        "state": "active",
+        "subject": {
+          "name": "Eclairage"
+        },
+        "rulesRef": [
+          "R21",
+          "R22"
+        ],
+        "date": "20170118140622"
+      }
+    ],
+    "questionnaires": [
+      {
+        "reference": "QO1",
+        "name": "chemin",
+        "version": 1,
+        "objectDescriptionRef": "Obj1",
+        "chains": [
+          {
+            "reference": "CH1",
+            "name": "contrôle_chemin",
+            "questionsRef": [
+              "Q4",
+              "Q5",
+              "Q6",
+              "Q9",
+              "Q10",
+              "Q11",
+              "Q12"
+            ],
+            "date": "20170118140622"
+          }
+        ],
+        "date": "20170411095102"
+      },
+      {
+        "reference": "QO2",
+        "name": "couloir",
+        "version": 1,
+        "objectDescriptionRef": "Obj4",
+        "chains": [
+          {
+            "reference": "CH2",
+            "name": "contrôle_couloir",
+            "questionsRef": [
+              "Q4",
+              "Q5",
+              "Q6",
+              "Q9",
+              "Q10",
+              "Q11",
+              "Q12"
+            ],
+            "date": "20170118140622"
+          }
+        ],
+        "date": "20170411095102"
+      },
+      {
+        "reference": "QO3",
+        "name": "signalétique",
+        "version": 1,
+        "objectDescriptionRef": "Obj3",
+        "chains": [
+          {
+            "reference": "CH3",
+            "name": "contrôle_signalétique",
+            "questionsRef": [
+              "Q1"
+            ],
+            "date": "20170118140622"
+          }
+        ],
+        "date": "20170411095102"
+      },
+      {
+        "reference": "QO4",
+        "name": "borne",
+        "version": 1,
+        "objectDescriptionRef": "Obj2",
+        "chains": [
+          {
+            "reference": "CH4",
+            "name": "contrôle_borne",
+            "questionsRef": [
+              "Q2",
+              "Q7",
+              "Q8"
+            ],
+            "date": "20170118140622"
+          }
+        ],
+        "date": "20170411095102"
+      },
+      {
+        "reference": "QO5",
+        "name": "éclairage",
+        "version": 1,
+        "objectDescriptionRef": "Obj5",
+        "chains": [
+          {
+            "reference": "CH5",
+            "name": "contrôle_dispositif_eclairage",
+            "questionsRef": [
+              "Q3"
+            ],
+            "date": "20170118140622"
+          }
+        ],
+        "date": "20170411095102"
+      }
+    ],
+    "rules": [
+      {
+        "reference": "R1",
+        "label": "Est-ce qu’il y a des panneaux orientés de façon à éviter tout effet d'éblouissement, de reflet ou de contre-jour dû à la luminosité ?",
+        "userCredentials": {},
+        "origin": "Bon usage-amélioration /Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "1",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "2",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "3",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "4",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "5",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "6",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "7",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "8",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "9",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R2",
+        "label": "Est-ce qu’une  personne malvoyante peut s'approcher à moins de 150 cm de la signalisation ?",
+        "userCredentials": {},
+        "origin": "Bon usage-amélioration /Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "10",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "11",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "12",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "13",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "14",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "15",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "16",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "17",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "18",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R3",
+        "label": "Est-ce que la hauteur des caractères d'écriture est :\n supérieure à 15 mm pour les éléments de signalisation et d'information relatifs à l'orientation ?\n supérieure à 4,5 mm dans les autres cas ?\n proportionelle à la distance de lecture ?\n(voir l'illustration n°2 pour des précisions)",
+        "userCredentials": {},
+        "origin": "Bon usage-amélioration /Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "19",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "20",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "21",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "22",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "23",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "24",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "25",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "26",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "27",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R4",
+        "label": "Est-ce que l’affichage a un contraste suffisamment élevé (blanc sur noir) ?",
+        "userCredentials": {},
+        "origin": "Bon usage-amélioration /Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "28",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "29",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "30",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "31",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "32",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "33",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "34",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "35",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "36",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R5",
+        "label": "Est-ce que l’Information affichée est claire, explicite et compréhensible (ex : Utilisation de pictogrammes,…)",
+        "userCredentials": {},
+        "origin": "Bon usage-amélioration /Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "37",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "38",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "39",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "40",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "41",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "42",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "43",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "44",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "45",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R6",
+        "label": "Est ce qu'il y a au moins un marquage contrasté ? ",
+        "origin": "Bon usage-amélioration / Arrêté du 15 janvier 2007 modifié le 18 septembre 2012, relatifs à l’accessibilité de la voirie aux personnes handicapées.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "46",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "47",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "48",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "49",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "50",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "51",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "52",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "53",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "54",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R7",
+        "label": "Est-ce que les poteaux et bornes :\n > Ont une hauteur de 50 cm au minimum ?\n > Ont un diamètre avec une dimension minimale variant  de manière inverse à la hauteur ?\n(voir schéma dans illustration)",
+        "origin": "Arrêté du 15 janvier 2007 modifié le 18 septembre 2012, relatifs à l’accessibilité de la voirie aux personnes handicapées.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "55",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "56",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "57",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "58",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "59",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "60",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "61",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "62",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "63",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R8",
+        "label": "Ces éléments n'entravent pas la circulation.\nAu besoin, certains éléments sont disposés en porte-à-faux pour dégager la circulation",
+        "origin": "Bon usage-amélioration",
+        "userCredentials": {},
+        "illustration": [
+          "Ill1"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "64",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "65",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "66",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "67",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "68",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "69",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "70",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "71",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "72",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R9",
+        "label": "Est-ce que le dispositif de commande (interrupteur) se situe à plus de 25 cm d'un angle rentrant de parois, ou de tout autre obstacle empêchant l'approche d'un fauteuil roulant ? ",
+        "origin": "Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "userCredentials": {},
+        "illustration": [
+          "Ill4"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "73",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "74",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "75",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "76",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "77",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "78",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "79",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "80",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "81",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R10",
+        "label": "Est-ce que la hauteur du dispositif de commande (interrupteur) est comprise entre 90 cm et 130 cm, pour être utilisé assis ou debout ?",
+        "origin": "Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "userCredentials": {},
+        "illustration": [
+          "Ill4"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "82",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "83",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "84",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "85",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "86",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "87",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "88",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "89",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "90",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R11",
+        "label": "Est-ce que le dispositif de commande (interrupteur) :\n> est facilement repérable grâce à un contraste visuel ou une signalétique adaptée?\n> est situé dans une zone éclairée ?",
+        "origin": "Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "userCredentials": {},
+        "illustration": [
+          "Ill5"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "91",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "92",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "93",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "94",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "95",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "96",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "97",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "98",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "99",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R12",
+        "label": "Est-ce que la largeur minimale est de 140 cm, libre de tout obstacle ?\n Exception : les couloirs peuvent être réduits à un maximum de 90 cm de largeur pour une longueur max de 15 m dans les parties sans croisement ni retournement possible",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill6"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "100",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "101",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "102",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "103",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "104",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "105",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "106",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "107",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "108",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R13",
+        "label": "Est-ce que en chaque point du cheminement où un choix d'itinéraire est donné à l'usager, il y a un espace de manœuvre avec possibilité de demi-tour de au moins 130 cm de diamètre  ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill7"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "109",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "110",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "111",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "112",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "113",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "114",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "115",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "116",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "117",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R14",
+        "label": "Absence de dénivellation ou lorsqu'elle ne peut être évitée, un plan incliné ou rampe d'accès est aménagé",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill8"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "118",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "119",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "120",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "121",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "122",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "123",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "124",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "125",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "126",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R15",
+        "label": "Le cheminement ne présente pas de dénivellement soudain, de surfaces glissantes, ou d'obstacles à la roue ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "ruleImpacts": [
+          {
+            "reference": "127",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "128",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "129",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "130",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "131",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "132",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "133",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "134",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "135",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R16",
+        "label": "Est-ce que le cheminement ne présente aucun ressaut,\nOu bien s'il y a des ressauts, est-ce que :\n> le chemin est horizontal ?\n>  et les ressauts vérifient :\n - hauteur inférieure à 2 cm, avec un bord arrondi et espacé d'au moins 2,50 m ?\n- ou bien hauteur jusqu'à 4 cm, avec sur toute sa hauteur une pente < 33 % ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill9"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "136",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "137",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "138",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "139",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "140",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "141",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "142",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "143",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "144",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R17",
+        "label": "Est-ce que le cheminement ne présente pas de trous et fentes de largeur ou diamètre supérieur ou égal à 2 cm ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill10"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "145",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "146",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "147",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "148",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "149",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "150",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "151",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "152",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "153",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R18",
+        "label": "Est-ce que le cheminement comporte sur toute sa longueur un repère continu, tactile, visuellement contrasté par rapport à son environnement ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "illustration": [
+          "Ill10"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "154",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "155",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "156",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "157",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "158",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "159",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "160",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "161",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "162",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R19",
+        "label": "Obstacles suspendus : est-ce qu’il y a un passage libre au dessus du sol supérieur à 2,20 m de hauteur ?\n(supérieur à 2 m dans les parcs de stationnement)\nObstacles implantés, dès qu'ils sont en saillie latérale de plus de 15 cm sur le cheminement, et quelle que soit leur hauteur.\nEst-ce que ces éléments comportent :\n> un élément de contraste visuel par rapport à leur environnement immédiat ?\n> et un rappel tactile ou un prolongement au sol ?",
+        "origin": "Arrêtés du 1er août 2006 et du 30 novembre 2007, Articles 2 et 6 : Dispositions relatives aux cheminements extérieurs et intérieures horizontales.",
+        "userCredentials": {},
+        "ruleImpacts": [
+          {
+            "reference": "163",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "164",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "165",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "166",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "167",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "168",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "169",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "170",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "171",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R20",
+        "label": "Est-ce que des points de repos (par exemple des appuis ischiatiques) permettent aux usagers (avec béquilles par exemple) de se reposer le long du cheminement ?",
+        "origin": "Bon usage-amélioration",
+        "userCredentials": {},
+        "ruleImpacts": [
+          {
+            "reference": "172",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "173",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "174",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "175",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "176",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "177",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "178",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "179",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "180",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R21",
+        "label": "Est-ce qu'un éclairage artificiel permet d'éclairer correctement la zone ?\n- à l'intérieur du bâtiment : 100 lux en moyenne\n- cheminements extérieurs accessibles et zones parking : 20 lux en moyenne",
+        "origin": "Arrêté du 08 décembre 2014 - Dispositions relatives à l’éclairage",
+        "userCredentials": {},
+        "illustration": [
+          "Ill11"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "181",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "182",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "183",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "184",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "185",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "186",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "187",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "188",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "189",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      },
+      {
+        "reference": "R22",
+        "label": "Est-ce que l'éclairage est homogène et ne crée pas de gêne visuelle ?\n(sans zone d'ombre ni faux jour, ni contre jour ; anti éblouissant)\nEst-ce qu'il ne crée pas de difficulté à repérer ou utiliser les dispositifs d'accès et la signalétique ? ",
+        "origin": "Arrêté du 08 décembre 2014 - Dispositions relatives à l’éclairage",
+        "userCredentials": {},
+        "illustration": [
+          "Ill11"
+        ],
+        "ruleImpacts": [
+          {
+            "reference": "190",
+            "impactValueRef": "1",
+            "profileTypeRef": "P5"
+          },
+          {
+            "reference": "191",
+            "impactValueRef": "1",
+            "profileTypeRef": "P2"
+          },
+          {
+            "reference": "192",
+            "impactValueRef": "1",
+            "profileTypeRef": "P7"
+          },
+          {
+            "reference": "193",
+            "impactValueRef": "3",
+            "profileTypeRef": "P1"
+          },
+          {
+            "reference": "194",
+            "impactValueRef": "1",
+            "profileTypeRef": "P6"
+          },
+          {
+            "reference": "195",
+            "impactValueRef": "1",
+            "profileTypeRef": "P3"
+          },
+          {
+            "reference": "196",
+            "impactValueRef": "1",
+            "profileTypeRef": "P8"
+          },
+          {
+            "reference": "197",
+            "impactValueRef": "1",
+            "profileTypeRef": "P9"
+          },
+          {
+            "reference": "198",
+            "impactValueRef": "1",
+            "profileTypeRef": "P4"
+          }
+        ],
+        "date": "20170118140622"
+      }
+    ],
+    "illustrations": [
+      {
+        "reference": "Ill1",
+        "title": "Visiophone",
+        "image": "interphone03.jpg",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill2",
+        "title": "Placement de l'interphone",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill3",
+        "title": "Implémentation d'un interphone",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007 Article 4 - Dispositions relatives aux accès à l’établissement ou l’installation",
+        "image": "interphone02.jpg",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill4",
+        "title": "Positionner les commandes de manière accessible",
+        "image": "dispositif de commande01.jpg",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill5",
+        "title": "Des commandes bien visibles",
+        "image": "Dispositif-Commande02.png",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill6",
+        "title": "Schéma de circulation",
+        "image": "Cheminements01.png",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill7",
+        "title": "Schéma de circulation2",
+        "image": "Cheminements02.png",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill8",
+        "title": "Obstacles à la circulation",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill9",
+        "title": "Un cheminement facilement repérable",
+        "image": "Chemin-Sol-Repere-Tactile.png",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill10",
+        "title": "Dispositif de Centre Relais Téléphonique (CRT)",
+        "comment": "Origine de la recommandation : Bon usage-amélioration / Arrêtés du 1er août 2006 et du 30 novembre 2007, Article 11 - Dispositions relatives aux équipements, mobiliers et dispositifs de commande et de service intérieurs et extérieurs",
+        "date": "20170118140622"
+      },
+      {
+        "reference": "Ill11",
+        "title": "Recommandations sur l'éclairage",
+        "comment": "Origine de la recommandation : Arrêtés du 08 décembre 2014  - Dispositions relatives à l’éclairage\n Il permet d´assurer des valeurs d´éclairement moyen horizontal, mesurées au sol le long du parcours usuel de circulation en tenant compte des zones de transition entre les tronçons d´un parcours, d´au moins :\n 20 lux pour le cheminement extérieur accessible ainsi que les parcs de stationnement extérieurs et leurs circulations piétonnes accessibles ;\n20 lux pour les parcs de stationnement intérieurs et leurs circulations piétonnes accessibles ;\n200 lux au droit des postes d´accueil ;\n  100 lux pour les circulations intérieures horizontales ;\n150 lux pour chaque escalier et équipement mobile.",
+        "date": "20170118140622"
+      }
+    ],
+    "impactValues": [
+      {
+        "reference": "1",
+        "name": "Non concerné",
+        "editable": false
+      },
+      {
+        "reference": "3",
+        "name": "Bloquant",
+        "editable": false
+      },
+      {
+        "reference": "4",
+        "name": "Dangereux",
+        "editable": true
+      },
+      {
+        "reference": "2",
+        "name": "Gênant",
+        "editable": false
+      }
+    ],
+    "profileTypes": [
+      {
+        "name": "Fauteuil roulant électrique",
+        "reference": "P1",
+        "icon": "Fauteuil roulant electrique-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Fauteuil roulant manuel",
+        "reference": "P3",
+        "icon": "Fauteuil roulant-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Difficultés de déplacement",
+        "reference": "P4",
+        "icon": "Difficulte deplacement-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Difficultés de préhension",
+        "reference": "P5",
+        "icon": "Difficultes prehension-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Petite taille",
+        "reference": "P6",
+        "icon": "Petite-taille-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Non-voyant",
+        "reference": "P2",
+        "icon": "Non voyant.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Mal-voyant",
+        "reference": "P7",
+        "icon": "Mal voyant-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Sourd",
+        "reference": "P8",
+        "icon": "Sourd-01.jpg",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      },
+      {
+        "name": "Mal-entendant",
+        "reference": "P9",
+        "icon": "Mal entendant-01.png",
+        "rulesCategories": [
+          {
+            "name": "Handicap",
+            "acceptedImpactList": [
+              "1",
+              "3",
+              "4",
+              "2"
+            ],
+            "defaultImpact": "1"
+          }
+        ]
+      }
+    ],
+    "rulesCategory": {
+      "name": "Handicap",
+      "acceptedImpactList": [
+        "1",
+        "2",
+        "3",
+        "4"
+      ],
+      "defaultImpact": "1"
+    },
+    "date": "20170411095131"
+  }
+]

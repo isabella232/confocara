@@ -1,0 +1,88 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{rulesCategories.help.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid row" role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-10 col-10">
+    <h2 class="text-primary" align="center">Les catégories de règles</h2><br/>
+
+    <p>La catégorie de règles détermine certains comportements de la configuration des règles et du
+      référentiel.</p>
+
+    <ul>
+      <li>la liste des impacts disponibles</li>
+      <li>la liste des profils types sur lesquels il y a impact,</li>
+    </ul>
+
+    <p> Le gestionnaire du groupe devra préciser un impact pour chacun des profils types associés aux
+      règles de son référentiel.
+      Le rapport d’audit tiendra compte des profils et des impacts.
+    </p>
+
+    <br/>
+
+    <p>La catégorie de règles est un élément clé de ConfOCARA. Un référentiel appartient à une
+      catégorie, par
+      exemple « handicap ERP ». Sur un domaine donné comme le handicap ou la sécurité, il peut
+      exister
+      plusieurs catégories.</p>
+    <p>La catégorie définit un ensemble de types de profils impactés ainsi qu’une nomenclature de
+      niveaux
+      d’impact. Par exemple, pour une catégorie handicap ERP, nous aurons un type de profil «
+      non-voyant » ,
+      un autre « sourd » … Chaque règle sera associée aux types de profils de la catégorie,
+      en
+      indiquant un niveau d’impact qui représente l’importance relative de la règle par rapport au
+      type de profil donné. Par exemple telle règle sera bloquante pour tel type de profil, gênante
+      pour tel
+      autre, et sans impact pour d’autres.</p>
+    <p>Lors d’un audit utilisant la catégorie de règles, le rapport d’audit fera apparaître dans les
+      résultats
+      le nombre de règles concernées, réparties par type de profil et par niveau d’impact.</p>
+    <h4>Les impacts</h4>
+    <p> C’est une liste de valeurs possibles (nomenclature). Par défaut, 3 valeurs sont proposées =
+      Bloquant,
+      Gênant, Non concerné. Elles ne sont pas modifiables.
+      Le bouton « Ajouter un impact » permet de créer de nouvelles valeurs
+      Ces valeurs peuvent être supprimées tant qu’il n’y a pas de règle associée</p>
+    <h4>Les types de profil</h4>
+    <p> C’est une liste de valeurs possibles, avec un picto associé à chaque valeur.
+      Le bouton « Ajouter un type de profil » permet de créer de nouvelles valeurs
+      Ces valeurs peuvent être supprimées tant qu’il n’y a pas de règle associée.</p>
+    <h4>Les catégories de règles</h4>
+    <p> Une catégorie de règles c’est un nom, associé à une liste d’impacts dont un à choisir par
+      défaut, et une
+      liste de types de profils associé. À la création d’une nouvelle catégorie, une liste d’impacts
+      est
+      proposée par défaut. </p>
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+</body>
+</html>

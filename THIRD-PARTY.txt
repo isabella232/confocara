@@ -1,0 +1,38 @@
+
+Lists of 28 third-party dependencies.
+     (Eclipse Public License - v 1.0) (GNU Lesser General Public License) Logback Classic Module (ch.qos.logback:logback-classic:1.1.7 - http://logback.qos.ch/) Copyright © 2019 QOS.ch
+     (The Apache Software License, Version 2.0) Jackson-module-JAXB-annotations (com.fasterxml.jackson.module:jackson-module-jaxb-annotations:2.7.4 - http://github.com/FasterXML/jackson-module-jaxb-annotations)
+     (The Apache Software License, Version 2.0) Guava: Google Core Libraries for Java (com.google.guava:guava:21.0 - https://github.com/google/guava) Copyright (C) 2008 The Guava Authors
+     (MPL 2.0 or EPL 1.0) H2 Database Engine (com.h2database:h2:1.4.197 - http://www.h2database.com) Copyright © 2007-2016 The Querydsl Team.
+     (Apache License, Version 2.0) Querydsl - APT support (com.querydsl:querydsl-apt:4.2.1 - http://www.querydsl.com) © 2015 by The Querydsl Team, sponsored by Mysema
+     (Apache License, Version 2.0) Querydsl - Core module (com.querydsl:querydsl-core:4.2.1 - http://www.querydsl.com) © 2015 by The Querydsl Team, sponsored by Mysema
+     (Apache License, Version 2.0) Querydsl - JPA support (com.querydsl:querydsl-jpa:4.2.1 - http://www.querydsl.com) © 2015 by The Querydsl Team, sponsored by Mysema
+     (The Apache Software License, Version 2.0) springfox-swagger-ui (io.springfox:springfox-swagger-ui:2.8.0 - https://github.com/springfox/springfox) Copyright 2015 Marty Pitt - @martypitt, Dilip Krishnan - @dilipkrish, Adrian Kelly - @adrianbk,
+     (The Apache Software License, Version 2.0) springfox-swagger2 (io.springfox:springfox-swagger2:2.8.0 - https://github.com/springfox/springfox) Copyright 2015 Marty Pitt - @martypitt, Dilip Krishnan - @dilipkrish, Adrian Kelly - @adrianbk,
+     (The GNU General Public License, Version 2) MySQL Connector/J (mysql:mysql-connector-java:5.1.46 - http://dev.mysql.com/doc/connector-j/en/) © 2020, Oracle Corporation and/or its affiliates
+     (Apache License, Version 2.0) Apache Commons Lang (org.apache.commons:commons-lang3:3.5 - http://commons.apache.org/proper/commons-lang/) Copyright © 2001-2020 The Apache Software Foundation.
+     (GNU Lesser General Public License) ENtity VERSioning support (org.hibernate:hibernate-envers:5.1.0.Final - http://hibernate.org) Copyright (c) 2015, Red Hat Inc. or third-party contributors
+     (The Apache Software License, Version 2.0) org.immutables.value (org.immutables:value:2.7.4 - http://immutables.github.org) Copyright 2013-2016 Immutables Authors and Contributors
+     (The MIT License) Project Lombok (org.projectlombok:lombok:1.18.4 - https://projectlombok.org) Copyright © 2009-2020 The Project Lombok Authors
+     (MIT License) JCL 1.1.1 implemented over SLF4J (org.slf4j:jcl-over-slf4j:1.7.21 - http://www.slf4j.org) Copyright © 2004-2019 QOS.ch
+     (Apache License, Version 2.0) Spring Boot AutoConfigure (org.springframework.boot:spring-boot-autoconfigure:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Developer Tools (org.springframework.boot:spring-boot-devtools:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Starter (org.springframework.boot:spring-boot-starter:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Actuator Starter (org.springframework.boot:spring-boot-starter-actuator:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Data JPA Starter (org.springframework.boot:spring-boot-starter-data-jpa:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot HATEOAS Starter (org.springframework.boot:spring-boot-starter-hateoas:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Security Starter (org.springframework.boot:spring-boot-starter-security:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Thymeleaf Starter (org.springframework.boot:spring-boot-starter-thymeleaf:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Web Starter (org.springframework.boot:spring-boot-starter-web:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (Apache License, Version 2.0) Spring Boot Test (org.springframework.boot:spring-boot-test:1.5.11.RELEASE - http://projects.spring.io/spring-boot/) © 2020 VMware, Inc. or its affiliates
+     (The Apache Software License, Version 2.0) thymeleaf-extras-springsecurity4 (org.thymeleaf.extras:thymeleaf-extras-springsecurity4:2.1.3.RELEASE - http://www.thymeleaf.org) Copyright © The Thymeleaf Team
+     (Apache License, Version 2.0) Bootstrap (org.webjars:bootstrap:4.0.0-2 - http://webjars.org) Copyright (c) 2017 James Ward
+     (MIT License) jquery (org.webjars:jquery:2.2.2 - http://webjars.org) Copyright (c) 2017 James Ward, Copyright 2020 The jQuery Foundation.
+     (MIT License) babel (6.21.1 - https://babeljs.io/) Copyright (c) 2014-present Sebastian McKenzie and other contributors
+     (MIT License) Orange Boosted (4.2.2 - https://boosted.orange.com/) Copyright (c) 2015 - 2020 Orange, Copyright (c) 2015 - 2020 The Boosted authors
+     (MIT License) Bootstrap (4.0.0 - https://getbootstrap.com/) Copyright (c) 2011-2018 Twitter, Inc., Copyright (c) 2011-2018 The Bootstrap Authors
+     (MIT, SIL OFL, and CC BY licenses) fontawesome (5.7.1 - https://fontawesome.com/) © Fonticons, Inc.
+     (MIT License) moment (2.24.0 - https://momentjs.com/) Copyright (c) JS Foundation and other contributors
+     (MIT License) popperjs (1.15.0 - https://popper.js.org/) © 2020 MIT License
+     (MIT License) vuejs (2.6.10) Copyright © 2014-2020 Evan You
+     (MIT License) jquery-ui (1.12.1 - https://jqueryui.com/) Copyright 2020 The jQuery Foundation

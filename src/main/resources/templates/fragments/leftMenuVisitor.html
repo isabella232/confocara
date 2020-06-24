@@ -1,0 +1,29 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+
+<div th:fragment="left-menu-visitor">
+    <div class="col-md-1 col sidebar" style="width: 210px" id="menu">
+        <ul class="nav nav-sidebar">
+            <li role="presentation" id="backToLogin"><a href="/login"><p th:text="#{back}"></p></a></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

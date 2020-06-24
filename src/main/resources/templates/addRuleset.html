@@ -1,0 +1,274 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{addRuleset.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid" role="main">
+
+  <div class="row ">
+    <div th:replace="fragments/menu :: left-menu">&nbsp;</div>
+    <div class="col-md-10 col main" id="second">
+
+      <div class="active" id="home" role="tabpanel">
+        <div class="row">
+          <form class="container-fluid form-horizontal col-md-8" action="#"
+                th:action="@{/rulesets/create}" th:object="${ruleset}"
+                method="post">
+
+            <div class="row form-group">
+              <div class="alert alert-danger"
+                   th:if="${err_add_ruleset != null}">
+                <ul>
+                  <li th:if="${err_add_ruleset_name != null}"
+                      th:text="#{ruleset.already_exists}"></li>
+                </ul>
+              </div>
+
+              <div class="alert alert-light" role="alert">
+                <p th:text="#{ruleset.publicationInformationMessage}"></p>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <label for="inputName" class="col-md-2 control-label">
+                <p class="text-right"><span th:text="#{name}"></span>
+                  <span>*</span></p>
+              </label>
+              <div class="col-md-6">
+                <input type="text" th:field="*{type}" class="form-control" id="inputName"
+                       required="required" maxlength="160"/>
+              </div>
+              <div class="col-md-4">
+                <a th:href="@{/rulesets/add/help}" th:title="#{menu.help}" class="pull-right">
+                  <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+                </a>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <label for="selectRulesCategory" class="col-md-2 control-label">
+                <p class="text-right"><span th:text="#{rulesCategory}"></span>
+                  <span>*</span></p></label>
+              <div class="col-md-6">
+                <select class="form-control" id="selectRulesCategory"
+                        th:field="*{rulesCategory.id}"
+                        required="required"
+                        onChange="resetCheckbox(); displayAssociations('check_ruleset_div', 'check_ruleset', 'qoIds')">
+                  <option th:each="rulesCategory: ${rulesCategories}"
+                          th:value="${rulesCategory.id}"
+                          th:id="'rc'+${rulesCategory.id}"
+                          th:text="${rulesCategory.name}"></option>
+                </select>
+                <script th:inline="javascript">
+                  /*<![CDATA[*/
+                  var selectedRC = [[${selectedRulesCategoryValue}]];
+                  $("#rc" + selectedRC).attr('selected', 'true');
+                  /*]]>*/
+                </script>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <label for="inputLanguage" class="col-md-2 control-label"><p
+                  class="text-right"><span
+                  th:text="#{ruleset.language}"></span>
+                <span>*</span></p>
+              </label>
+              <div class="col-md-6">
+                <select class="form-control" id="inputLanguage" th:field="*{language}">
+                  <option value="fr" th:text="#{language.french}"></option>
+                  <option value="eng" th:text="#{language.english}"></option>
+                </select></div>
+            </div>
+
+            <div class="row form-group" style="border: 0px dashed #000;">
+              <label for="inputQuestionnaires" class="col-md-2 control-label"><p
+                  class="text-right"
+                  th:text="#{questionnaires}"></p>
+              </label>
+              <div class="col-md-6">
+                <button type="button" class="btn btn-secondary form-control" data-toggle="modal"
+                        id="inputQuestionnaires" data-target="#myModal"
+                        onClick="filterTableByRulesCategoryOnCreate('title', 'qosTable', 'selectRulesCategory', 5);">
+                  <span th:text="#{ruleset.associateQuestionnaires}"></span>
+                </button>
+              </div>
+              <!-- Modal -->
+              <div class="modal fade" id="myModal" data-backdrop="static" data-keyboard="false"
+                   tabindex="-1" role="dialog"
+                   aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="myModalLabel"><span
+                          th:text="#{ruleset.associateQuestionnaires}"></span></h4>
+                    </div>
+                    <div class="modal-body">
+                      <div class="row form-group" th:if="${not #lists.isEmpty(QOs)}">
+                        <label for="title" class="col-md-3 control-label"><p
+                            class="text-right"><span th:text="#{object}"></span></p>
+                        </label>
+                        <div class="btn-group">
+                          <input type="text" class="form-control"
+                                 id="title" autocomplete="off"
+                                 onkeypress="return processFilterTableWithFiltersByRulesCategory(false, event, 'title', 2, 'qosTable', 'selectRulesCategory', 5, null, null, null)"/>
+                          <span class="searchClear" id="clearFilter1"
+                                onClick="filterTableByRulesCategoryOnCreate('title', 'qosTable', 'selectRulesCategory', 5);"><i
+                              class="fa fa-times-circle"
+                              aria-hidden="true"></i></span>
+                        </div>
+                      </div>
+
+                      <div th:if="${not #lists.isEmpty(QOs)}">
+                        <table class="table table-sm table-striped table-hover sortable "
+                               id="qosTable" style="margin-top: 1%">
+                          <thead>
+                          <tr>
+                            <th></th>
+                            <th><span th:text="#{name}"></span></th>
+                            <th><span th:text="#{object}"></span></th>
+                            <th><span th:text="#{reference}"></span></th>
+                            <th><span th:text="#{chains}"></span></th>
+                            <th class="col-md-2"><span th:text="#{rulesCategory}"></span></th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <tr th:each="qo : ${QOs}">
+                            <td>
+                              <input type="checkbox"
+                                     th:field="*{qoIds}" th:id="'qo'+${qo.id}"
+                                     th:value="${qo.id}"
+                                     onclick="changeModalValidationLabel('closeButtonText', 'validateButtonText')"/>
+
+                              <label hidden="hidden" th:for="'qo'+${qo.id}">
+                                <span th:text="${qo.name}"></span>
+                              </label>
+                            </td>
+                            <td>
+                              <span th:text="${qo.name}"></span>
+                            </td>
+                            <td>
+                              <span th:text="${qo.equipment.name}"></span>
+                            </td>
+                            <td>
+                              <span th:text="${qo.reference}"></span>
+                            </td>
+                            <td>
+                                                                <span th:text="${qo.chains.size()}"
+                                                                      style="width: 50px;overflow: hidden;"></span>
+                            </td>
+                            <td>
+                                <span th:if="${qo.rulesCategory != null}"
+                                      th:text="${qo.rulesCategory.name}"></span>
+                            </td>
+                          </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div th:if="${#lists.isEmpty(QOs)}">
+                        <p style="text-align: center; margin-top: 20px;"
+                           th:text="#{ruleset.noPublishedQuestionnaireAvailable}"></p>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal"
+                              onClick="displayAssociations('check_ruleset_div', 'check_ruleset', 'qoIds');
+                                                        changeModalValidationLabel('closeButtonText', 'defaultButtonText')">
+                        <span id="closeButtonText" th:text="#{close}"></span>
+                      </button>
+                      <span id="validateButtonText" th:text="#{validate}"
+                            style="visibility: hidden"></span>
+                      <span id="defaultButtonText" th:text="#{close}"
+                            style="visibility: hidden"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <span class="col-md-2"></span>
+
+              <div id="check_ruleset_div" style="display: none;">
+                <b th:text="#{associatedQuestionnaires}"></b>
+                <div class="row">
+                  <div class="col-md-6 col-md-offset-2" id="check_ruleset"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row form-group">
+              <label for="inputComment" class="col-md-2 control-label"><p class="text-right"
+                                                                          th:text="#{comment}"></p>
+              </label>
+              <div class="col-md-8">
+                  <textarea type="text" th:field="*{comment}" rows="4" class="form-control"
+                            id="inputComment"></textarea>
+              </div>
+            </div>
+
+            <div th:replace="fragments/spinner :: spinner"></div>
+
+            <div class="row form-group">
+              <span class="col-md-2"></span>
+              <div class="col-md-3">
+                <button type="submit"
+                        onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                        class="btn btn-primary">
+                  <p th:text="#{validate}"></p>
+                </button>
+                <button type="submit" id="back"
+                        onClick="location.href='/rulesets'"
+                        class="btn btn-primary">
+                  <p th:text="#{back}"></p>
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    displayAssociations('check_ruleset_div', 'check_ruleset', 'qoIds');
+    var requiredCheckboxes = $(':checkbox[required]');
+
+    requiredCheckboxes.change(function () {
+
+      if (requiredCheckboxes.is(':checked')) {
+        requiredCheckboxes.removeAttr('required');
+      } else {
+        requiredCheckboxes.attr('required', 'required');
+      }
+    });
+  });
+  /*]]>*/
+</script>
+
+</body>
+</html>

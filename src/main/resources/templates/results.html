@@ -1,0 +1,91 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml" lang="en">
+
+<head>
+</head>
+
+<body>
+<div th:fragment="resultsList" th:unless="${#lists.isEmpty(illustrations)}" class="results-block">
+
+    <table class="table table-sm table-striped table-hover sortable" style="margin-top: 1%">
+        <thead>
+        <tr>
+            <th></th>
+            <th><span th:text="#{id}"></span></th>
+            <th><span th:text="#{title}"></span></th>
+            <th><span th:text="#{image}"></span></th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr th:each="illustration : ${illustrations}">
+            <td><a><img src="../public/image/ic_edit.png" th:src="@{/image/ic_edit.png}"
+                        style="height: 20px;width: 20px"/></a></td>
+
+            <td>
+                <a type="button" class="btn btn-default btn-sm" data-toggle="modal"
+                   th:attr="data-target='#'+${illustration.id}">
+                    <span th:text="${illustration.id}"></span>
+                </a>
+
+
+                <div class="modal fade" th:id="${illustration.id}" tabindex="-1" role="dialog"
+                     aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel"><span th:text="${illustration.title}"></span>
+                                </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                        aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <h5><span th:text="#{illustration}"></span>
+                                    <span th:text="#{id}"></span></h5><span th:text="${illustration.id}"></span>
+                                <br/>
+                                <h5>Image:</h5>
+                                <span th:text="${illustration.image}"></span>
+                                <br/> <h5><span th:text="#{comment}"></span></h5>
+                                <span th:text="${illustration.comment}"></span>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><p
+                                        th:text="#{close}"></p></button>
+                                <button type="button" class="btn btn-default" data-dismiss="modal" herf="objetmodif"><p
+                                        th:text="#{edit}"></p></button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </td>
+            <td th:text="${illustration.title}"></td>
+            <td th:text="${illustration.image}"></td>
+
+
+            <td><a th:href="@{/admin/illustrations/delete(id=${illustration.id})}"><img src="../public/image/trash.png"
+                                                                                        th:src="@{/image/trash.png}"
+                                                                                        style="height: 20px;width: 20px"/></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

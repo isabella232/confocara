@@ -1,0 +1,57 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+    <link th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css}" rel="stylesheet" media="screen"/>
+    <link th:href="@{/css/signin.css}" rel="stylesheet"/>
+
+    <title th:text="#{login.title}"></title>
+</head>
+
+<body>
+
+<div class="container">
+
+    <form class="form-signin" th:action="@{/login}" th:object="${user}" method="post">
+        <h2 class="form-signin-heading"><span th:text="#{login.authentification}"></span></h2>
+        <div th:if="${param.error}" class="alert alert-danger" role="alert">
+            <span th:text="#{login.error.invalidUsernamePassword}"></span>
+        </div>
+        <div th:if="${param.logout}" class="alert alert-info" role="alert">
+            <span th:text="#{login.message.disconnected}"></span>
+        </div>
+
+        <label for="username" class="sr-only"><span th:text="#{accounts.email}"></span></label>
+        <input type="text" id="username" name="username" th:field="*{username}" class="form-control"
+               th:placeholder="#{login}" required="required" autofocus=""/>
+        <label for="password" class="sr-only"><span th:text="#{accounts.password}"></span></label>
+        <input type="password" id="password" class="form-control" name="password" th:placeholder="#{accounts.password}"
+               required="required"/>
+        <button class="btn btn-lg btn-primary btn-block" type="submit"><span th:text="#{login.connection}"></span></button>
+    </form>
+
+</div>
+
+<footer class="footer">
+    <div class="container-fluid">
+        <a href="conditions.html" style="color: #fff; right: 0; position: absolute; padding-right: 10px;" th:text="#{menu.conditions}"></a>
+    </div>
+</footer>
+
+</body>
+</html>

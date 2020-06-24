@@ -1,0 +1,308 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{rulesCategories.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row"
+      role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-9 col-9 main">
+    <div class="row form-group">
+      <div class="col-12">
+
+        <div class="row"
+             style="border: 0px solid; border-radius: 5px;background-color: #eee;">
+          <div class="col-md-2 parent" style="height:72px;   ">
+            <div class="child nav">
+              <span th:text="#{rulesCategories}"></span>
+              <span class="badge" th:text="${#lists.size(rulesCategoryList)}"></span>
+            </div>
+          </div>
+          <div class="container-fluid form-horizontal col-md-6">
+            <br/>
+            <div class="row form-group">
+              <label for="title" class="col-sm-3 control-label"><p class="text-right"><span
+                  th:text="#{name}"></span></p></label>
+              <div class="btn-group">
+                <input class="form-control" type="text" id="title"
+                       onkeypress="return filterValuesAndSetCookie(event, 'title', 2, 'rulesCategoriesTable', 'rulesCategoryFilter')"/>
+                <a onclick="resetFilterAndCookie('rulesCategoryFilter'); filterValuesAndSetCookie(null, 'title', 2, 'rulesCategoriesTable', 'rulesCategoryFilter');">
+                  <span class="searchClear" id="clearFilter1"><i class="fa fa-times-circle"
+                                                                 aria-hidden="true"></i></span>
+                </a>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-1"></div>
+          <div class="col-md-2"><a href="/admin/rules-categories/add"
+                                   style="height:72px;display: flex;">
+            <button class="btn btn-primary" style="margin: auto;"><p
+                th:text="#{addRulesCategory.title}"></p>
+            </button>
+          </a></div>
+
+          <div class="col-md-1">
+            <a th:href="@{/admin/rules-categories/help}" th:title="#{menu.help}">
+              <img th:src="@{/image/ic_help.png}" class="help-icon"/>
+            </a>
+          </div>
+        </div>
+
+        <div class="active" id="home" role="tabpanel">
+          <div th:if="${not #lists.isEmpty(rulesCategoryList)}">
+            <table class="table table-sm table-striped table-hover sortable"
+                   style="margin-top: 1%" id="rulesCategoriesTable">
+              <thead>
+              <tr>
+                <th scope="col-lg-1"><span th:text="#{id}"></span></th>
+                <th><span th:text="#{name}"></span></th>
+                <th scope="col-lg-1"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="rulesCategory : ${rulesCategoryList}">
+                <td>
+                  <a href="#" type="button" class="btn btn-light btn-sm btn-block col-lg-2"
+                     data-toggle="modal" th:attr="data-target='#'+${rulesCategory.id}">
+                    <span th:text="${rulesCategory.id}"></span>
+                  </a>
+
+                </td>
+                <td th:text="${rulesCategory.name}"></td>
+
+                <td>
+                  <a th:href="@{/admin/rules-categories/edit(id=${rulesCategory.id})}"><img
+                      src="../public/image/ic_edit.png" th:src="@{/image/ic_edit.png}"
+                      style="height: 20px;width: 20px"/></a>
+
+                  <a class="icon-left-margin"
+                     th:href="@{/admin/rules-categories/delete(id=${rulesCategory.id})}"
+                     onclick="return confirmAndShowSpinner('confirmDeletionAlertText');">
+                    <img src="../public/image/trash.png" th:src="@{/image/trash.png}"
+                         style="height: 20px;width: 20px"/></a></td>
+
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div th:each="rulesCategory : ${rulesCategoryList}">
+          <div class="modal fade" th:id="${rulesCategory.id}" tabindex="-1" role="dialog"
+               aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h4 class="modal-title" id="myModalLabel"><span
+                      th:text="${rulesCategory.name}"></span></h4>
+                  <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close"><span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <br/><b class="col-lg-3"><span
+                        th:text="#{id}"></span></b><span
+                        class="col-lg-4" th:text="${rulesCategory.id}"></span>
+                    </div>
+                    <div class="row">
+                      <br/><b class="col-lg-3"><span
+                        th:text="#{name}"></span></b>
+                      <span class="col-lg-4">
+														<span th:text="${rulesCategory.name}"></span>
+														</span>
+                    </div>
+
+                    <div class="row">
+                      <br/>
+                      <div class="col-lg-3"><b class=""><span
+                          th:text="#{associatedProfileTypesLabel}"></span></b></div>
+                      <div class="col-lg-7"><span
+                          th:each="profileType:${rulesCategory.profileTypes}">
+														<div th:text="${profileType.name}"></div>
+                                                                </span>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <br/>
+                      <div class="col-lg-3"><b
+                          class=""><span
+                          th:text="#{associatedImpactsLabel}"></span></b></div>
+                      <div class="col-lg-7"><span th:each="impact:${rulesCategory.impactValues}">
+														<div th:text="${impact.name}"></div>
+                                                                </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <br/><b class="col-lg-3"><span
+                        th:text="#{impacts.defaultValue}"></span></b>
+                      <span class="col-lg-4">
+														<span th:text="${rulesCategory.defaultImpact.name}"></span>
+														</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <p th:text="#{close}"></p></button>
+                  <a th:href="@{/admin/rules-categories/edit(id=${rulesCategory.id})}">
+                    <button type="button" class="btn btn-default"><p
+                        th:text="#{edit}"></p></button>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <!-- delete error window -->
+          <div class="modal fade" id="conflictualRulesModal" tabindex="-1" role="dialog"
+               aria-labelledby="conflictualRulesModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content modal-small-content">
+                <div class="modal-header">
+                  <h4 class="modal-title modal-error-title"
+                      id="conflictualRulesModalLabel"><span
+                      th:text="#{message.delete_error}"></span></h4>
+                  <button type="button" class="close" data-dismiss="modal"
+                          aria-label="Close"><span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body modal-small-body"
+                     th:if="${conflictualRules != null}">
+                  <div class="container-fluid">
+                    <p th:text="#{rulesCategories.conflictualRulesError}"></p>
+                    <ul>
+                      <li th:each="ruleLabel : ${conflictualRules}">
+                        <span th:text="${ruleLabel}"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="modal-body modal-small-body"
+                     th:if="${conflictualQuestions != null}">
+                  <div class="container-fluid">
+                    <p th:text="#{rulesCategories.conflictualQuestionsError}"></p>
+                    <ul>
+                      <li th:each="questionName : ${conflictualQuestions}">
+                        <span th:text="${questionName}"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="modal-body modal-small-body"
+                     th:if="${conflictualChains != null}">
+                  <div class="container-fluid">
+                    <p th:text="#{rulesCategories.conflictualChainsError}"></p>
+                    <ul>
+                      <li th:each="chainName : ${conflictualChains}">
+                        <span th:text="${chainName}"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="modal-body modal-small-body"
+                     th:if="${conflictualQuestionnaires != null}">
+                  <div class="container-fluid">
+                    <p th:text="#{rulesCategories.conflictualQuestionnairesError}"></p>
+                    <ul>
+                      <li th:each="qoName : ${conflictualQuestionnaires}">
+                        <span th:text="${qoName}"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="modal-body modal-small-body"
+                     th:if="${conflictualRulesets != null}">
+                  <div class="container-fluid">
+                    <p th:text="#{rulesCategories.conflictualRulesetsError}"></p>
+                    <ul>
+                      <li th:each="rulesetName : ${conflictualRulesets}">
+                        <span th:text="${rulesetName}"></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">
+                    <p th:text="#{close}"></p></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div th:replace="fragments/spinner :: spinner"></div>
+        <div style="display: none" th:text="#{rulesCategories.confirmDeletionAlert}"
+             id="confirmDeletionAlertText"></div>
+
+      </div>
+    </div>
+  </div>
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<!-- Placed at the end of the document so the pages load faster -->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<!-- jQuery validate -->
+<!-- Include all compiled plugins bootstrap, bootstrap accessibility plugin and boosted specific components (below), or include individual files as needed -->
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+    var conflictualRules = [[${conflictualRules}]];
+    var conflictualQuestions = [[${conflictualQuestions}]];
+    var conflictualChains = [[${conflictualChains}]];
+    var conflictualQuestionnaires = [[${conflictualQuestionnaires}]];
+    var conflictualRulesets = [[${conflictualRulesets}]];
+
+    if (conflictualRules != null ||
+        conflictualQuestions != null ||
+        conflictualChains != null ||
+        conflictualQuestionnaires != null ||
+        conflictualRulesets != null) {
+      $('#conflictualRulesModal').modal('show');
+    }
+
+    if (getCookie("rulesCategoryFilter") != "") {
+      $('#clearFilter1').show();
+      document.getElementById('title').value = getCookie("rulesCategoryFilter");
+    }
+
+    filterValuesAndSetCookie(null, 'title', 2, 'rulesCategoriesTable', 'rulesCategoryFilter');
+
+  });
+  /*]]>*/
+</script>
+
+</body>
+</html>

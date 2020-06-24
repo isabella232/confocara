@@ -1,0 +1,39 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <th:block th:include="fragments/header-head :: head"></th:block>
+    <title th:text="#{home.title}"></title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+
+<section class="jumbotron text-xs-center">
+    <div th:if="${isAuthenticated}" class="container">
+        <h2 th:text="'Welcome ' + ${authenticatedUsername} + '!'" class="jumbotron-heading"></h2>
+        <a th:href="@{/users}" class="btn btn-secondary">See Users</a>
+        <a th:href="@{/objects}" class="btn btn-secondary">See Objects</a>
+        <a th:if="${isAdmin}" th:href="@{/admin}" class="btn btn-secondary">Manage users</a>
+
+    </div>
+    <div th:if="${!isAuthenticated}" class="container">
+        <h2 class="jumbotron-heading">Please Signin to go further!</h2>
+        <p class="lead text-muted">authenticated users can see users details; admin can create new users</p>
+        <a th:href="@{/login}" class="btn btn-primary">Signin</a>
+    </div>
+    <br/>
+</section>
+</body>
+</html>

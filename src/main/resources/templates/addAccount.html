@@ -1,0 +1,227 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+    <th:block th:include="fragments/header-head :: head"></th:block>
+    <title th:text="#{addAccount.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid" role="main">
+
+    <div class="row ">
+        <div th:replace="fragments/menu :: left-menu">&nbsp;</div>
+        <div class="col-md-10 col main" id="second">
+
+            <div class="tab-content">
+                <h6 align="center"></h6>
+
+                <div class="active" id="home" role="tabpanel">
+                    <div class="row">
+                        <form class="container-fluid form-horizontal col-md-8" action="#"
+                              th:action="@{/admin/accounts/create}"
+                              th:object="${user}" method="post" enctype="multipart/form-data">
+
+                            <div class="alert alert-danger" th:if="${err_add_user != null}">
+                                <ul>
+                                    <li th:if="${usernameValidationError != null}" th:text="${usernameValidationError}"></li>
+                                    <li th:if="${passwordValidationError != null}" th:text="#{accounts.password_invalid_length}"></li>
+                                    <li th:if="${passwordDoNotMatch != null}" th:text="#{accounts.password_not_match}"></li>
+                                    <li th:if="${mailValidationError != null}" th:text="${mailValidationError}"></li>
+                                    <li th:if="${phoneValidationError != null}" th:text="#{accounts.incorrect_phone}"></li>
+                                    <li th:if="${iconValidationError != null}" th:text="#{incorrect_icon_format}"></li>
+                                    <li th:if="${firstNameOrLastNameValidationError != null}" th:text="#{accounts.incorrect_name}"></li>
+                                    <li th:if="${err_upload_message != null}" th:text="${err_upload_message}"></li>
+                                </ul>
+                            </div>
+
+                            <div id="iconErrorDiv" class="alert alert-danger"
+                                 style="display: none;">
+                                <div id="iconError" th:text="#{picture.oversize}"></div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label for="username" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.username}"></span>
+                                    <span>*</span></p></label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{username}" class="form-control" id="username"
+                                           placeholder="" required="required" maxlength="16"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <a th:href="@{/admin/accounts/add/help}" th:title="#{menu.help}" class="pull-right">
+                                        <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="password" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.password}"></span>
+                                    <span>*</span></p></label>
+                                <div class="col-md-4">
+                                    <input type="password" th:field="*{passwordHash}" class="form-control" id="password"
+                                           placeholder="" required="required" maxlength="16"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="confirmPassword" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.confirmPassword}"></span>
+                                    <span>*</span></p></label>
+                                <div class="col-md-4">
+                                    <input type="password" th:field="*{confirmPasswordHash}" class="form-control"
+                                           id="confirmPassword"
+                                           placeholder="" required="required" maxlength="16"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="name" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.lastname}"></span></p></label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{name}" class="form-control" id="name"
+                                           placeholder="" maxlength="64"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="fname" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.firstname}"></span></p></label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{firstname}" class="form-control" id="fname"
+                                           placeholder="" maxlength="64"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="mail" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{accounts.email}"></span>
+                                    <span>*</span></p>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{email}" class="form-control" id="mail"
+                                           placeholder="" required="required"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-md-2 control-label">
+                                    <p class="text-right" th:text="#{image}"></p>
+                                </label>
+                                <div class="col-md-4">
+                                    <span id="selectedIconFilename"></span>
+                                    <span class="deleteIcon" id="deleteImage"><i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                                    <input type="file" data-th-field="*{imageData}" id="inputIcon" class="inputfile"
+                                           accept="image/jpeg, image/png, image/gif" onchange="checkImageSize(this)"/>
+                                    <label for="inputIcon" id="inputIconLabel" class="btn btn-default" th:text="#{add.file}"></label>
+                                    <p class="help-block" th:text="#{message.file_max_size}"></p>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="func" class="col-md-2 control-label"><p class="text-right"
+                                                                                    th:text="#{accounts.function}"></p>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{function}" class="form-control" id="func"
+                                           placeholder="" maxlength="160"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="tel" class="col-md-2 control-label"><p class="text-right"
+                                                                                   th:text="#{accounts.phone}"></p>
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{tel}" class="form-control" id="tel" placeholder=""/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-md-2 control-label"><p class="text-right"
+                                                                         th:text="#{accounts.role}"></p>
+                                </label>
+                                <div th:each="role : ${roles}">
+                                    <span th:if="${role.role != 'ROLE_SUPERADMIN'}">
+                                        <div class="col-md-2">
+                                        <input type="radio" th:id="'role'+${role.id}" th:field="*{rolesIds}"
+                                               th:value="${role.id}"/>
+                                        <span th:if="${role.role == 'ROLE_USER'}"
+                                              th:text="#{accounts.role.user}"></span>
+                                        <span th:if="${role.role == 'ROLE_ADMIN'}"
+                                              th:text="#{accounts.role.admin}"></span>
+                                        </div>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div th:replace="fragments/spinner :: spinner"></div>
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div>
+                                    <a class="btn btn-primary" value="Back" onClick="location.href='/admin/accounts'"><p
+                                            th:text="#{back}"></p></a>
+                                    <button id="buttonSubmit" onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                                            type="submit" class="btn btn-primary">
+                                        <p th:text="#{validate}"></p>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+        var selectedIconFilename = $('#selectedIconFilename');
+        var removeUploadedFile = $('#deleteImage');
+
+        if (selectedIconFilename.is(':empty')) {
+            removeUploadedFile.hide();
+            $('#inputIconLabel').text([[#{add.file}]]);
+        }
+
+        $(':file').on('fileselect', function (event, label) {
+            selectedIconFilename.text(label);
+
+            if (label !== '') {
+                removeUploadedFile.show();
+                $('#inputIconLabel').text([[#{edit.file}]]);
+            } else {
+                removeUploadedFile.hide();
+                $('#inputIconLabel').text([[#{add.file}]]);
+            }
+
+            removeUploadedFile.click(function(){
+                cleanInputFile('inputIcon');
+                selectedIconFilename.text('');
+                $(this).hide();
+                $('#inputIconLabel').text([[#{add.file}]]);
+                document.getElementById("iconErrorDiv").style.display = 'none';
+                document.getElementById("buttonSubmit").disabled = false;
+            });
+        });
+    });
+
+    $(document).on('change', ':file', function () {
+        var input = $(this), label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', label);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

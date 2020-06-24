@@ -1,0 +1,109 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<div th:fragment="ruleset-modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"><span
+                    th:text="${ruleset.dto.reference}"></span></h4>
+                <button type="button" class="close" data-dismiss="modal"
+                        aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <b class="col-lg-4 text-right"> <span
+                            th:text="#{menu.rulesets}"></span></b><span
+                            class="col-lg-8" th:text="${ruleset.dto.reference}"></span>
+                    </div>
+
+                    <div class="row">
+                        <b class="col-lg-4 text-right"> <span
+                            th:text="#{published}"></span></b>
+                        <span class="col-lg-8"
+                              th:text="${ruleset.dto.published == false} ? #{no} : #{yes}"></span>
+                    </div>
+
+                    <div class="row">
+                        <b class="col-lg-4 text-right"> <span
+                            th:text="#{version}"></span></b>
+                        <span class="col-lg-8"
+                              th:text="${ruleset.dto.version}"></span>
+                    </div>
+
+                    <div class="row">
+                        <b class="col-lg-4 text-right"><span
+                            th:text="#{name}"></span></b>
+                        <span class="col-lg-8" th:text="${ruleset.dto.name}"></span>
+                    </div>
+
+                    <div class="row" th:if="${ruleset.dto.rulesCategoryName != null}">
+                        <b class="col-lg-4 text-right" th:text="#{rulesCategory}"></b>
+                        <span class="col-lg-8" th:text="${ruleset.dto.rulesCategoryName}"></span>
+                    </div>
+
+                    <div class="row">
+                        <b class="col-lg-4 text-right"> <span
+                            th:text="#{author}"></span></b>
+                        <span class="col-lg-8"
+                              th:text="${ruleset.dto.username != null and not #strings.isEmpty(ruleset.dto.username)} ? ${ruleset.dto.username} : #{emptyUser}"></span>
+                    </div>
+
+                    <div class="row">
+                        <b class="col-lg-4 text-right" th:text="#{comment}"></b>
+                        <span class="col-lg-8" th:text="${ruleset.dto.comment}"></span>
+                    </div>
+
+                    <div th:if="${ruleset.dto.date != null}" class="row">
+                        <b class="col-lg-4 text-right" th:text="#{lastModification}"></b>
+                        <span class="col-lg-8"
+                              th:text="${#dates.format(ruleset.dto.date, #messages.msg('common.date_format'))}"></span>
+                    </div>
+
+                    <div th:if="${ruleset.dto.published == false}">
+                        
+                        <div th:id="'loadingSpinner'+${ruleset.dto.reference}"></div>
+                        <div th:id="'resultsBlock'+${ruleset.dto.reference}"></div>
+                    </div>
+
+                    <div th:if="${ruleset.dto.published == true}">
+                        
+                        <div th:id="'loadingSpinner'+${ruleset.dto.version}"></div>
+                        <div th:id="'resultsBlock'+${ruleset.dto.version}"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                    <p th:text="#{close}"></p>
+                </button>
+
+                 <a th:if="${ruleset.dto.published == false}" th:href="@{/rulesets/edit(id=${ruleset.dto.id})}">
+                     <button type="button" class="btn btn-primary">
+                         <p th:text="#{edit}"></p>
+                     </button>
+                 </a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

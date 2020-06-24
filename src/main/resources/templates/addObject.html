@@ -1,0 +1,501 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+    <th:block th:include="fragments/header-head :: head"></th:block>
+    <title th:text="#{addObject.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid" role="main">
+
+    <div class="row ">
+        <div th:replace="fragments/menu :: left-menu">&nbsp;</div>
+
+        <div class="col-md-10 col main" id="second">
+
+            <div class="tab-content">
+                <h6 align="center"></h6>
+
+                <div class="active" id="home" role="tabpanel">
+                    <div class="row">
+                        <form class="container-fluid form-horizontal col-md-8" action="#" data-th-action="@{/objects/create(iconIsPublished=${iconIsPublished})}"
+                              data-th-object="${equipment}" method="post" enctype="multipart/form-data">
+
+                            <div class="alert alert-danger" th:if="${err_add_equipment != null}">
+                                <ul>
+                                    <li th:if="${err_add_equipment_name != null}"
+                                        th:text="#{equipment.already_exists}"></li>
+                                    <li th:if="${err_img_format != null}" th:text="#{incorrect_icon_format}"></li>
+                                    <li th:if="${err_upload_message != null}" th:text="${err_upload_message}"></li>
+                                </ul>
+                            </div>
+
+                            <div class="alert alert-danger" id="missingIconDiv" style="display: none">
+                                <ul>
+                                    <li th:text="#{icon.required}"></li>
+                                </ul>
+                            </div>
+
+                            <div id="iconErrorDiv" class="alert alert-danger"
+                                 style="display: none;">
+                                <div id="iconError" th:text="#{picture.oversize}"></div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label for="inputName" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{name}"></span>
+                                    <span>*</span></p></label>
+                                <div class="col-md-6">
+                                    <input type="text" th:field="*{name}" class="form-control" id="inputName"
+                                           placeholder="" required="required" maxlength="160"/>
+                                </div>
+                                <div class="col-md-2">
+                                    <a th:href="@{/objects/add/help}" th:title="#{menu.help}" class="pull-right">
+                                        <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label class="col-md-2 control-label">
+                                  <p class="text-right"><span th:text="#{icon}"></span><span>*</span></p>
+                                </label>
+                                <div class="col-md-10">
+                                    <span id="selectedIconFilename"></span>
+                                    <input type="file" data-th-field="*{icon}" id="inputIcon"
+                                           accept="image/jpeg, image/png, image/gif" required="required" class="inputfile"/>
+                                    <label for="inputIcon" id="inputIconLabel" class="btn btn-default" th:text="#{add.file}"></label>
+                                    <p class="help-block" th:text="#{message.file_max_size}"></p>
+                                </div>
+                            </div>
+
+                            <div class="row form-group" style="border: 0 dashed #000;">
+                                <label for="inputObjectCategories" class="col-md-2 control-label"><p class="text-right">
+                                    <span th:text="#{category}"></span>
+                                    <span>*</span>
+                                </p></label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-secondary form-control" data-toggle="modal"
+                                            id="inputObjectCategories" data-target="#categoryModal">
+                                        <span th:text="#{associateObjectCategories}"></span>
+                                    </button>
+                                </div>
+                                <!-- Modal -->
+                                <div class="modal fade" data-backdrop="static" data-keyboard="false" id="categoryModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="categoryModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="categoryModalLabel"><span
+                                                        th:text="#{associateObjectCategories}"></span></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div th:if="${not #lists.isEmpty(categories)}">
+                                                    <table class="table table-sm table-striped table-hover sortable "
+                                                           id="categoriesTable" style="margin-top: 1%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th><span th:text="#{id}"></span></th>
+                                                            <th><span th:text="#{name}"></span></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="category : ${categories}">
+                                                            <td>
+                                                                <input type="checkbox"
+                                                                       th:field="*{categoryIds}"
+                                                                       th:id="'category'+${category.id}"
+                                                                       th:value="${category.id}"
+                                                                       th:disabled="${category.id == 1}"
+                                                                       onclick="changeModalValidationLabel('closeCategoriesButtonText', 'validateButtonText')"/>
+                                                            </td>
+                                                            <td>
+                                                                <span th:text="${category.id}"></span>
+                                                            </td>
+                                                            <td><label th:for="'category'+${category.id}"
+                                                                       th:text="${category.name}"></label></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onClick="displayAssociations('check_object_categories_div', 'check_object_categories', 'categoryIds');
+                                                        changeModalValidationLabel('closeCategoriesButtonText', 'defaultButtonText')">
+                                                    <span id="closeCategoriesButtonText" th:text="#{close}"></span>
+                                                </button>
+                                                <span id="validateButtonText" th:text="#{validate}" style="visibility: hidden"></span>
+                                                <span id="defaultButtonText" th:text="#{close}" style="visibility: hidden"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div id="check_object_categories_div" style="display: none;">
+                                    <span th:text="#{associatedObjectCategories}"></span>
+                                    <div class="row">
+                                        <div class="col-md-12" id="check_object_categories"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <label for="check_t" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{type}"></span>
+                                    <span>*</span></p>
+                                </label>
+                                <div class="col-md-6" id="check_t">
+                                    <input th:field="*{type}" name="check_type" type="radio" value="object"
+                                           th:text="#{object}"/>
+                                    &nbsp;
+                                    <input th:field="*{type}" name="check_type" type="radio" value="subobject"
+                                           th:text="#{subobject}" id="sub"/>
+                                </div>
+                            </div>
+                            <div class="row form-group">
+                                <label for="inputComment" class="col-md-2 control-label">
+                                    <p class="text-right" th:text="#{description}"></p>
+                                </label>
+                                <div class="col-md-6">
+                                    <textarea class="form-control" rows="3" id="inputComment"
+                                              th:field="*{definition}"></textarea>
+                                </div>
+                            </div>
+                            <div class="row form-group" style="border: 0px dashed #000;">
+                                <label for="inputill" class="col-md-2 control-label"><p class="text-right"
+                                                                                         th:text="#{illustrations}">
+                                </p></label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-secondary form-control" data-toggle="modal"
+                                            id="inputill" data-target="#myModal">
+                                        <span th:text="#{associateIllustrations}"></span>
+                                    </button>
+                                </div>
+                                <!-- Modal -->
+                                <div data-backdrop="static" data-keyboard="false" class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="myModalLabel"><span
+                                                        th:text="#{associateIllustrations}"></span></h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row form-group" th:object="${illustration}">
+                                                    <label for="search_reference" class="col-md-2 control-label"><p
+                                                        class="text-right"><span th:text="#{id}"></span></p>
+                                                    </label>
+                                                    <div class="col-md-3">
+                                                        <div class="btn-group">
+                                                            <input type="text" class="form-control"
+                                                                   name="filter_reference"
+                                                                   id="search_reference"
+                                                                   autocomplete="off" />
+                                                            <span class="searchClear"
+                                                                  id="clear_search_reference"
+                                                                  name="clear_search_reference">
+                                                                <i class="fa fa-times-circle"
+                                                                   aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label for="search_label" class="col-md-2 control-label"><p
+                                                            class="text-right"><span th:text="#{title}"></span></p>
+                                                    </label>
+                                                    <div class="col-md-3">
+                                                        <div class="btn-group">
+                                                            <input type="text" class="form-control"
+                                                                   name="filter_label"
+                                                                   id="search_label"
+                                                                   autocomplete="off" />
+                                                            <span class="searchClear"
+                                                                  id="clear_search_label"
+                                                                  name="clear_search_label" >
+                                                                <i class="fa fa-times-circle"
+                                                                   aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div th:if="${not #lists.isEmpty(illustrats)}">
+                                                    <table class="table table-sm table-striped table-hover sortable "
+                                                           id="search_table" name="search_table" style="margin-top: 1%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th><span th:text="#{id}"></span></th>
+                                                            <th><span th:text="#{image}"></span></th>
+                                                            <th><span th:text="#{title}"></span></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="illustrations : ${illustrats}">
+                                                            <td>
+                                                                <input name="check_illust" type="checkbox"
+                                                                       th:field="*{illustrationIds}"
+                                                                       th:id="'ill'+${illustrations.id}"
+                                                                       th:value="${illustrations.id}"
+                                                                       onclick="changeModalValidationLabel('closeIllustrationsButtonText', 'validateButtonText')"/>
+                                                            </td>
+                                                            <td>
+                                                                <span th:text="${illustrations.id}"></span>
+                                                            </td>
+                                                            <td>
+                                                                <a class="info" th:if="${illustrations.image != null}">
+                                                                    <p th:text="${illustrations.image.imageName}"></p>
+                                                                    <span><img
+                                                                            th:src="@{'/images/'+${illustrations.image.fileNameWithExtension}}"
+                                                                            style="height: 300px;"/></span>
+                                                                </a>
+                                                            </td>
+                                                            <td><label th:for="'ill'+${illustrations.id}"
+                                                                       th:text="${illustrations.title}"></label></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onClick="displayAssociations('checkIllustrationsDiv', 'checkIllustrations', 'illustrationIds');
+                                                        changeModalValidationLabel('closeIllustrationsButtonText', 'defaultButtonText')">
+                                                    <span id="closeIllustrationsButtonText" th:text="#{close}"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div id="checkIllustrationsDiv" style="display: none;">
+                                    <b th:text="#{associatedIllustrations}"></b>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-2" id="checkIllustrations"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="sb" class="row form-group" style="border: 0px dashed #000;">
+                                <label for="inputsub" class="col-md-2 control-label"><p class="text-right"
+                                                                                         th:text="#{subobject}"></p>
+                                </label>
+                                <div class="col-md-6">
+                                    <button type="button" class="btn btn-secondary form-control" data-toggle="modal"
+                                            id="inputsub" data-target="#myModal2">
+                                        <span th:text="#{objects.associateSubobject}"></span>
+                                    </button>
+                                </div>
+                                <!-- Modal -->
+                                <div data-backdrop="static" data-keyboard="false" class="modal fade" id="myModal2" tabindex="-1" role="dialog"
+                                     aria-labelledby="myModalLabel">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title"><span
+                                                        th:text="#{objects.associateSubobject}"></span>
+                                                </h4>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row form-group">
+                                                    <label for="ref2" class="col-md-2 control-label"><p
+                                                        class="text-right"><span th:text="#{id}"></span></p>
+                                                    </label>
+                                                    <div class="col-md-3">
+                                                        <div class="btn-group">
+                                                            <input type="text" class="form-control"
+                                                                   id="ref2"
+                                                                   name="filter_reference"
+                                                                   autocomplete="off"/>
+                                                            <span class="searchClear"
+                                                                  id="clearFilter3"
+                                                                  name="clear_search_reference"><i
+                                                                class="fa fa-times-circle"
+                                                                aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                    <label for="title2" class="col-md-2 control-label"><p
+                                                            class="text-right"><span th:text="#{name}"></span></p>
+                                                    </label>
+                                                    <div class="col-md-3">
+                                                        <div class="btn-group">
+                                                            <input type="text" class="form-control"
+                                                                   id="title2"
+                                                                   name="filter_label" autocomplete="off"/>
+                                                            <span class="searchClear" id="clearFilter2"
+                                                                  name="clear_search_label"><i
+                                                                    class="fa fa-times-circle"
+                                                                    aria-hidden="true"></i></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div th:if="${not #lists.isEmpty(subobjects)}">
+                                                    <table class="table table-sm table-striped table-hover sortable"
+                                                           id="subObjectsTable"
+                                                           name="search_table"
+                                                           style="margin-top: 1%">
+                                                        <thead>
+                                                        <tr>
+                                                            <th></th>
+                                                            <th><span th:text="#{id}"></span></th>
+                                                            <th><span th:text="#{name}"></span></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <tr th:each="obj : ${subobjects}">
+                                                            <td>
+                                                                <input name="check_illust" type="checkbox"
+                                                                       th:field="*{subobjectIds}"
+                                                                       th:id="'obj'+${obj.id}"
+                                                                       th:value="${obj.id}"
+                                                                       onclick="changeModalValidationLabel('closeSubObjectsButtonText', 'validateButtonText')"/>
+                                                            </td>
+                                                            <td>
+                                                                <a>
+                                                                    <span th:text="${obj.id}"></span>
+                                                                </a>
+
+                                                            </td>
+                                                            <td><label th:for="'obj'+${obj.id}"
+                                                                       th:text="${obj.name}"></label></td>
+                                                        </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-primary" data-dismiss="modal"
+                                                        onClick="displayAssociations('checkSubobjectsDiv', 'checkSubObjects', 'subobjectIds');
+                                                        changeModalValidationLabel('closeSubObjectsButtonText', 'defaultButtonText')">
+                                                    <span id="closeSubObjectsButtonText" th:text="#{close}"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div id="checkSubobjectsDiv" style="display: none;">
+                                    <b th:text="#{objects.associatedSubobjects}"></b>
+                                    <div class="row">
+                                        <div class="col-md-6 col-md-offset-2" id="checkSubObjects"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div th:replace="fragments/spinner :: spinner"></div>
+                            <div th:replace="fragments/iconFragments :: published-icon-modal"></div>
+
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div class="col-md-3">
+                                    <button type="submit" id="submitObjButton"
+                                            onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                                            class="btn btn-primary">
+                                        <p th:text="#{validate}"></p>
+                                    </button>
+                                    <button type="button" id="back"
+                                            onClick="location.href='/objects'"
+                                            class="btn btn-primary">
+                                        <p th:text="#{back}"></p>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script src="../public/js/src/searchUtil.js" th:src="@{/js/src/searchUtil.js}"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    $(document).ready(function () {
+
+      let illustrationSearchModal = new SearchView({
+        "modalId" : "myModal",
+        "reference_column_index" : 2,
+        "label_column_index" : 4,
+      });
+      illustrationSearchModal.initView();
+
+      let subObjectSearchModal = new SearchView({
+        "modalId" : "myModal2",
+        "reference_column_index" : 2,
+        "label_column_index" : 3,
+      });
+      subObjectSearchModal.initView();
+
+        //hide&&show the subobjets associations
+        $('input[type="radio"][value="object"]').prop('checked', true);
+        $('input[type="radio"]').click(function () {
+            if ($(this).attr('id') == 'sub') {
+                $('#sb').hide();
+                $('#checkSubobjectsDiv').hide();
+            } else {
+                $('#sb').show();
+                $('#checkSubobjectsDiv').show();
+            }
+        });
+
+        displayAssociations('checkIllustrationsDiv', 'checkIllustrations', 'illustrationIds');
+        displayAssociations('checkSubobjectsDiv', 'checkSubObjects', 'subobjectIds');
+        displayAssociations('check_object_categories_div', 'check_object_categories', 'categoryIds');
+
+        var iconIsPublished = [[${iconIsPublished}]];
+        if (iconIsPublished != null) {
+            $('#iconIsPublishedModal').modal('show');
+        }
+
+        $(':file').on('fileselect', function (event, label, isImageSizeOk) {
+            $('#selectedIconFilename').text(label);
+
+            if ($('#selectedIconFilename').is(':empty')) {
+                $('#missingIconDiv').show();
+                $('#buttonSubmit').prop('disabled', true);
+                $('#inputIconLabel').text([[#{add.file}]]);
+            } else if (isImageSizeOk) {
+                $('#buttonSubmit').prop('disabled', false);
+                $('#missingIconDiv').hide();
+                $('#inputIconLabel').text([[#{edit.file}]]);
+            }
+        });
+    });
+
+    $(document).on('change', ':file', function() {
+        var isImageSizeOk = checkImageSize(this);
+        var input = $(this), label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.trigger('fileselect', label, isImageSizeOk);
+    });
+    /*]]>*/
+</script>
+</body>
+</html>

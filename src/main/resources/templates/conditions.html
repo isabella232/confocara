@@ -1,0 +1,985 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="fr">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{conditions.title}"></title>
+</head>
+
+<body>
+
+<div th:if="${username != null}">
+  <div th:replace="fragments/header :: header">&nbsp;</div>
+</div>
+<div th:if="${username == null}">
+  <div th:replace="fragments/headerVisitor :: header-visitor">&nbsp;</div>
+</div>
+
+<main id="content" class="container-fluid" role="main">
+
+  <style>
+    <!--
+    /* Font Definitions */
+    @font-face {
+      font-family: Wingdings;
+      panose-1: 5 0 0 0 0 0 0 0 0 0;
+    }
+
+    @font-face {
+      font-family: Wingdings;
+      panose-1: 5 0 0 0 0 0 0 0 0 0;
+    }
+
+    @font-face {
+      font-family: Calibri;
+      panose-1: 2 15 5 2 2 2 4 3 2 4;
+    }
+
+    @font-face {
+      font-family: Tahoma;
+      panose-1: 2 11 6 4 3 5 4 4 2 4;
+    }
+
+    /* Style Definitions */
+    p.MsoNormal, li.MsoNormal, div.MsoNormal {
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 10.0pt;
+      margin-left: 0cm;
+      line-height: 115%;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    h2 {
+      mso-style-link: "Titre 2 Car";
+      margin-top: 10.0pt;
+      margin-right: 0cm;
+      margin-bottom: 0cm;
+      margin-left: 0cm;
+      margin-bottom: .0001pt;
+      line-height: 115%;
+      page-break-after: avoid;
+      font-size: 13.0pt;
+      font-family: "Cambria", "serif";
+      color: #4F81BD;
+      font-weight: bold;
+    }
+
+    h3 {
+      mso-style-link: "Titre 3 Car";
+      margin-top: 10.0pt;
+      margin-right: 0cm;
+      margin-bottom: 0cm;
+      margin-left: 0cm;
+      margin-bottom: .0001pt;
+      line-height: 115%;
+      page-break-after: avoid;
+      font-size: 11.0pt;
+      font-family: "Cambria", "serif";
+      color: #4F81BD;
+      font-weight: bold;
+    }
+
+    h4 {
+      mso-style-link: "Titre 4 Car";
+      margin-right: 0cm;
+      margin-left: 0cm;
+      font-size: 12.0pt;
+      font-family: "Times New Roman", "serif";
+      font-weight: bold;
+    }
+
+    p.MsoCommentText, li.MsoCommentText, div.MsoCommentText {
+      mso-style-link: "Commentaire Car";
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 10.0pt;
+      margin-left: 0cm;
+      font-size: 10.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    p.MsoHeader, li.MsoHeader, div.MsoHeader {
+      mso-style-link: "En-tête Car";
+      margin: 0cm;
+      margin-bottom: .0001pt;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    p.MsoFooter, li.MsoFooter, div.MsoFooter {
+      mso-style-link: "Pied de page Car";
+      margin: 0cm;
+      margin-bottom: .0001pt;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    a:link, span.MsoHyperlink {
+      color: blue;
+      text-decoration: underline;
+    }
+
+    a:visited, span.MsoHyperlinkFollowed {
+      color: purple;
+      text-decoration: underline;
+    }
+
+    p {
+      mso-style-name: "Normal \(Web\)\,webb\, webb";
+      margin-right: 0cm;
+      margin-bottom: 5.95pt;
+      margin-left: 0cm;
+      font-size: 12.0pt;
+      font-family: "Times New Roman", "serif";
+    }
+
+    p.MsoCommentSubject, li.MsoCommentSubject, div.MsoCommentSubject {
+      mso-style-link: "Objet du commentaire Car";
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 10.0pt;
+      margin-left: 0cm;
+      font-size: 10.0pt;
+      font-family: "Calibri", "sans-serif";
+      font-weight: bold;
+    }
+
+    p.MsoAcetate, li.MsoAcetate, div.MsoAcetate {
+      mso-style-link: "Texte de bulles Car";
+      margin: 0cm;
+      margin-bottom: .0001pt;
+      font-size: 8.0pt;
+      font-family: "Tahoma", "sans-serif";
+    }
+
+    p.MsoListParagraph, li.MsoListParagraph, div.MsoListParagraph {
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 10.0pt;
+      margin-left: 36.0pt;
+      line-height: 115%;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    p.MsoListParagraphCxSpFirst, li.MsoListParagraphCxSpFirst, div.MsoListParagraphCxSpFirst {
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 0cm;
+      margin-left: 36.0pt;
+      margin-bottom: .0001pt;
+      line-height: 115%;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    p.MsoListParagraphCxSpMiddle, li.MsoListParagraphCxSpMiddle, div.MsoListParagraphCxSpMiddle {
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 0cm;
+      margin-left: 36.0pt;
+      margin-bottom: .0001pt;
+      line-height: 115%;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    p.MsoListParagraphCxSpLast, li.MsoListParagraphCxSpLast, div.MsoListParagraphCxSpLast {
+      margin-top: 0cm;
+      margin-right: 0cm;
+      margin-bottom: 10.0pt;
+      margin-left: 36.0pt;
+      line-height: 115%;
+      font-size: 11.0pt;
+      font-family: "Calibri", "sans-serif";
+    }
+
+    span.TextedebullesCar {
+      mso-style-name: "Texte de bulles Car";
+      mso-style-link: "Texte de bulles";
+      font-family: "Tahoma", "sans-serif";
+    }
+
+    span.En-tteCar {
+      mso-style-name: "En-tête Car";
+      mso-style-link: En-tête;
+    }
+
+    span.PieddepageCar {
+      mso-style-name: "Pied de page Car";
+      mso-style-link: "Pied de page";
+    }
+
+    span.CommentaireCar {
+      mso-style-name: "Commentaire Car";
+      mso-style-link: Commentaire;
+    }
+
+    span.ObjetducommentaireCar {
+      mso-style-name: "Objet du commentaire Car";
+      mso-style-link: "Objet du commentaire";
+      font-weight: bold;
+    }
+
+    span.Titre2Car {
+      mso-style-name: "Titre 2 Car";
+      mso-style-link: "Titre 2";
+      font-family: "Cambria", "serif";
+      color: #4F81BD;
+      font-weight: bold;
+    }
+
+    span.Titre3Car {
+      mso-style-name: "Titre 3 Car";
+      mso-style-link: "Titre 3";
+      font-family: "Cambria", "serif";
+      color: #4F81BD;
+      font-weight: bold;
+    }
+
+    span.Titre4Car {
+      mso-style-name: "Titre 4 Car";
+      mso-style-link: "Titre 4";
+      font-family: "Times New Roman", "serif";
+      font-weight: bold;
+    }
+
+    span.apple-style-span {
+      mso-style-name: apple-style-span;
+    }
+
+    span.msoIns {
+      mso-style-name: "";
+      text-decoration: underline;
+      color: teal;
+    }
+
+    span.msoDel {
+      mso-style-name: "";
+      text-decoration: line-through;
+      color: red;
+    }
+
+    .MsoChpDefault {
+      font-family: "Calibri", "sans-serif";
+    }
+
+    .MsoPapDefault {
+      margin-bottom: 10.0pt;
+      line-height: 115%;
+    }
+
+    /* Page Definitions */
+    @page WordSection1 {
+      size: 595.3pt 841.9pt;
+      margin: 70.85pt 70.85pt 70.85pt 70.85pt;
+    }
+
+    div.WordSection1 {
+      page: WordSection1;
+    }
+
+    /* List Definitions */
+    ol {
+      margin-bottom: 0cm;
+    }
+
+    ul {
+      margin-bottom: 0cm;
+    }
+
+    -->
+  </style>
+
+  <div class="WordSection1">
+
+    <p class="MsoNormal" align="center" style='text-align:center'><b><span
+        style='font-family:"Arial","sans-serif"'>CONDITIONS GENERALES D’UTILISATION DU
+SERVICE CONFOCARA</span></b></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>Article 1 – Objet</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Les présentes conditions générales
+d’utilisation (&quot;CGU&quot;) ont pour objet de définir les conditions et les
+modalités selon lesquelles Orange, </span><span style='font-family:"Arial","sans-serif"'>société
+anonyme au capital de </span><span style='font-family:"Arial","sans-serif"'>10&nbsp;640&nbsp;226&nbsp;396&nbsp;€</span><span
+        style='font-family:"Arial","sans-serif"'>, immatriculée au RCS de Paris sous le
+numéro 380&nbsp;129&nbsp;866, dont le siège social est situé au 78 rue Olivier
+de Serres, 75015 Paris, (ci-après dénommée «&nbsp;Orange&nbsp;») </span><span
+        style='font-family:"Arial","sans-serif"'>met le service ConfOCARA à la
+disposition des Utilisateurs </span><span style='font-family:"Arial","sans-serif"'>(tel
+que ce terme est défini ci-dessous).</span><span style='font-family:"Arial","sans-serif"'>
+</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>L’accès et l’utilisation du Service
+sont soumis aux présentes Conditions Générales d’Utilisation
+(«&nbsp;CGU&nbsp;») dont les Utilisateurs déclarent avoir pris connaissance et qu’ils
+acceptent expressément. </span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>Article 2 –
+Définitions</span></b></p>
+
+    <p style='text-align:justify'><b><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif"'>«&nbsp;Auditeur&nbsp;»</span></b><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif"'> : désigne toute personne physique qui
+utilise l’Application OCARA. Un Auditeur peut télécharger les jeux de règles
+publiés sur le Site ConfOCARA
+et les utiliser pour réaliser des audits.</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>«&nbsp;<b>Application
+OCARA</b>&nbsp;»&nbsp;: désigne l’application disponible pour tablette Androïd de
+7 à10 pouces permettant aux Auditeurs de décrire et d’auditer, en matière
+d’accessibilité et de sécurité, les parcours des usagers à l’intérieur de tout
+bâtiment ou en extérieur grâce aux Jeux de règles disponibles sur le Site et téléchargeables
+depuis l’Application OCARA.</span></p>
+
+    <p style='text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'> <b> </b>«&nbsp;<b>Contenus</b>&nbsp;»
+: désigne toutes les informations présentes sur le Site et publiées par Orange et/ou les Utilisateurs pour
+être intégrées dans les Jeux de règles telles que règles, objets,
+questionnaires, illustrations, etc …</span></p>
+
+    <p style='text-align:justify'><b><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif"'>«&nbsp; Jeux de règles&nbsp;»</span></b><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;: désigne un
+ensemble d’objets présents sur un parcours (porte, couloir, dispositif de
+commande, …) avec les règles d’accessibilité et les questionnaires associés permettant
+de les contrôler, mis à disposition sur le Site soit par Orange soit par les
+Utilisateurs. Ces Jeux de règles sont téléchargeables gratuitement depuis
+l’Application  OCARA.</span></p>
+
+    <p style='text-align:justify'><b><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif"'>«&nbsp;Service&nbsp;»</span></b><span style='font-size:
+11.0pt;font-family:"Arial","sans-serif"'>&nbsp;: désigne le service ConfOCARA
+tel que plus amplement décrit à l’article 3 «&nbsp;Description du
+Service&nbsp;» ci-dessous.</span></p>
+
+    <p style='text-align:justify'><b><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif"'>«&nbsp;Site&nbsp;»</span></b><span style='font-size:11.0pt;
+font-family:"Arial","sans-serif"'>&nbsp;: désigne le site web ConfOCARA exploité
+par Orange accessible via <span style='background:windowtext !msorm'><span
+          style='background:yellow'>l’url http:// <a>www</a></span></span></span><span
+        style='background:windowtext !msorm'><span class="MsoCommentReference"><span
+        style='font-size:8.0pt;font-family:"Calibri","sans-serif";background:yellow'><a
+        class="msocomanchor" id="_anchor_1"
+        onmouseover="msoCommentShow('_anchor_1','_com_1')"
+        onmouseout="msoCommentHide('_com_1')" href="#_msocom_1" language="JavaScript"
+        name="_msoanchor_1">[DSS1]</a>&nbsp;</span></span></span><span
+        style='background:windowtext !msorm'><span style='font-size:11.0pt;font-family:
+"Arial","sans-serif";background:yellow'>. --------.</span></span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'> «&nbsp;<b>Utilisateur</b>&nbsp;»
+: désigne toute personne physique qui fait usage du Service aux fins d’enrichir
+son contenu par le biais de modification, de création ou de publication de
+Contenus et/ou de Jeux de règles.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>Article 3 -
+Description du Service </span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>Le
+Service est un service web qui permet à des spécialistes en accessibilité et/ou
+en sécurité de gérer et de publier des Jeux de règles</span><span
+        style='font-family:"Arial","sans-serif"'> et questionnaires associés, principalement
+</span><span style='font-family:"Arial","sans-serif"'>destinés à auditer l’accessibilité
+ou la sécurité de bâtiments  et/ou  d’ espaces de vie. </span></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>Le
+Service permet à l’Utilisateur :</span></p>
+
+    <p class="MsoNormal" style='margin-left:18.0pt;text-align:justify'><span
+        style='font-family:"Arial","sans-serif"'>- de consulter les Contenus et les
+Jeux de règles du Site&nbsp;;</span></p>
+
+    <p class="MsoNormal" style='margin-left:18.0pt;text-align:justify'><span
+        style='font-family:"Arial","sans-serif"'>- de créer et/ou modifier les Contenus
+du Site&nbsp;; </span></p>
+
+    <p class="MsoNormal" style='margin-left:18.0pt;text-align:justify'><span
+        style='font-family:"Arial","sans-serif"'>- de créer et publier des Jeux de
+règles.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>Les
+Contenus publiés par les Utilisateurs permettent de créer des Jeux de règles
+qui sont mis à disposition des Auditeurs gratuitement via l’Application OCARA.</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:normal'><b>
+          <span
+              style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Article 4 – Accès au
+Service</span></b></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><b><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></b></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><b><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>4.1 - Conditions
+d’éligibilité au Service </span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:12.0pt;text-align:justify;line-height:
+normal'><span style='font-family:"Arial","sans-serif"'>Pour pouvoir utiliser le
+Service les Utilisateurs doivent disposer de tout matériel nécessaire et
+notamment d’un ordinateur ou d’un terminal mobile compatible, d’un modem ou de
+tout autre outil de connexion, afin d’assurer sa connexion au réseau Internet. </span></p>
+
+    <p class="MsoNormal" style='margin-bottom:12.0pt;text-align:justify;line-height:
+normal'><span style='font-family:"Arial","sans-serif"'>L’utilisation du Service
+nécessite que l’Utilisateur soit titulaire d’un abonnement Internet Haut Débit,
+et dispose d’un compte utilisateur du Service. </span></p>
+
+    <p class="MsoNormal" style='margin-bottom:12.0pt;text-align:justify;line-height:
+normal'><span style='font-family:"Arial","sans-serif"'>Les Contenus publiés par
+l’Utilisateur sur le Site ne doivent pas dépasser 200 ko par fichier. Orange se
+réserve le droit de réduire la taille maximum en fonction des performances
+constatées sur le Service. </span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><b><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>4.2 Conditions
+d’inscription</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>L’utilisation du Service par
+l’Utilisateur nécessite la création d’un compte.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:18.0pt;text-align:justify;line-height:
+normal'><span style='font-family:"Arial","sans-serif"'>Lors de l’ouverture du
+compte, l’Utilisateur devra communiquer des informations personnelles relatives
+à son identité telles que nom, prénom, adresse email, numéro de téléphone, …).
+A défaut, l’ouverture du compte ne sera pas possible. L’Utilisateur s’engage à
+ce que les informations communiquées lors de son inscription soient fiables et
+conformes à la réalité et mises à jour en permanence. Dans l'hypothèse où
+l’Utilisateur fournirait des informations fausses, inexactes, périmées ou
+incomplètes, Orange, dès lors que ses services en ont connaissance, est en
+droit de résilier son compte sans délai. </span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Tout Utilisateur ne remplissant pas
+les conditions prévues dans les CGU se verra interdire l’accès et l’utilisation
+du Service. Orange se réserve ainsi le droit de suspendre temporairement ou définitivement
+le compte.</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>L’Utilisateur reconnait et accepte de
+garder confidentiel le login et le mot de passe permettant un accès à son
+compte. Le login et le mot de passe sont personnels et ne doivent pas être
+partagés ni transférés à une quelconque personne physique ou morale, sous
+quelque forme que ce soit.  L’Utilisateur est seul responsable de son compte et
+de l’utilisation qu’il en fait et devra informer Orange en cas d’usage non
+autorisé de son compte ou de toute autre atteinte à la sécurité de celui-ci. </span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:normal'><b>
+          <span
+              style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Article 5&nbsp;-Tarifs</span></b>
+    </p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><strong><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif";font-weight:normal'>&nbsp;</span></strong>
+    </p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><strong><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif";font-weight:normal'>L’accès
+au Service est gratuit, mais il n'inclut pas les frais de connexion et d’accès
+à Internet lorsque l'Utilisateur utilise le Site, frais qui restent à la charge
+de ce dernier. Les coûts de connexion internet dépendent de l’offre internet
+dont dispose l’Utilisateur.</span></strong></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><strong><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif";font-weight:normal'>&nbsp;</span></strong>
+    </p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><strong><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif";font-weight:normal'>Orange
+se réserve le droit de faire payer l’accès au Service ultérieurement. Dans ce
+cas, Orange informera les Utilisateurs d’une telle modification des CGU.
+L’Utilisateur aura le choix  entre cesser d’utiliser le Service ou continuer
+d’utiliser le Service en conformité avec les conditions financières qui seront
+fournies par Orange.</span></strong></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>Article 6  Propriété
+Intellectuelle</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>6.1 – Conditions de
+publication des Contenus   </span></b></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>En
+fournissant un Contenu sur le Site, chaque Utilisateur est tenu au respect des
+dispositions légales et réglementaires en vigueur. L’Utilisateur garantit qu’il
+détient tous les droits et autorisations nécessaires de la part des titulaires
+légitimes de droit sur les Contenus concernés. En conséquence, il lui
+appartient de s’assurer que le stockage et la diffusion de ce Contenu via le
+Site ne constituent pas une violation des droits de tiers, et notamment des droits
+de propriété intellectuelle de tiers (notamment contenus protégés, ressources commerciales
+que l’Utilisateur n’aurait pas réalisés personnellement ou pour lesquels il ne
+dispose pas des autorisations nécessaires).</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>La
+diffusion, reproduction ou la représentation des Contenus publiés sur le Site doit
+s’effectuer dans le respect du code de la propriété intellectuelle, notamment
+des règles protectrices des droits d’auteur. Toute réutilisation autorisée doit
+porter la mention explicite du nom de l’auteur et/ou de la source dont l’œuvre
+est tirée.</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>S’il
+apparaît d’évidence que le Contenu est intégré sans droit sur le Site, il
+pourra être immédiatement retiré et/ou l’Utilisateur responsable de cette
+intégration sur le Site pourra être interdit d’utiliser le Service sans
+formalité préalable. De plus, tout contrevenant peut encourir, à titre personnel,
+les sanctions pénales spécifiques au Contenu litigieux (peines d’emprisonnement
+et amende), outre des éventuels dommages et intérêts.</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Ces
+Contenus ne doivent par ailleurs en aucun cas constituer une atteinte aux
+personnes (notamment diffamation, insultes, injures, etc.), au respect de la
+vie privée, à l’ordre public ou aux bonnes mœurs (notamment, apologie des
+crimes contre l’humanité, incitation à la violence ou à la haine contre tout
+individu ou groupe, pornographie enfantine, etc.).</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:18.0pt;text-align:justify;line-height:
+normal'><span style='font-family:"Arial","sans-serif"'>Enfin, l’Utilisateur
+s’engage  à ne pas déposer un Contenu ou autre donnée, programme malveillant
+qui serait susceptible de contenir des virus, chevaux de Troie, destinés à
+endommager ou interférer le bon fonctionnement du service. </span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'>
+      <b><span style='font-size:11.0pt;line-height:115%;font-family:"Arial","sans-serif";'>6.2 - Droits concédés  et conditions d’utilisation des Contenus et des Jeux de règles </span></b>
+    </p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Le
+Site reposant sur un principe de mutualisation et de partage, lorsqu’un Utilisateur
+soumet un Contenu et/ou publie un Jeu de règles sur le Site, celui-ci concède à
+Orange et aux autres Utilisateurs, le droit non exclusif, cessible (y compris
+le droit de sous-licencier), à titre gracieux, pour le monde entier, et pour la
+durée des droits de propriété intellectuelle portant sur les Contenus et les
+Jeux de règles, d'utiliser, de reproduire, de modifier, de distribuer, de
+réaliser des œuvres dérivées, de représenter et d'exécuter le Contenu et/ou le
+Jeu de règles, original ou modifié, dans le cadre de l’exploitation du Service
+ou en relation avec la mise à disposition de Contenu et/ou Jeu de règles sur le
+Site, notamment, sans limitation, pour la promotion et la redistribution de
+tout ou partie du Contenu et/ou Jeu de règles (et des œuvres dérivées qui en
+résultent), en tout format, sur tout support et via tous les canaux média. </span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Il
+concède aussi uniquement à Orange le droit de masquer ou de supprimer le
+Contenu et/ou le Jeu de règles dans le cadre des processus associés au fonctionnement
+du Service&nbsp;: modération, animation, validation, péremption, …</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>De même, lorsqu’Orange soumet un Contenu et/ou
+publie un Jeu de règles sur le Site, Orange concède aux Utilisateurs, le droit non exclusif,
+cessible (y compris le droit de sous-licencier), à titre gracieux, pour le
+monde entier, et pour la durée des droits de propriété intellectuelle portant
+sur les Contenus et les Jeux de règles, d'utiliser, de reproduire, de modifier,
+de distribuer, de réaliser des œuvres dérivées, de représenter et d'exécuter le
+Contenu et/ou le Jeu de règles, original ou modifié, dans le cadre de
+l’exploitation du Service ou en relation avec la mise à disposition de Contenu et/ou
+Jeu de règles sur le Site, notamment, sans limitation, pour la promotion et la
+redistribution de tout ou partie du Contenu et/ou Jeu de règles (et des œuvres
+dérivées qui en résultent), en tout format, sur tout support et via tous les
+canaux média. </span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoListParagraph" style='margin-top:6.0pt;margin-right:0cm;margin-bottom:
+6.0pt;margin-left:18.0pt;text-align:justify;text-indent:-18.0pt;line-height:
+normal'><b><span style='font-family:"Arial","sans-serif"'>6.3<span
+        style='font:7.0pt "Times New Roman"'>&nbsp; </span></span></b><b><span
+        style='font-family:"Arial","sans-serif"'>Propriété intellectuelle et mise à
+disposition du Service</span></b></p>
+
+    <p class="MsoNormal" style='margin-top:6.0pt;margin-right:0cm;margin-bottom:6.0pt;
+margin-left:0cm;text-align:justify;line-height:normal'><span style='font-family:
+"Arial","sans-serif"'>L’Utilisateur</span><span style='font-family:"Arial","sans-serif"'>
+</span><span style='font-family:"Arial","sans-serif"'>reconnaît qu’il
+n’acquiert aucun droit de propriété intellectuelle sur les éléments présents
+sur le Site et appartenant à Orange. Il s’interdit en outre formellement de les
+utiliser dans un cadre autre que celui exclusivement prévu aux présentes CGU.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;text-autospace:none'><span style='font-family:"Arial","sans-serif"'>Le
+code source du Site est <span style='color:black'>disponible sur l’espace
+github Orange accessible via le lien </span></span><a
+        href="https://github.com/Orange-OpenSource/ocara"><span style='font-family:
+"Arial","sans-serif";color:windowtext;text-decoration:none'>https://github.com/Orange-OpenSource/ocara</span></a><span
+        style='font-family:"Arial","sans-serif"'> sel<span style='color:black'>on les
+termes de la licence open source Mozilla Public License version 2.0 disponible
+via le lien https://opensource.org/licenses/MPL-2.0. </span></span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+normal;text-autospace:none'><span style='font-family:"Arial","sans-serif";
+color:black'>Ainsi l’Utilisateur peut l’utiliser dans le respect des termes de
+cette licence et sous réserve de se conformer aux présentes CGU.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;line-height:
+normal;text-autospace:none'><b><span style='font-size:8.0pt;color:black'>&nbsp;</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>La
+documentation associée au code source est disponible sous la licence «&nbsp;creative
+commons&nbsp;» : attribution-sharealike 4.0., accessible via le lien
+https://creativecommons.org/licenses/by-sa/4.0/.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><b><span style='font-family:"Arial","sans-serif"'>Article 7– Responsabilités d’Orange</span></b>
+    </p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Orange fournira ses meilleurs efforts
+afin d'assurer la meilleure disponibilité et qualité possible du Service.
+Orange s'efforcera de maintenir accessible le service 7 jours sur 7 et 24
+heures sur 24. Orange se réserve toutefois, notamment pour des raisons de
+maintenance, le droit de suspendre momentanément et sans préavis l'accès au Service,
+sans que cette interruption puisse ouvrir droit à une quelconque indemnité au
+bénéfice de l'Utilisateur.</span><span style='font-family:"Arial","sans-serif"'>
+</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Orange 
+s’efforce d’offrir aux Utilisateurs l’information la plus fiable et qualitative
+qui soit. Orange ne garantit cependant pas l’exactitude et l’exhaustivité de
+l’information diffusée sur le Site.</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Il est porté à
+l’attention de l’Utilisateur que les Jeux de règles produites par Orange ou les
+Utilisateurs et mis à disposition sur le Site ne sont pas forcément des jeux de
+règles officiels homologués par les autorités compétentes. Ils sont inspirés
+par l’ensemble des règles officielles existantes, par l’état de l’art et par
+des retours d’usage. Ils sont destinés à évaluer des caractéristiques pour un
+autodiagnostic sur l’usage et non pas la conformité règlementaire des bâtiments
+et parcours extérieurs au regard des règles d’accessibilité et/ou de sécurité.
+La responsabilité d’Orange ne peut donc être engagée du fait de l’utilisation
+de ces Jeux de règles par les Auditeurs et les Utilisateurs qui les utilisent
+sous leur seule responsabilité.</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>La responsabilité
+d’Orange envers l’Utilisateur ne peut être engagée que pour des fautes établies
+qui lui seraient imputables et en particulier pour non-respect de ses
+obligations aux termes des CGU.</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>En utilisant le service, l'Utilisateur
+déclare et garantit qu'il est parfaitement informé des caractéristiques et des
+contraintes d'Internet, notamment que les transmissions de données et
+d'informations sur Internet ne bénéficient que d'une fiabilité technique
+relative. Aussi les informations circulant sur Internet ne sont pas protégées
+contre des détournements ou contre des virus éventuels.</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Orange ne pourra être en aucun cas
+tenue responsable des dégâts accidentels ou volontaires subis par l’Utilisateur
+et provoqués ou non par un tiers, ne troublant pas leur origine dans un
+manquement d’Orange à ses obligations contractuelles.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><span style='font-family:"Arial","sans-serif"'>La
+responsabilité d'Orange ne saurait être engagée notamment dans les cas suivants
+:</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>- difficultés
+d’accès au Service du fait du non-respect partiel ou total d’une obligation de
+l’Utilisateur, de l’utilisation d’un équipement non adapté aux caractéristiques
+du Service&nbsp;;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>- contamination
+par virus ou tout autre élément à risque des données et/ou logiciels, et/ou des
+équipements de l'Utilisateur ou du Contributeur, dont la protection incombe à
+ce dernier&nbsp;;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>-
+mauvaise utilisation du Service par l'Utilisateur.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:3.1pt;text-align:justify;line-height:normal'><b>
+          <span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Article 8  -
+Responsabilité de l’Utilisateur </span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>L’Utilisateur
+s’engage à utiliser le Service conformément aux présentes CGU et notamment dans
+le respect du cadre législatif et des règles contractuelles décrites aux présentes.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>L’Utilisateur
+est  seul responsable de l'usage fait du droit d'utilisation qui lui est accordé
+au terme des présentes et garantit Orange contre toute utilisation illicite,
+non conforme et/ou non autorisée du Service. L’Utilisateur est le seul
+responsable dans ces conditions des dommages et préjudices directs causés à
+Orange ou à tout tiers du fait de l’utilisation du Service.</span></p>
+
+    <p style='margin:0cm;margin-bottom:.0001pt;text-align:justify'><span
+        style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Les usages
+publicitaires et commerciaux étant proscrits sur le Site, l’Utilisateur  s’engage
+à ne publier aucun Contenu à caractère publicitaire Et /ou commercial. </span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Orange
+ne saurait donc être tenu pour responsable des dommages directs ou indirects
+subis par les Utilisateurs ou par des tiers qui trouveraient leur source dans
+l’information diffusée sur le Site, et de manière plus générale, dans la
+consultation et l’utilisation du Service.</span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Article 9 – Données Personnelles</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Les données personnelles relatives à
+l'Utilisateur</span><span style='font-family:"Arial","sans-serif"'> (ci-après
+les «&nbsp;Données Personnelles&nbsp;») </span><span style='font-family:"Arial","sans-serif"'>recueillies
+par Orange pour les besoins de la fourniture du Service sont traitées et
+conservées conformément aux dispositions de la législation en vigueur relative
+à la protection de la vie privée qu’Orange s’engage à respecter. </span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>L’Utilisateur
+est seul responsable des Données Personnelles qu'il communique à Orange au
+travers du Service et déclare que les Données Personnelles fournies sont
+parfaitement renseignées et exactes.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Nature
+des Données Personnelles traitées </span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>Les
+Données Personnelles traitées par Orange dans le cadre du Service sont les 
+données qui sont communiquées volontairement par l’Utilisateur lors de son
+inscription au Service via le formulaire d'inscription qu’il est invité à
+remplir et comprennent notamment ses nom, prénom,  sexe, âge, adresses postale
+et électronique, numéro de téléphone fixe ou mobile, …avec indication du
+caractère obligatoire ou facultatif des réponses à fournir.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Finalités
+des traitements</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>L’Utilisateur
+est informé de ce que les Données Personnelles communiquées
+volontairement par l’Utilisateur dans le cadre du Service sont nécessaires pour
+l’utilisation du Service et l’amélioration des fonctionnalités du Service.
+</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal'><span style='font-family:"Arial","sans-serif"'>Elles permettent également d’adresser
+à l’Utilisateur des informations concernant le fonctionnement du service, sur
+son adresse électronique,</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Destinataires
+des Données</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Les Données Personnelles sont
+destinées exclusivement à Orange et ne font l’objet d’aucune communication à
+des tiers sans l’accord exprès de l’Utilisateur.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Transfert
+de vos Données</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>L’Utilisateur est informé que le
+traitement de ses Données Personnelles dans le cadre du Service ne donne pas
+lieu à un transfert de ses Données Personnelles vers des serveurs situés dans
+un pays tiers et notamment en dehors de l’Union Européenne.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Sécurité
+des Données</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Orange met en œuvre toutes les mesures
+de sécurité suffisantes et appropriées d’un point de vue technique afin de
+protéger les Données Personnelles des Utilisateurs contre toute destruction
+accidentelle ou illicite, ou perte accidentelle, dommages, altérations,
+divulgation ou accès non autorisé ou toute forme de traitement illicite.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Conservation
+des Données</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Les Données Personnelles des
+Utilisateurs sont stockées chez Orange et sont conservées pour la durée
+strictement nécessaire à la réalisation des finalités susvisées. Elles sont
+également conservées à des fins de sécurité, afin de respecter les obligations
+légales et réglementaires auxquelles Orange est soumise.</span></p>
+
+    <p class="MsoNormal" style='line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Droits
+des Utilisateurs</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>Conformément à la législation en
+vigueur relative à la protection de la vie privée, l’Utilisateur peut à tout
+moment accéder aux Données Personnelles le concernant et détenues par Orange.
+L’Utilisateur dispose des droits d’opposition, d’accès et de rectification des
+Données Personnelles le concernant. Sous réserve de justifier de son identité
+(indiquer son nom, prénom, adresse, numéro de téléphone et joindre un
+justificatif d’identité) selon tout moyen approprié, l’Utilisateur peut exiger
+que soient rectifiées, complétées, clarifiées, mises à jour ou effacées les
+informations le concernant qui sont inexactes, incomplètes, équivoques, périmées
+ou dont la collecte ou l’utilisation, la communication ou la conservation est
+interdite. Ces droits peuvent être exercés par l’Utilisateur en contactant
+Orange à l’adresse suivante&nbsp;: ocara.support@orange.com.</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><span
+        style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><b><span
+        style='font-family:"Arial","sans-serif"'>Article 10 - Evolution – Modification</span></b>
+    </p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>Orange
+se réserve le droit de faire évoluer le Service en ajoutant, modifiant ou
+supprimant certaines fonctionnalités.</span><span
+        style='font-family:"Arial","sans-serif"'></span><span
+        style='font-family:"Arial","sans-serif"'>Ces modifications donneront lieu à de nouvelles CGU
+qui devront être acceptées par l’Utilisateur. En cas d’acceptation des
+nouvelles CGU, l’Utilisateur s’engage à les respecter. En cas de non
+acceptation des nouvelles CGU l’Utilisateur sera libre de se désinscrire du
+Service.</span></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><b><span style='font-family:"Arial","sans-serif"'>Article 11- Résiliation, suspension et fermeture de l’accès au Service</span></b>
+    </p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><b><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></b></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>Orange se
+réserve le droit de supprimer de plein droit et/ou de suspendre l’accès au Service,
+sans préavis ni indemnité, en cas de manquement de l’Utilisateur à l'une
+quelconque des obligations souscrites au terme des présentes, notamment à la
+suite d'une notification que l’Utilisateur fait un usage du Service, contraire
+à la loi, aux bonnes moeurs ou à l'ordre public ou de nature à porter préjudice
+aux tiers.</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='margin-bottom:0cm;margin-bottom:.0001pt;text-align:
+justify;line-height:normal;punctuation-wrap:simple;text-autospace:none;
+vertical-align:baseline'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span></p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><b><span style='font-size:11.0pt;line-height:115%;
+font-family:"Arial","sans-serif";'>Article 12 - Réclamations</span></b></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>Toute
+réclamation ou notification doit être adressée par courriel à l’adresse de
+messagerie suivante&nbsp;: ocara</span><span style='font-family:"Arial","sans-serif"'>.support@orange.com</span><span
+        style='font-family:"Arial","sans-serif"'>.</span></p>
+
+    <p class="MsoNormal" style='text-align:justify'><span style='font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p class="MsoNormal" style='text-align:justify;line-height:normal'><b>
+      <span style='font-size:11.0pt;line-height:115%; font-family:"Arial","sans-serif";'>Article 13 – Loi applicable </span></b>
+    </p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>Ces
+CGU sont soumis au droit français. Tout litige non réglé de manière
+transactionnelle sera porté devant le tribunal compétent de Paris. </span></p>
+
+    <p style='text-align:justify'><span style='font-size:11.0pt;font-family:"Arial","sans-serif"'>&nbsp;</span>
+    </p>
+
+    <p style='text-align:justify'>&nbsp;</p>
+
+  </div>
+
+</main>
+
+<!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+</body>
+</html>

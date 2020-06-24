@@ -1,0 +1,63 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <style>
+
+        .co-navbar-inverse .navbar-nav > li.active > a {
+            color: #fff;
+            background-color: #0275d8;
+        }
+
+        .co-navbar-inverse .navbar-nav > li.active > a:hover {
+            color: #fff;
+            background-color: #0275d8;
+        }
+
+        .co-navbar-inverse .navbar-nav > li > a {
+            color: #dbdbdb;
+        }
+
+    </style>
+</head>
+<body>
+<header role="banner">
+    <div th:fragment="header-visitor">
+        <nav class="navbar co-navbar-inverse" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <a class="navbar-brand row" href="/login">
+                        <img src="../public/image/ic_app.png" th:src="@{/image/ic_app.png}" id="orange_logo"
+                             alt="ConfOcara"
+                             style="height: 30px;"/>
+                    </a>
+                    <span style="line-height:30px;" id="app_name" class="navbar-brand">ConfOcara</span>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav nav-menu nav-shift navbar-right">
+                        <li role="presentation" class="nav-item"><a role="menuitem" tabindex="-1" href="?lang=fr">| fr
+                            |</a>
+                        </li>
+                        <li role="presentation" class="nav-item"><a role="menuitem" tabindex="-1" href="?lang=en">| eng
+                            |</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+</header>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<configuration scan="true" scanPeriod="30 seconds">
+
+	<property name="LOGS_FOLDER" value="./log" />
+	<property name="LOGS_TO_COLLECT_FOLDER" value="./log/archived" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- only log 2 lines of stack trace per cause of an exception -->
+			<pattern>%d [%thread] %-5level %logger{36} line:%line - %replace(%m){'[\r\n]', ''} %throwable{2}%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Logs applicatives -->
+	<!--
+    Ce fichier ne trace que les dysfonctionnements, il n’est pas censé se remplir quand l’application fonctionne
+    normalement et est archivé pendant plusieurs années par l’exploitant.
+    Ses caractéristiques sont :
+    - seuls les messages de dysfonctionnement (ie >= WARN) y apparaissent,
+    - ce fichier tourne (‘est rotationné’ en franglais) chaque jour pour être archivé,
+    - les stack traces seront compactes pour éviter de saturer le système de fichiers. Compacter à deux lignes par cause
+    d’une exception est un bon compromis entre le niveau de détail utile au diagnostic et la taille occupée sur disque.
+   -->
+	<appender name="log-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_FOLDER}/confocara.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- only log problems, not debugging info -->
+			<level>WARN</level>
+		</filter>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- rotate every day for log collection and archiving -->
+			<fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/confocara.%d{yyyyMMdd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<!-- only log 2 lines of stack trace per cause of an exception -->
+			<pattern>%d [%thread] %-5level %logger{36} line:%line - %replace(%m){'[\r\n]', ''} %throwable{short}%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- Logs de diagnostic -->
+	<!--
+    Ce fichier est destiné aux équipes de diagnostic/troubleshooting qui peuvent ajouter ou retirer des informations de
+    debug selon leurs besoins. Ces logs ne sont pas archivées et doivent être très détaillées sans pour autant saturer le
+    système de fichiers.
+
+    Ses caractéristiques sont :
+    - aucun filtrage sur le niveau de log (TRACE, …),
+    - reconfiguration à chaud du framework de log pour ajouter/supprimer des informations selon les besoins,
+    - rotation avec écrasement des fichiers pour éviter de saturer le système de fichiers.
+  -->
+	<appender name="troubleshooting-file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOGS_FOLDER}/confocara-troubleshooting.log</file>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<!-- only log problems, not debugging info -->
+			<level>DEBUG</level>
+		</filter>
+		<!-- 10x10Mo files to limit size on disk -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>${LOGS_TO_COLLECT_FOLDER}/confocara-troubleshooting.%i.log</fileNamePattern>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>10MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>%d [%thread] %-5level %logger{36} line:%line - %replace(%m){'[\r\n]', ''} %throwable{full}%n</pattern>
+		</encoder>
+	</appender>
+
+	<logger name="org.springframework" level="WARN" />
+
+	<logger name="org.hibernate.orm.deprecation" level="ERROR"/>
+
+	<root level="INFO">
+		<appender-ref ref="log-file" />
+		<appender-ref ref="troubleshooting-file" />
+		<appender-ref ref="STDOUT" />
+	</root>
+
+</configuration>

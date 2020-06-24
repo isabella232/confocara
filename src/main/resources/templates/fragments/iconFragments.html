@@ -1,0 +1,52 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+</head>
+<body>
+<div th:fragment="published-icon-modal">
+    <div th:if="${iconIsPublished != null}" class="modal fade"
+         id="iconIsPublishedModal" tabindex="-1" role="dialog"
+         aria-labelledby="iconIsPublishedModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content modal-small-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"
+                            aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title modal-error-title"
+                        id="iconIsPublishedModalLabel"><span
+                            th:text="#{message.file.already.published}"></span></h4>
+                </div>
+                    <div class="modal-body modal-small-body">
+                        <div class="container-fluid">
+                            <p th:text="#{message.use.published.file}"></p>
+                            <br/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            <p th:text="#{cancel}"></p></button>
+                        <button type="submit" onclick="document.getElementById('inputIcon').required = false;"
+                                class="btn btn-primary" name="action" value="with-icon">
+                            <p th:text="#{validate}"></p>
+                        </button>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

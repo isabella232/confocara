@@ -1,0 +1,167 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{home.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row"
+      role="main">
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-10 col-md-10 main">
+
+    <p class="text-primary h1" th:text="#{home.title}"></p>
+
+    <br/>
+    <div>
+      <h4 th:text="#{home.principle.title}">Principe</h4>
+      <div class="row text-center align-items-center">
+        <div class="col-md-5">
+          <p th:utext="#{home.principle.content.confocara.begin}"></p>
+          <img th:src="@{/image/handwriting.jpg}"
+               th:alt="#{home.principle.content.confocara.end}"/>
+          <p th:utext="#{home.principle.content.confocara.end}"></p>
+        </div>
+        <div class="col-md-2">
+          <img th:src="@{/image/arrow.jpg}"/>
+        </div>
+        <div class="col-md-5">
+          <p th:utext="#{home.principle.content.ocara.begin}"></p>
+          <img th:src="@{/image/storing.jpg}" th:alt="#{home.principle.content.ocara.end}"/>
+          <p th:utext="#{home.principle.content.ocara.end}"></p>
+        </div>
+      </div>
+
+      <div class="row text-left">
+        <div class="col-12">
+          <p th:utext="#{home.principle.content.target}"></p>
+        </div>
+      </div>
+
+      <div class="row text-left pt-5">
+        <div class="col-12">
+          <h4 th:text="#{home.howto.title}"></h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p th:utext="#{home.howto.content}"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <p th:utext="#{home.example.title}"></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1"></div>
+        <div class="col-11 row">
+          <div class="col-12">
+            <span>1)</span>
+            <span th:utext="#{home.example.1}"></span>
+          </div>
+          <div class="col-12">
+            <span>2)</span>
+            <span th:utext="#{home.example.2}"></span>
+          </div>
+          <div class="col-12">
+            <span>3)</span>
+            <span th:utext="#{home.example.3}"></span>
+          </div>
+          <div class="col-12">
+            <span>4)</span>
+            <span th:utext="#{home.example.4}"></span>
+          </div>
+          <div class="col-12">
+            <span>5)</span>
+            <span th:utext="#{home.example.5}"></span>
+          </div>
+          <div class="col-12">
+            <span>6)</span>
+            <span th:utext="#{home.example.6}"></span>
+          </div>
+          <div class="col-12">
+            <span>6 bis)</span>
+            <span th:utext="#{home.example.6bis}"></span>
+          </div>
+          <div class="col-12">
+            <span>7)</span>
+            <span th:utext="#{home.example.7}"></span>
+          </div>
+          <div class="col-12">
+            <span>7 bis)</span>
+            <span th:utext="#{home.example.7bis}"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row text-left pt-5">
+        <div class="col-12">
+          <h4 th:text="#{home.objects.title}"></h4>
+        </div>
+      </div>
+      <div class="row text-center" th:if="${not #lists.isEmpty(equipments)}">
+        <div class="col" th:each="equipment : ${equipments}" th:unless="${equipment.index > 12}">
+          <img
+              th:src="@{'/images/' + ${equipment.fileNameWithExtension}}"
+              style="max-height: 100px;max-width: 100px"/>
+        </div>
+      </div>
+
+      <div class="row pt-5">
+        <div class="col-12">
+          <h4 th:text="#{home.chapter.title}"></h4>
+        </div>
+        <div class="col-12 row text-center align-items-center">
+          <div class="col-md-5">
+            <img th:src="@{/image/chapitre_objet.png}"
+                 th:alt="#{home.principle.content.confocara.end}"
+                 width="550px"/>
+            <p th:utext="#{home.principle.content.confocara.end}"></p>
+          </div>
+          <div class="col-md-2">
+            <img th:src="@{/image/arrow.jpg}"/>
+          </div>
+          <div class="col-md-5">
+            <img th:src="@{/image/tablette.png}"
+                 th:alt="#{home.principle.content.ocara.end}"
+                 width="500px"/>
+            <p th:utext="#{home.principle.content.ocara.end}"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row text-left pt-5">
+        <div class="col-12">
+          <p th:utext="#{home.distribution}"></p>
+          <p th:utext="#{home.distribution2}"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+</body>
+</html>

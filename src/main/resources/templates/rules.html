@@ -1,0 +1,396 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{rules.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid"
+      role="main">
+  <div class="row">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-10 col-10 main">
+
+    <div id="app"></div>
+
+  </div>
+
+  <div th:each="rule : ${rules}">
+    <div class="modal fade" th:id="${rule.ruleId}" tabindex="-1" role="dialog"
+         aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" id="myModalLabel" th:text="${rule.ruleReference}"></h4>
+            <button type="button" class="close" data-dismiss="modal"
+                    aria-label="Close"><span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <br/>
+              <div class="row">
+                <b class="col-lg-3" th:text="#{reference}"></b>
+                <span class="col-lg-4" th:text="${rule.ruleReference}"></span>
+              </div>
+              <div class="row">
+                <br/><b class="col-lg-3" th:text="#{rulesCategory}"></b>
+                <span class="col-lg-4" th:text="${rule.ruleCategoryName}"></span>
+              </div>
+              <div class="row">
+                <br/><b class="col-lg-3"><span th:text="#{label}"></span></b>
+                <span class="col-lg-8"
+                      th:utext="${#strings.replace(#strings.escapeXml(rule.ruleName),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
+              </div>
+              <div class="row"
+                   th:if="${rule.ruleDescription != null and not #strings.isEmpty(rule.ruleDescription)}">
+                <br/><b class="col-lg-3"><span th:text="#{origin}"></span></b>
+                <span class="col-lg-8" th:text="${rule.ruleDescription}"></span>
+              </div>
+              <div class="row" th:if="${not #lists.isEmpty(rule.ruleIllustrations)}">
+                <br/><b class="col-lg-3" th:text="#{illustrations}"></b>
+                <div class="col-lg-7">
+								<span th:each="ill:${rule.ruleIllustrations}">
+									<a class="info"> <div th:text="${ill.title}"></div>
+										<span th:if="${ill.illustrated == true}">
+											<img th:src="@{'/images/'+${ill.fileName}}"
+                           style="height: 300px;"/>
+										</span>
+									</a>
+								</span>
+                </div>
+              </div>
+
+              <div class="row" th:if="${not #lists.isEmpty(rule.ruleImpacts)}">
+                <br/>
+                <div class="col-lg-3"><b><span
+                    th:text="#{impacts}"></span></b></div>
+                <div class="col-lg-7">
+                      <span th:each="impact : ${rule.ruleImpacts}">
+						            <div th:text="${impact.profileTypeName} + ' : '+ ${impact.impactName}"></div>
+								      </span>
+                </div>
+              </div>
+
+              <br/>
+
+              <div class="row">
+                <b class="col-lg-3"><span
+                    th:text="#{author}"></span></b>
+                <span class="col-lg-4"
+                      th:text="${rule.authorName}"></span>
+              </div>
+
+              <div th:if="${rule.date != null}" class="row">
+                <br/> <b class="col-lg-3"><span
+                  th:text="#{lastModification}"></span></b>
+                <span class="col-lg-3"
+                      th:text="${#dates.format(rule.date, #messages.msg('common.date_format'))}"></span>
+              </div>
+
+              <div th:id="'resultsBlock'+${rule.ruleReference}"></div>
+              <div th:id="'loadingSpinner'+${rule.ruleReference}"></div>
+
+              <div th:fragment="questionnairesList"
+                   th:unless="${ruleAssociatedQuestionnaireList == null or #lists.isEmpty(ruleAssociatedQuestionnaireList)}"
+                   class="results-block row">
+                <br/><b class="col-lg-3" th:text="#{questionnaires}"></b>
+                <div class="col-lg-7">
+                  <div th:each="qo:${ruleAssociatedQuestionnaireList}">
+                    <span th:text="${qo.reference}"></span>
+                    <span>[</span>
+                    <span
+                        th:text="${qo.published == false} ? #{draftLowerCase} : #{publishedLowerCase}"></span>
+                    <span>]</span>
+                    <span th:text="#{version}"></span>
+                    <span th:text="${qo.version}"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">
+              <p th:text="#{close}"></p></button>
+            <a th:href="@{/rules/edit(id=${rule.ruleId})}">
+              <button type="button" class="btn btn-default">
+                <p th:text="#{edit}"></p></button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: none" th:text="#{rule.confirmDeletionAlert}"
+       id="confirmDeletionAlertText"></div>
+  <div th:replace="fragments/spinner :: spinner"></div>
+  </div>
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script th:src="@{/js/vendors/vuejs-2.6.10/vue.min.js}"></script>
+<script th:src="@{/js/vendors/babel-standalone-6.21.1/babel.min.js}"></script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+
+  Vue.config.devtools = true;
+
+  const messages = {
+    common_all: /*[[#{common.all}]]*/ "",
+    concerns_filter_title: /*[[#{profile.types.filter.title}]]*/ "",
+    equipments_filter_title: /*[[#{objects.filter.title}]]*/ "",
+    contexts_filter_title: /*[[#{contexts.filter.title}]]*/ "",
+    add_rule_title: /*[[#{addRule.title}]]*/ "",
+    common_edit: /*[[#{edit}]]*/ "",
+    common_close: /*[[#{close}]]*/ "",
+    label: /*[[#{label}]]*/ "",
+  };
+
+  const allProfileTypes = /*[[${allProfileTypes}]]*/ 'default';
+  const allContexts = /*[[${allCategories}]]*/ 'default';
+  const allEquipments = /*[[${allEquipments}]]*/ 'default';
+  const data = /*[[${rules}]]*/ 'default';
+  const columns = [
+    /*[[#{reference}]]*/ '',
+    /*[[#{label}]]*/ '',
+    /*[[#{rulesCategory}]]*/ '',
+    /*[[#{author}]]*/ '',
+    ''];
+
+  const FilterComponent = {
+    props: {
+      elements: Array,
+      title: String
+    },
+    data: function () {
+      return {
+        checkedValues: [],
+        allValues: true,
+        styles: {
+          'columns': Math.ceil(this.elements.length/15.0),
+          '-webkit-columns': Math.ceil(this.elements.length/15.0),
+          '-moz-columns': Math.ceil(this.elements.length/15.0),
+        }
+      }
+    },
+    template: `
+      <div>
+        <button type="button"
+          class="btn btn-default dropdown-toggle"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          v-html="title">
+        </button>
+        <ul
+          class="dropdown-menu co-dropdown-menu dropdown-menu-right"
+          :style="styles">
+          <li class="dropdown-item">
+            <input type="checkbox" id="all" value="all" v-model="allValues" @click="onReset"/>
+            <label for="all" class="font-weight-normal" v-html="messages.common_all"></label>
+          </li>
+          <li role="separator" class="dropdown-divider"></li>
+          <li v-for="item in elements" class="dropdown-item">
+            <input type="checkbox" :id="item.reference" :value="item.id" v-model="checkedValues" @click="onChange"/>
+            <label class="font-weight-normal" :for="item.reference">{{ item.name }}</label>
+          </li>
+        </ul>
+        <input type="checkbox" id="all" value="all" v-model="allValues" @click="onReset"/>
+        <label for="all" class="font-weight-normal" v-html="messages.common_all"></label>
+      </div>`
+      ,
+    methods: {
+      onChange: function (e) {
+        this.allValues = false;
+
+      },
+      onReset: function (e) {
+        this.checkedValues = [];
+        this.allValues = true;
+      }
+    },
+    watch: {
+      checkedValues: function() {
+        this.$emit('input', this.checkedValues);
+      }
+    }
+  };
+
+  new Vue({
+
+    /** nom de l'élément qui contient la vue */
+    el: '#app',
+
+    /** définition des propriétés de la vue */
+    data: function () {
+      return {
+        columns: columns,
+        list: data,
+        equipmentsFilterKey : "equipmentsFilterKey",
+        selectedEquipments: [],
+        equipments: allEquipments,
+        contextsFilterKey : "contextsFilterKey",
+        selectedContexts: [],
+        contexts: allContexts,
+        concernsFilterKey : "concernsFilterKey",
+        selectedProfileTypes: [],
+        concerns: allProfileTypes,
+        labelFilterKey : "",
+      }
+    },
+
+    /** injection des composants utiles */
+    components: {
+      'co-filter': FilterComponent
+    },
+
+    /** observation des propriétés */
+    watch: {
+      selectedContexts: function (newValue, oldValue) {
+        this.updateList();
+      },
+      selectedEquipments: function (newValue, oldValue) {
+        this.updateList();
+      },
+      selectedProfileTypes: function (newValue, oldValue) {
+        this.updateList();
+      },
+      labelFilterKey: function (newValue, oldValue) {
+        this.updateList();
+      }
+    },
+
+    /** fonctions utiles */
+    methods: {
+      /** met à jour la liste des données */
+      updateList: function () {
+
+        let vm = this;
+
+        // préparation de la requête
+        const httpRequest = new XMLHttpRequest();
+        const url = '/ws/rules?size=1000&sort=id,desc'
+            + (vm.selectedContexts.length > 0 ? '&contextIds=' + vm.selectedContexts.join('&contextIds=') : '')
+            + (vm.selectedEquipments.length > 0 ? '&equipmentIds=' + vm.selectedEquipments.join('&equipmentIds=') : '')
+            + (vm.selectedProfileTypes.length > 0 ? '&concernIds=' + vm.selectedProfileTypes.join('&concernIds=') : '')
+            + (vm.labelFilterKey ? '&label=' + vm.labelFilterKey : '');
+        httpRequest.open("GET", url, true);
+        httpRequest.send();
+
+        // traitement du contenu de la réponse
+        httpRequest.onreadystatechange = (e) => {
+          if (httpRequest.responseText) {
+            vm.list = JSON.parse(httpRequest.responseText);
+          }
+        };
+      },
+      columnStyle: function (index) {
+        switch (index) {
+          case 1:
+            return 'col-7';
+          case 2:
+            return 'col-2';
+          default:
+            return 'col';
+        }
+      }
+    },
+    template: `
+      <div class="main">
+        <div class="row form-group pt-2">
+          <div class="col-md-1">
+            <a href="/rules/add">
+              <button class="btn btn-primary" v-html="messages.add_rule_title"></button>
+            </a>
+          </div>
+          <div class="col-md-2 font-weight-bold">Label: <input class="form-control" v-model="labelFilterKey"/></div>
+          <div class="<col-sm-2></col-sm-2> btn-group">
+            <co-filter
+              :title="messages.contexts_filter_title"
+              :key="contextsFilterKey"
+              :elements="contexts"
+              :checkedValues="selectedContexts"
+              v-on:input="selectedContexts = $event"/>
+          </div>
+          <div class="col-sm-2 btn-group">
+            <co-filter
+              :title="messages.equipments_filter_title"
+              :key="equipmentsFilterKey"
+              :elements="equipments"
+              :checkedValues="selectedEquipments"
+              v-on:input="selectedEquipments = $event"/>
+          </div>
+          <div class="col-sm-3 btn-group">
+            <co-filter
+              :title="messages.concerns_filter_title"
+              :key="concernsFilterKey"
+              :elements="concerns"
+              :checkedValues="selectedProfileTypes"
+              v-on:input="selectedProfileTypes = $event"/>
+          </div>
+          <div class="col-md-1 text-right">
+            <a href="/rules/help" title="Aide">
+              <img src="/image/ic_help.png" class="help-icon"/>
+            </a>
+          </div>
+        </div>
+
+        <div class="row form-group">
+          <div class="col-md-11 col-11">
+            <table class="table">
+              <thead class="thead-dark">
+                <tr class="d-flex tr-head">
+                  <th v-for="(column, index) in columns" :class="[columnStyle(index)]">
+                    {{ column }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody class="tr-body">
+                <tr v-for="item in list.content" class="d-flex tr-body">
+                  <td :class="[columnStyle(0)]">
+                    <a href="#" type="button" class="btn btn-light btn-sm btn-block" data-toggle="modal" :data-target="'#' + item.ruleId">
+                      <span>{{ item.ruleReference }}</span>
+                    </a>
+                  </td>
+                  <td :class="[columnStyle(1)]">{{ item.ruleName }}</td>
+                  <td :class="[columnStyle(2)]">{{ item.ruleCategoryName }}</td>
+                  <td :class="[columnStyle(3)]">{{ item.authorName }}</td>
+                  <td :class="[columnStyle(4)]">
+                    <a :href="'/rules/edit?id=' + item.ruleId"><img src="/image/ic_edit.png" style="height: 20px;width: 20px"/></a>
+                    <a class="icon-left-margin" :href="'/rules/delete?id=' + item.ruleId"><img src="/image/trash.png" style="height: 20px;width: 20px"/></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>`
+  });
+
+  /*]]>*/
+</script>
+</body>
+</html>

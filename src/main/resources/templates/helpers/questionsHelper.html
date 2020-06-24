@@ -1,0 +1,45 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{questions.help.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid row" role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-md-10 col-10">
+    <h2 class="text-primary" align="center">Les groupes de règles</h2><br/>
+
+    <p>Un groupe de règles permet d’auditer un ou plusieurs règles (de la même catégorie).
+      Formulé dans un langage moins technique que celui des règles, il permet de regrouper des
+      contrôles de même nature (par exemple les dimensions d’un objet).</p>
+
+    <p> Un groupe est considéré actif s'il permet de contrôler au moins une règle. Ceci pour éviter
+      d’intégrer des groupes non finalisés dans un chapitre.</p>
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+</body>
+</html>

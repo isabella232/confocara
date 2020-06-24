@@ -1,0 +1,735 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+    <th:block th:include="fragments/header-head :: head"></th:block>
+    <title th:text="#{viewQuestionnaire.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row"
+      role="main">
+
+    <div class="col-2 col-md-2">
+        <div th:replace="fragments/menu :: left-menu"></div>
+    </div>
+    <div class="col-10 col-md-10 main p-2">
+        <header class="mb-2">
+            <a class="co-back btn btn-light"
+               href="/questionnaires"
+               th:text="#{back}"></a>
+        </header>
+
+        <div id="app"></div>
+
+    </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script th:src="@{/js/vendors/vuejs-2.6.10/vue.min.js}"></script>
+<script th:src="@{/js/vendors/babel-standalone-6.21.1/babel.min.js}"></script>
+<script th:src="@{/js/vendors/moment-2.24.0/moment.min.js}"></script>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    const data = /*[[${qo}]]*/ 'default';
+
+    const messages = {
+        rulesets_title: /*[[#{rulesets.title}]]*/ "",
+        questionnaire_title: /*[[#{questionnaire}]]*/ "",
+        questionnaire_details: /*[[#{questionnaire.details}]]*/ "",
+        chain_title: /*[[#{chain.title}]]*/ "",
+        question_title: /*[[#{question}]]*/ "",
+        rule_title: /*[[#{rule}]]*/ "",
+        questionnaire_republish_title: /*[[#{questionnaire.republish.title}]]*/ "",
+        questionnaire_republish_action: /*[[#{questionnaire.republish.action}]]*/ "",
+        questionnaire_modify_title: /*[[#{questionnaire.modify.title}]]*/ "",
+        questionnaire_modify_action: /*[[#{questionnaire.modify.action}]]*/ "",
+        menu_help: /*[[#{menu.help}]]*/ "",
+        questionnaire_name_exists: /*[[#{questionnaire.name.exists}]]*/ "",
+        questionnaire_about_draft: /*[[#{questionnaire.about.draft}]]*/ "",
+        questionnaire_about_ready: /*[[#{questionnaire.about.ready}]]*/ "",
+        questionnaire_state: /*[[#{questionnaire.state}]]*/ "",
+        reference: /*[[#{reference}]]*/ "",
+        edit: /*[[#{edit}]]*/ "",
+        cancel: /*[[#{cancel}]]*/ "",
+        object: /*[[#{object}]]*/ "",
+        rulesCategory: /*[[#{rulesCategory}]]*/ "",
+        questionnaire_version: /*[[#{questionnaire.version}]]*/ "",
+        questionnaire_published: /*[[#{questionnaire.published}]]*/ "",
+        questionnaire_last_update: /*[[#{questionnaire.last.update}]]*/ "",
+        questionnaire_last_publish: /*[[#{questionnaire.last.publish}]]*/ "",
+        questionnaire_author: /*[[#{questionnaire.author}]]*/ "",
+        questionnaire_questions_count: /*[[#{questionnaire.questions.count}]]*/ "",
+        questionnaire_rules_count: /*[[#{questionnaire.rules.count}]]*/ "",
+        questionnaire_confirm: /*[[#{questionnaire.confirm}]]*/ "",
+        questionnaire_publish_please: /*[[#{questionnaire.publish.please}]]*/ "",
+        questionnaire_republish_button: /*[[#{questionnaire.republish.button}]]*/ "",
+        questionnaire_publish_next_step: /*[[#{questionnaire.publish.next.step}]]*/ "",
+        datetime_format: /*[[#{common.datetime_format}]]*/ "",
+        related_subobject_chapters: /*[[#{related.subobject.chapters}]]*/ "",
+        questionnaire_name: /*[[#{questionnaire.name}]]*/ "",
+        questionnaire_help_action: /*[[#{questionnaire.help.action}]]*/ "",
+        questionnaire_published_status: /*[[#{questionnaire.published.status}]]*/ "",
+        questionnaire_draft: /*[[#{draftLowerCase}]]*/ "",
+    };
+
+    const IllustrationCard = {
+        props: {
+            headline: String,
+            imgName: String,
+            text: String
+        },
+        data: function () {
+            return {
+                showImage: this.imgName.length > 0
+            }
+        },
+        template: '\
+      <template>\
+        <div class="illustration">\
+          <img v-if="showImage"\
+               class="center-block"\
+               :src="/images/ + imgName"\
+               :alt="imgName"\
+               width="450"\
+               max-height="500"/>\
+          <h4 v-html="headline" class="text-center" />\
+          <p v-html="text" class="text-left" />\
+        </div>\
+      </template>'
+    };
+
+    const IllustrationLeftArrowButton = {
+        template: '\
+      <button class="carousel-btn">\
+        <span class="fa fa-angle-left fa-2x"></span>\
+      </button>'
+    };
+
+    const IllustrationRightArrowButton = {
+        template: '\
+      <button class="carousel-btn">\
+        <span class="fa fa-angle-right fa-2x"></span>\
+      </button>'
+    };
+
+    const IllustrationIndicators = {
+        props: {
+            elements: Array,
+            currentElementIndex: Number,
+            showElement: Function
+        },
+        template: '\
+      <ul>\
+        <li\
+          v-for="(_, index) in elements"\
+          class="carousel-dot"\
+          :key="index"\
+          :class="{\'carousel-dot-selected\': currentElementIndex === index}">\
+          <button\
+            class="indicator-btn"\
+            @click="showElement(index)"\
+            :disabled="currentElementIndex === index" />\
+        </li>\
+      </ul>'
+    };
+
+    /**
+     * @see https://medium.freecodecamp.org/how-to-design-and-build-a-carousel-feature-in-vuejs-125f690a3a9e */
+    const IllustrationsCarousel = {
+        props: {
+            cards: Array
+        },
+        components: {
+            'co-illustration': IllustrationCard,
+            'co-arrow-left': IllustrationLeftArrowButton,
+            'co-arrow-right': IllustrationRightArrowButton,
+            'co-indicators': IllustrationIndicators
+        },
+        data: function () {
+            return {
+                currentElementIndex: 0
+            };
+        },
+        computed: {
+            currentElement: function () {
+                return this.cards[this.currentElementIndex];
+            },
+            reachedMaxLeft: function () {
+                return this.currentElementIndex === 0;
+            },
+            reachedMaxRight: function () {
+                return this.currentElementIndex === this.cards.length - 1;
+            }
+        },
+        methods: {
+            showElement: function (elementIndex) {
+                this.currentElementIndex = elementIndex;
+            },
+            showNextElement: function () {
+                this.currentElementIndex++;
+            },
+            showPrevElement: function () {
+                this.currentElementIndex--;
+            }
+        },
+        template: '\
+      <div class="container">\
+        <div class="card-carousel row">\
+          <co-arrow-left\
+            class="col"\
+            @click.native="showPrevElement"\
+            :disabled="this.reachedMaxLeft" />\
+          <co-illustration\
+            class="col-10"\
+            :headline="currentElement.illustrationTitle"\
+            :text="currentElement.illustrationComment"\
+            :imgName="currentElement.imageName"\
+            :key="currentElement.id" />\
+          <co-arrow-right\
+            class="col"\
+            @click.native="showNextElement"\
+            :disabled="this.reachedMaxRight" />\
+        </div>\
+        <co-indicators\
+          :elements="this.cards"\
+          :currentElementIndex="this.currentElementIndex"\
+          :showElement="this.showElement" />\
+      </div>'
+    };
+
+    const IllustrationsModal = {
+        props: {
+            illustrations: Array
+        },
+        components: {
+            'co-illustrations-carousel': IllustrationsCarousel
+        },
+        template: '\
+      <template>\
+        <transition name="modal">\
+          <div class="modal-mask">\
+            <div class="modal-wrapper">\
+              <div class="modal-container">\
+                <div class="modal-header">\
+                  <slot name="header">\
+                    <h4>Illustrations</h4>\
+                    <button type="button"\
+                            class="close"\
+                            @click="$emit(\'close\')"\
+                            aria-label="Close">\
+                      <span aria-hidden="true">×</span>\
+                    </button>\
+                  </slot>\
+                </div>\
+                <div class="modal-body">\
+                  <slot name="body">\
+                    <co-illustrations-carousel :cards="illustrations" />\
+                  </slot>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+        </transition>\
+      </template>'
+    };
+
+    const RuleCardComponent = {
+        props: ['rule'],
+        data: function () {
+            return {
+                categories: this.rule.categories.length > 0 ? this.rule.categories.join(', ') : "",
+                showIllustrationModal: false
+            }
+        },
+        components: {
+            'illustration-modal-template': IllustrationsModal
+        },
+        template: '\
+      <div class="card border border-white">\
+        <div class="card-body">\
+          <div class="badge co-badge-grey badge-pill"\
+               v-html="messages.rule_title"></div>\
+          <a class="col-md-1 fa fa-info-circle fa-2x float-right"\
+             v-if="rule.illustrations.length > 0"\
+             style="cursor: pointer;"\
+             @click="showIllustrationModal = true"></a>\
+          <modal v-if="showIllustrationModal">\
+            <illustration-modal-template\
+              @close="showIllustrationModal = false"\
+              :illustrations="rule.illustrations"\
+              :key="rule.id"></illustration-modal-template>\
+          </modal>\
+          <div class="card-text"\
+               v-html="rule.name"></div>\
+          <footer class="blockquote-footer">{{ categories }}</footer>\
+        </div>\
+      </div>'
+    };
+
+    const HelpModal = {
+        template: '\
+      <template>\
+        <transition name="modal">\
+          <div class="modal-mask">\
+            <div class="modal-wrapper">\
+              <div class="modal-container">\
+                <div class="modal-header">\
+                  <slot name="header">\
+                    <button type="button" class="close" @click="$emit(\'close\')"\
+                          aria-label="Close">\
+                      <span aria-hidden="true">×</span>\
+                    </button>\
+                  </slot>\
+                </div>\
+                <div class="help-modal-body">\
+                  <slot name="body">\
+                    <p v-html="messages.questionnaire_about_draft"></p>\
+                    <p v-html="messages.questionnaire_about_ready"></p>\
+                  </slot>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+        </transition>\
+      </template>'
+    };
+
+    const InfoModal = {
+        props: ['questionnaire'],
+        template: '\
+    <template>\
+      <transition name="modal">\
+        <div class="modal-mask">\
+          <div class="modal-wrapper">\
+            <div class="modal-container">\
+              <div class="modal-header">\
+                <slot name="header">\
+                  <h4 v-html="questionnaire.name"></h4>\
+                  <button type="button"\
+                          class="close"\
+                          aria-label="Close"\
+                          @click="$emit(\'close\')">\
+                    <span aria-hidden="true">×</span>\
+                  </button>\
+                </slot>\
+              </div>\
+              <div class="info-modal-body">\
+                <slot name="body">\
+                  <!-- div class="row">\
+                    <div class="col-md-12">\
+                      <a href="/questionnaires/edit/help"\
+                         v-html="messages.menu_help"\
+                         class="pull-right">\
+                        <img src="/image/ic_help.png"\
+                             class="form-help-icon"\
+                             alt="{{messages.menu_help}}"/>\
+                      </a>\
+                    </div>\
+                  </div -->\
+                  <div class="row" v-if="!questionnaire.name">\
+                    <div class="col-md-1 col-md-offset-11 alert alert-danger"\
+                         id="editQuestionnaireErrors"\
+                         v-html="message.questionnaire_name_exists"></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right">\
+                      <span>{{messages.reference}} :</span></p></div>\
+                    <div><span v-html="questionnaire.reference"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right"><span>{{messages.rulesCategory}} :</span></p></div>\
+                    <div><span v-html="questionnaire.categoryName"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right">\
+                      <span>{{messages.object}} :</span>\
+                    </p></div>\
+                    <div><span v-html="questionnaire.categoryName"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right">\
+                      <span>{{messages.questionnaire_version}} :</span></p></div>\
+                    <div><span v-html="messages.questionnaire_draft"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right">\
+                      <span>{{messages.questionnaire_state}} :</span>\
+                    </p></div>\
+                    <div><span v-html="questionnaire.state"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5">\
+                      <p class="text-right">\
+                        <span> {{messages.questionnaire_questions_count}} :</span>\
+                      </p>\
+                    </div>\
+                    <div><span v-html="questionnaire.questionsNb"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right"><span >{{messages.questionnaire_rules_count}} :</span></p></div>\
+                    <div><span v-html="questionnaire.rulesNb"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right"><span>{{messages.questionnaire_author}} :</span></p></div>\
+                    <div><span v-html="questionnaire.authorName"></span></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right"><span>{{messages.questionnaire_last_update}} :</span></p></div>\
+                    <div>{{moment(questionnaire.lastUpdateDate).format(messages.datetime_format)}}</div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right">\
+                      <span>{{messages.questionnaire_published}} :</span></p></div>\
+                    <div><span v-html="messages.questionnaire_published_status"></span></p></div>\
+                  </div>\
+                  <div class="row">\
+                    <div class="col-md-5"><p class="text-right"><span>{{messages.questionnaire_last_publish}} :</span></p></div>\
+                    <div>{{moment(questionnaire.lastUpdateDate).format(messages.datetime_format)}}</div>\
+                  </div>\
+                </slot>\
+              </div>\
+            </div>\
+          </div>\
+        </div>\
+      </transition>\
+    </template>'
+    };
+
+    const PublishModal = {
+        props: ['questionnaire'],
+        data: function () {
+            return {
+                publishHref: "/questionnaires/publish?id=" + this.questionnaire.id
+            };
+        },
+        template: '\
+      <template>\
+        <transition name="modal">\
+          <div class="modal-mask">\
+            <div class="modal-wrapper">\
+              <div class="modal-container">\
+                <div class="modal-header">\
+                  <slot name="header">\
+                    <h4 v-html="messages.questionnaire_confirm"></h4>\
+                    <button type="button"\
+                            class="close"\
+                            aria-label="Close"\
+                            @click="$emit(\'close\')">\
+                      <span aria-hidden="true">×</span>\
+                    </button>\
+                  </slot>\
+                </div>\
+                <div class="publish-modal-body">\
+                  <slot name="body">\
+                    <p v-html="messages.questionnaire_publish_please"></p>\
+                    <p v-html="messages.questionnaire_publish_next_step"></p>\
+                  </slot>\
+                </div>\
+                <div class="modal-footer">\
+                  <slot name="footer">\
+                    <button type="button"\
+                            class="btn btn-default"\
+                            @click="$emit(\'close\')"\
+                            v-html="messages.cancel">\
+                    </button>\
+                    <a :href="publishHref"\
+                       type="button"\
+                       class="btn btn-primary"\
+                       @click="$emit(\'close\')"\
+                       v-html="messages.questionnaire_republish_button">\
+                    </a>\
+                  </slot>\
+                </div>\
+              </div>\
+            </div>\
+          </div>\
+        </transition>\
+      </template>'
+    };
+
+    const QuestionTitleComponent = {
+        props: ['question'],
+        data: function () {
+            return {
+                bodyId: this.question.reference + "RulesList",
+                titleId: "questionId" + this.question.reference,
+                bodyIdHref: "#" + this.question.reference + "RulesList"
+            };
+        },
+        template: '\
+        <div class="card-header small"\
+             :id="titleId"\
+             role="tab">\
+          <h5 class="mb-0">\
+            <a class="rounded-bottom container co-card-header"\
+               data-toggle="collapse"\
+               data-parent="#accordion"\
+               role="button"\
+               :href="bodyIdHref"\
+               :aria-controls="bodyId"\
+               aria-expanded="true">\
+              <div class="row">\
+                <span class="badge badge-pill co-badge-grey col-2"\
+                      v-html="messages.question_title"></span>\
+                <span class="bg-light-blue co-card-header-body col-10" \
+                      v-html="question.name"></span>\
+              </div>\
+            </a>\
+          </h5>\
+        </div>'
+    };
+
+    const QuestionBodyComponent = {
+        props: ['question'],
+        components: {
+            'co-rule-card': RuleCardComponent
+        },
+        data: function () {
+            return {
+                bodyId: this.question.reference + "RulesList",
+                titleId: "questionId" + this.question.reference
+            };
+        },
+        template: '\
+        <div class="collapse show"\
+             role="tabpanel"\
+             :id="bodyId"\
+             :aria-labellingby="titleId">\
+          <div v-for="rule in question.rules">\
+            <co-rule-card :rule="rule"\
+                          :key="rule.id"></co-rule-card>\
+          </div>\
+        </div>'
+    };
+
+    const QuestionNoContentComponent = {
+        props: ['question'],
+        data: function () {
+            return {
+                bodyId: this.question.reference + "RulesList",
+                titleId: "questionId" + this.question.reference
+            };
+        },
+        template: '\
+        <div v-if="!question.rules.length"\
+             class="collapse show"\
+             role="tabpanel"\
+             :id="bodyId"\
+             :aria-labellingby="titleId">\
+          <p>No rules defined for this question</p>\
+        </div>'
+    };
+
+    const QuestionComponent = {
+        props: ['question'],
+        components: {
+            'co-question-error': QuestionNoContentComponent,
+            'co-question-body': QuestionBodyComponent,
+            'co-question-title': QuestionTitleComponent
+        },
+        template: '\
+      <div>\
+        <co-question-title :question="question"\
+                           :key="question.reference"></co-question-title>\
+        <co-question-body :question="question"\
+                          :key="question.reference"></co-question-body>\
+        <co-question-error :question="question"\
+                           :key="question.reference"></co-question-error>\
+      </div>'
+    };
+
+    const ChainComponent = {
+        props: ['chain'],
+        components: {
+            'co-question': QuestionComponent
+        },
+        template: '\
+      <div class="container">\
+        <div class="row">\
+          <div class="col-12">\
+            <p>\
+              <span class="badge badge-pill co-badge-grey" v-html="messages.chain_title"></span>\
+              <span class="badge co-badge-grey">{{ chain.name }}</span>\
+            </p>\
+          </div>\
+        </div>\
+        <div class="row">\
+          <div class="col-md-11 offset-md-1">\
+            <div class="accordion"\
+                 role="tablist"\
+                 v-for="question in chain.questions">\
+               <co-question\
+                  :question="question"\
+                  :key="question.id"></co-question>\
+            </div>\
+          </div>\
+        </div>\
+      </div>'
+    };
+
+    const QuestionnaireTitleComponent = {
+        components: {
+            'info-modal-template': InfoModal,
+            'illustration-modal-template': IllustrationsModal,
+            'help-modal-template': HelpModal,
+            'publish-modal-template': PublishModal
+        },
+        data: function () {
+            return {
+                questionnaire: data.questionnaire,
+                messages: messages,
+                showIllustrationModal: false,
+                showInfoModal: false,
+                showHelpModal: false,
+                showPublishModal: false,
+                editHref: "/questionnaires/edit?id=" + data.questionnaire.id
+            };
+        },
+        template: '\
+      <div class="row d-flex align-items-stretch align-items-center">\
+        <span class="col-md-2 badge badge-pill"\
+              v-html="messages.questionnaire_title"></span>\
+        <div class="col-md-6 rounded-left bg-light-blue">\
+          <span class="chain font-weight-bold">{{ questionnaire.name }}</span>\
+        </div>\
+        <div class="col-md-4 d-flex bd-highlight">\
+          <a v-if="!questionnaire.published"\
+             :href="editHref">\
+            <button\
+              type="button"\
+              class="btn btn-secondary rounded"\
+              data-toggle="tooltip"\
+              data-html="true"\
+              :title="messages.questionnaire_modify_title">\
+              <span v-html="messages.questionnaire_modify_action"></span>\
+            </button>\
+          </a>\
+          <a @click="showHelpModal = true"\
+             href="#"\
+             data-toggle="tooltip"\
+             :title="messages.questionnaire_help_action">\
+            <img src="/image/ic_help.png"\
+                 class="form-help-icon"\
+                 :alt="messages.questionnaire_help_action"/>\
+          </a>\
+          <modal v-if="showHelpModal">\
+            <help-modal-template @close="showHelpModal = false"></help-modal-template>\
+          </modal>\
+          <button\
+              type="button"\
+              class="btn btn-secondary rounded"\
+              @click="showPublishModal = true"\
+              data-toggle="tooltip"\
+              data-html="true"\
+              :title="messages.questionnaire_republish_title">\
+            <span v-html="messages.questionnaire_republish_action"></span>\
+          </button>\
+          <modal v-if="showPublishModal">\
+            <publish-modal-template @close="showPublishModal = false"\
+                                    :questionnaire="questionnaire"\
+                                    :key="questionnaire.id"></publish-modal-template>\
+          </modal>\
+          <a @click="showInfoModal = true"\
+             title="Infos"\
+             href="#"\
+             data-toggle="tooltip"\
+             style="text-decoration: underline;margin-top: 25px;">\
+            <span v-html="messages.questionnaire_details"></span>\
+          </a>\
+          <modal v-if="showInfoModal">\
+            <info-modal-template @close="showInfoModal = false"\
+                                 :questionnaire="questionnaire"\
+                                 :key="questionnaire.id"></info-modal-template>\
+          </modal>\
+        </div>\
+      </div>\
+    </div>'
+    };
+
+    const ChainsComponent = {
+        data: function () {
+            return {
+                chains: data.chains
+            };
+        },
+        components: {
+            'co-chain': ChainComponent,
+        },
+        template: '\
+      <div class="row">\
+        <div class="col-md-11 offset-md-1">\
+          <div v-for="chain in chains">\
+            <co-chain :chain="chain"\
+                      :key="chain.id"></co-chain>\
+          </div>\
+        </div>\
+      </div>'
+    };
+
+    const RulesetsComponent = {
+        data: function () {
+            return {
+                rulesets: data.rulesets.join(', '),
+                chains: data.chains
+            };
+        },
+        template: '\
+      <div class="row">\
+        <div class="col-12">\
+            <span class="badge badge-pill co-badge-grey" v-html="messages.rulesets_title"></span>\
+            <span class="badge co-badge-grey">{{rulesets}}</span>\
+        </div>\
+        <div class="col-12" v-if="chains.length > 0">\
+            <span class="badge badge-pill co-badge-grey" v-html="messages.related_subobject_chapters"></span>\
+            <span v-for="chain in chains" class="badge co-badge-grey">{{chain.name}},</span>\
+        </div>\
+      </div>'
+    };
+
+    new Vue({
+        el: '#app',
+        components: {
+            'co-rulesets': RulesetsComponent,
+            'co-questionnaire-title': QuestionnaireTitleComponent,
+            'co-chains': ChainsComponent
+        },
+        template: '\
+      <div>\
+        <co-rulesets></co-rulesets>\
+        <div class="row">\
+          <div class="col-12 col-md-12">\
+            <div class="container-fluid">\
+              <co-questionnaire-title></co-questionnaire-title>\
+              <co-chains></co-chains>\
+            </div>\
+          </div>\
+        </div>\
+      </div>'
+    });
+
+    $('[data-toggle="tooltip"]').tooltip();
+
+    /*]]>*/
+</script>
+</body>
+</html>

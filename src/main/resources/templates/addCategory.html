@@ -1,0 +1,80 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+    <th:block th:include="fragments/header-head :: head"></th:block>
+    <title th:text="#{addCategory.title}"></title>
+</head>
+
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content" class="container-fluid" role="main">
+
+
+    <div class="row ">
+        <div th:replace="fragments/menu :: left-menu">&nbsp;</div>
+        <div class="col-md-10 col main" id="second">
+
+            <div class="tab-content">
+                <h6 align="center"></h6>
+
+                <div class="alert alert-danger" th:if="${err_add_category != null}">
+                    <p th:text="#{category.already_exists}"></p>
+                </div>
+
+                <div class="active" id="home" role="tabpanel">
+                    <div class="row">
+                        <form class="container-fluid form-horizontal col-md-8" action="#" th:action="@{/admin/categories/create}"
+                              th:object="${category}" method="post">
+
+                            <div class="row form-group">
+                                <label for="name" class="col-md-2 control-label"><p class="text-right"><span
+                                        th:text="#{name}"/>*</p></label>
+                                <div class="col-md-4">
+                                    <input type="text" th:field="*{name}" class="form-control" id="name" maxlength="160" placeholder=""
+                                           required="required"/>
+                                </div>
+                                <div class="col-md-6">
+                                    <a th:href="@{/admin/categories/add/help}" th:title="#{menu.help}" class="pull-right">
+                                        <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div th:replace="fragments/spinner :: spinner"></div>
+
+                            <div class="row form-group">
+                                <span class="col-md-2"></span>
+                                <div>
+                                    <a class="btn btn-primary" value="Back" onClick="location.href='/admin/categories'">
+                                        <p th:text="#{back}"></p></a>
+                                    <button type="submit" onClick="showSpinnerIfRequiredFieldsAreNotEmpty();" class="btn btn-primary"><p th:text="#{validate}"></p></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+
+</body>
+</html>

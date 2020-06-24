@@ -1,0 +1,243 @@
+<!--
+  ~ Software Name: ConfOCARA
+  ~
+  ~ SPDX-FileCopyrightText: Copyright (c) 2016-2020 Orange
+  ~ SPDX-License-Identifier: MPL-2.0
+  ~
+  ~ This software is distributed under the Mozilla Public License v. 2.0,
+  ~ the text of which is available at http://mozilla.org/MPL/2.0/ or
+  ~ see the "license.txt" file for more details.
+  ~
+  -->
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.springframework.org/schema/data/jaxb" lang="en">
+<head>
+  <th:block th:include="fragments/header-head :: head"></th:block>
+  <title th:text="#{editChain.title}"></title>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header">&nbsp;</div>
+
+<main id="content"
+      class="container-fluid row "
+      role="main">
+
+  <div class="col-2 col-md-2">
+    <div th:replace="fragments/menu :: left-menu"></div>
+  </div>
+  <div class="col-10 col-md-10 main">
+    <div class="active" id="home" role="tabpanel">
+      <div class="row">
+        <form class="container-fluid form-horizontal col-md-8" action="#"
+              th:action="@{/chains/update(id=${id})}" th:object="${chain}" method="post">
+          <div class="row form-group">
+            <label for="inputName" class="col-md-2 control-label">
+              <p class="text-right"><span th:text="#{reference}"></span>
+              <span>*</span></p></label>
+            <div class="col-md-6">
+              <input type="text" th:field="*{reference}" class="form-control" id="inputName"
+                     readonly="readonly"/>
+            </div>
+            <div class="md">
+              <a th:href="@{/chains/edit/help}" th:title="#{menu.help}" class="pull-right">
+                <img th:src="@{/image/ic_help.png}" class="form-help-icon"/>
+              </a>
+            </div>
+          </div>
+          <div class="row form-group">
+            <label for="name" class="col-md-2 control-label"><p class="text-right"><span
+                th:text="#{name}"></span>
+              <span>*</span></p></label>
+            <div class="col-md-6">
+              <input type="text" th:field="*{name}" class="form-control" id="name" placeholder=""
+                     required="required" maxlength="160"/>
+            </div>
+          </div>
+
+          <div class="row form-group">
+            <label for="selectRulesCategory" class="col-md-2 control-label"><p
+                class="text-right"><span
+                th:text="#{rulesCategory}"></span>
+              <span>*</span></p></label>
+            <div class="col-md-6">
+              <input type="text" th:field="*{rulesCategory.name}" class="form-control"
+                     id="selectRulesCategory"
+                     readonly="readonly"/>
+            </div>
+          </div>
+
+          <div class="row form-group" style="border: 0 dashed #000;">
+            <label for="inputAssociatedQuestions" class="col-md-2 control-label">
+              <p class="text-right" th:text="#{questions}"></p></label>
+            <div class="col-md-6">
+              <button type="button"
+                      class="btn btn-secondary form-control"
+                      data-toggle="modal"
+                      id="inputAssociatedQuestions"
+                      data-target="#myModal">
+                <span th:text="#{question.associateQuestions}"></span>
+              </button>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" data-backdrop="static" data-keyboard="false" id="myModal"
+                 tabindex="-1" role="dialog"
+                 aria-labelledby="myModalLabel">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel"><span
+                        th:text="#{question.associateQuestions}"></span></h4>
+                  </div>
+                  <div class="modal-body">
+                    <div class="row form-group" th:object="${question}">
+                      <label for="search_reference_id" class="col-md-2 control-label">
+                        <p class="text-right"><span th:text="#{reference}"></span></p></label>
+                      <div class="btn-group col-md-3">
+                        <input type="text"
+                               class="form-control"
+                               autocomplete="off"
+                               id="search_reference_id"
+                               name="filter_reference"/>
+                        <span class="searchClear"
+                              name="clear_search_reference"
+                              id="clear_search_reference">
+                          <i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                      </div>
+                      <label for="search_label_id" class="col-md-2 control-label">
+                        <p class="text-right"><span th:text="#{label}"></span></p></label>
+                      <div class="btn-group col-md-3">
+                        <input type="text"
+                               class="form-control"
+                               autocomplete="off"
+                               id="search_label_id"
+                               name="filter_label"/>
+                        <span class="searchClear"
+                              id="clear_search_label"
+                              name="clear_search_label">
+                          <i class="fa fa-times-circle" aria-hidden="true"></i></span>
+                      </div>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(questions)}">
+                      <table class="table table-sm table-striped table-hover sortable "
+                             id="search_table_id"
+                             name="search_table"
+                             style="margin-top: 1%">
+                        <thead>
+                        <tr>
+                          <th></th>
+                          <th><span th:text="#{reference}"></span></th>
+                          <th><span th:text="#{label}"></span></th>
+                          <th><span th:text="#{state}"></span></th>
+                          <th class="col-md-2"><span th:text="#{rulesCategory}"></span></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="question : ${questions}">
+                          <td>
+                            <input name="checkQuestions" type="checkbox"
+                                   th:field="*{questionIds}"
+                                   th:id="'question'+${question.id}"
+                                   th:value="${question.id}"
+                                   onclick="changeModalValidationLabel('closeButtonText', 'validateButtonText');enableChainChange()"/>
+                          </td>
+                          <td>
+                            <span
+                                th:text="${question.reference}"
+                                style="width: 50px;overflow: hidden;"></span>
+                          </td>
+                          <td>
+                            <label th:for="'question'+${question.id}">
+                                <span
+                                    th:utext="${#strings.replace(#strings.escapeXml(question.label),T(java.lang.System).getProperty('line.separator'),'&lt;br /&gt;')}"></span>
+                            </label></td>
+                          <td>
+                            <span th:text="${question.state}"></span>
+                          </td>
+                          <td>
+                              <span th:if="${question.rulesCategory != null}"
+                                    th:text="${question.rulesCategory.name}"></span>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal"
+                            onClick="checkQuestions(false);
+                            changeModalValidationLabel('closeButtonText', 'defaultButtonText')">
+                      <span id="closeButtonText" th:text="#{close}"></span>
+                    </button>
+                    <span id="validateButtonText" th:text="#{validate}"
+                          style="visibility: hidden"></span>
+                    <span id="defaultButtonText" th:text="#{close}"
+                          style="visibility: hidden"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row form-group" id="check_questions_div" style="display: none;">
+            <span class="col-md-2 font-weight-bold" th:text="#{associatedQuestions}"></span>
+            <div class="col-md-8" id="check_questions"></div>
+          </div>
+
+          <input type="hidden" th:field="*{orderedQuestionIds}" id="orderedQuestionIds"/>
+
+          <div th:replace="fragments/spinner :: spinner"></div>
+
+          <div class="row form-group">
+            <span class="col-md-2"></span>
+            <div class="col-md-3">
+              <button type="submit" id="submitChainButton"
+                      onClick="showSpinnerIfRequiredFieldsAreNotEmpty();"
+                      class="btn btn-primary">
+                <p th:text="#{validate}"></p>
+              </button>
+              <button type="submit" id="back"
+                      onClick="location.href='/rulesets'"
+                      class="btn btn-primary">
+                <p th:text="#{back}"></p>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</main><!--/.container-->
+
+<div th:replace="fragments/footer :: footer">&nbsp;</div>
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  $(document).ready(function () {
+
+    checkChainManagement();
+
+    /**
+     * Configuration de la boîte de dialogue d'ajout de questions
+     * - critères de filtrage : libellé et référence des questions
+     * - affichage de la liste des questions disponibles. Filtrage en fonction des critères entrés.
+     */
+    let searchModal = new SearchView({
+      "modalId": "myModal",
+      "reference_column_index": 2,
+      "label_column_index": 3,
+    });
+    searchModal.initView();
+    document.getElementById("submitChainButton").disabled = true;
+    document.getElementById("name").addEventListener("focus", enableChainChange);
+    document.addEventListener("dragend",enableChainChange);
+
+  });
+
+  /*]]>*/
+</script>
+
+</body>
+</html>
